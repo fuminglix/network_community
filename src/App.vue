@@ -1,22 +1,14 @@
 <template>
   <div id="app">
-    <Header></Header>
-    <Sidebar class="Sidebar"></Sidebar>
-    <Main class="Main"></Main>
+    <router-view name="container"></router-view>
   </div>
 </template>
-
 <script>
-import Header from './components/Header'
-import Sidebar from './components/Sidebar'
-import Main from './components/Main'
+
 import axios from 'axios'
 export default {
   name: 'App',
   components: {
-   Header,
-   Sidebar,
-   Main
   },
   mounted(){
     console.log('App',this);
@@ -25,27 +17,25 @@ export default {
 </script>
 
 <style scoped>
-#app {
-  width: 97%;
+
+ #app {
+  width: 100%;
   height: 100%;
-  margin: 0 auto;
+  background-color: lightcyan;
+  /* overflow-x: hidden;
+  overflow-y: hidden; */
 }
+/*
 .Sidebar{
-  /* width: 240px;
-  height: 100%;
-  display: inline-block;
-  vertical-align: top; */
-  float: left;
 }
 .Main{
-  /* width: 200px;
-  height: 100px;
-  display: inline-block;
-  vertical-align: top; */
-  overflow: auto;
+}
+.content{
+  width: 1490px;
+  height: 100%;
+  display: flex;
+  background-color: rgb(209, 209, 209);
 }
 .container{
-  /* justify-content:baseline; */
-  /* display: flex; */
-}
+} */
 </style>

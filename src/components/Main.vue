@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <router-view></router-view>
+    <router-view name="index"></router-view>
   </div>
 </template>
 
@@ -15,10 +15,13 @@ export default {
 }
 </script>
 
-<style> 
+<style scoped> 
 .container{
-    /* width: 100%; */
-    height: 100%;
-    /* background-color: pink; */
+  width: 1000px;
+  margin: 0 auto;
+  position: relative;
+  /* width: 100%; */
+  height: 100%;
+  /* background-color: pink; */
 }
 </style>
