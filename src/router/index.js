@@ -13,8 +13,14 @@ export default new VueRouter({
             children:[{
                     name:'index',
                     path:'index',
-                    components:{index:() => import('@/page/main/MainIndex.vue')}
-            }]
+                    components:{indexView:() => import('@/page/main/MainIndex.vue')}
+                },
+                {
+                    name:'category',
+                    path:'category',
+                    components:{indexView:() => import('@/page/category/Category.vue')}
+                }
+            ]
         },
         
     ]

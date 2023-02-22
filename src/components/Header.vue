@@ -8,9 +8,9 @@
         <el-col :span="6" :offset="0">
           <div class="nav-mid-text">
             <ul>
-              <li @click="show">首页</li>
-              <li>分类</li>
-              <li>发现</li>
+              <li @click="show('index')">首页</li>
+              <li @click="show('category')">分类</li>
+              <li @click="show('index')">发现</li>
             </ul>
           </div>
         </el-col>
@@ -110,9 +110,9 @@ export default {
       this.$bus.$emit('closeSidebar',!flag);
       this.flag=!flag;
     },
-    show(e){
+    show(page){
             this.$router.push({
-                name:'index',
+                name:page,
             },()=>{})
         }
    }
