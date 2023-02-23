@@ -1,15 +1,14 @@
 <template>
-  <div class="container">
+  <div class="header-container">
     <el-row type="flex" justify="space-between" :gutter="0">
       <el-col class="" :span="4" :offset="0">
-        <!-- <button @click="isClose(flag)" class="el-icon-s-operation icon-btn"></button> -->
       </el-col>
       <el-col class="nav-mid" :span="12" :offset="0">
         <el-col :span="6" :offset="0">
           <div class="nav-mid-text">
             <ul>
               <li @click="show('index')">首页</li>
-              <li @click="show('category')">分类</li>
+              <!-- <li @click="show('category')">分类</li> -->
               <li @click="show('index')">发现</li>
             </ul>
           </div>
@@ -23,7 +22,8 @@
       <el-col class="header-right" :span="8" :offset="0">
         <el-col :span="2" :offset="0">
           <div class="user-icon">
-              <img class="user-img" src="@/assets/qiu2.jpg" alt="">
+              <!-- <img class="user-img" src="@/assets/qiu2.jpg" alt=""> -->
+              <el-avatar size="medium" :src="squareUrl"></el-avatar>
           </div>
         </el-col>
         <el-col class="header-right-around" :span="16" :offset="0">
@@ -60,39 +60,9 @@
         </el-col>
       </el-col>
     </el-row>
-    
-    <!-- <div class="left-icon">
-      <button>
-        <img class="menu-icon" src="../assets/menu.png">
-      </button>
+    <div class="fixed">
+      123
     </div>
-    <div class="mid-search">
-      <form action="" class="search">
-        <div class="search-input-around">
-          <input type="text" class="search-input">
-          <button class="search-btn">
-            <img class="search-logo" src="../assets/search.png"/>
-          </button>
-        </div>
-      </form>
-    </div>
-    <div class="right">
-      <div class="notice-around">
-        <button>
-          <img class="notice" src="../assets/notice.png" alt="">
-        </button>
-      </div>
-      <div class="edit-around">
-        <button>
-          <img class="edit" src="../assets/edit.png" alt="">
-        </button>
-      </div>
-      <div class="user-img-around">
-        <button>
-          <img class="user-img" src="../assets/qiu2.jpg" alt="">
-        </button>
-      </div>
-    </div> -->
   </div>
 </template>
 
@@ -102,7 +72,8 @@ export default {
   data(){
     return{
       msg:'',
-      flag:false
+      flag:false,
+      squareUrl:''
     }
   },
    methods:{
@@ -120,18 +91,10 @@ export default {
 </script>
 
 <style scoped>
-.container{
+.header-container{
   width: 1536px;
   height: 60px;
-  /* width: 100%;
-  height: 56px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  background-color: white;
-  align-items: center;
-  position: relative;
-  border-bottom: 1px solid rgb(206, 206, 206); */
+  
 }
 .nav-mid{
   display: flex;
@@ -166,20 +129,16 @@ export default {
   align-items: center;
 }
 .serach-input{
-  /* background-color: blueviolet; */
   display: flex;
   align-items: center;
 }
 .header-right{
-  /* background-color: yellowgreen; */
   display: flex;
-  /* align-items: center; */
 }
 .user-icon{
   width: 100%;
   height: 60px;
   display: flex;
-  /* line-height: 60px; */
   align-items: center;
 }
 .icon-btn{
@@ -192,13 +151,9 @@ export default {
   color: gray;
   cursor: pointer;
 }
-/* .icon-btn:hover{
-  background-color: rgb(231, 231, 231);
-} */
 .header-right-around{
   display: flex;
   align-items: center;
-  /* justify-content: space-between; */
 }
 .header-right-text{
   margin-left: 5px;
@@ -217,8 +172,6 @@ export default {
 .user-img{
   width: 36px;
   height: 36px;
-  /* display: flex;
-  align-items: center; */
   border-radius: 18px;
 }
 ::v-deep .el-input__inner{
@@ -236,73 +189,15 @@ export default {
   color: gray;
   font-weight: 600;
 }
-/*
-.mid-search{
-  height: 56px;
-  justify-content: center;
-  display: flex;
-  align-items: center;
+.fixed{
+  display: none;
+  width: 200px;
+  height: 400px;
+  position: fixed;
+  top: 64px;
+  right: 200px;
+  background-color: white;
+  border-radius: 5px;
+  z-index: 10;
 }
-.search-input-around{
-  width: 400px;
-  height: 34px;
-  display: flex;
-  padding-left: 17px;
-  align-items: center;
-  background-color: #fff;
-  border-radius: 17px;
-  border: 1px solid rgb(194, 193, 193);
-}
-.search-input{
-  width: 90%;
-  height: 24px;
-  line-height: 24px;
-  border: none;
-  outline: none;
-  background-color: #fff;
-}
-.search-btn{
-  width: 8%;
-  height: 100%;
-  background-color: #fff;
-  cursor: pointer;
-  border: none;
-  border-radius: 7px;
-}
-.search-logo{
-  width: 18px;
-  height: 18px;
-}
-.right{
-  display: flex;
-  justify-content: space-between;
-}
-.notice-around button,.edit-around button,.user-img-around button{
-  width: 100%;
-  height: 100%;
-  border-radius: 20px;
-  background-color: #fff;
-  border: none;
-  cursor: pointer;
-}
-.notice-around button:hover,.edit-around button:hover{
-  background-color: rgb(231, 231, 231);
-}
-.notice-around,.edit-around,.user-img-around{
-  width: 40px;
-  height: 40px;
-  align-items: center;
-  padding-right: 10px;
-  display: flex;
-}
-.edit-around{
-}
-.user-img-around{
-  padding-right: 20px;
-}
-.notice,.edit{
-  width: 24px;
-  height: 24px;
-}
- */
 </style>

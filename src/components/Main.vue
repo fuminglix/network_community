@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="main-container">
     <router-view name="indexView"></router-view>
   </div>
 </template>
@@ -16,7 +16,7 @@ export default {
 </script>
 
 <style scoped> 
-.container{
+.main-container{
   width: 1000px;
   margin: 0 auto;
   position: relative;

@@ -106,7 +106,6 @@ export default {
 <style scoped>
 .content{
     width: 100%;
-    /* height: 100%; */
     display: flex;
     align-items: top;
     background-color: white;
@@ -115,12 +114,7 @@ export default {
 }
 .content-left{
     width: 100%;
-    /* height: 130px; */
     margin: 20px 20px;
-    /* border-top: 1px solid rgb(206, 206, 206); */
-    /* background-color: lightcyan; */
-    /* border-bottom: 1px solid rgb(209, 209, 209); */
-
 }
 .title span{
     font-size: 18px;
@@ -142,12 +136,8 @@ export default {
     display: flex;
     align-items: top;
     font-size: 15px;
-    
-    /* height: 105px; */
 }
 .summary-text{
-    /* width: 100%; */
-    /* height:105px; */
     line-height: 1.6;
     word-break: break-all;
     word-wrap: break-word;
@@ -156,18 +146,14 @@ export default {
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
-    /* background-color: green; */
 }
 .summary-text-preview{
     line-height: 1.6;
     line-height: 1.6;
     word-break: break-all;
     word-wrap: break-word;
-    /* transition: height 1s; */
 }
 .summary-text-img{
-    /* width: 300px; */
-    /* height:100px; */
     line-height: 1.6;
     word-break: break-all;
     word-wrap: break-word;
@@ -194,7 +180,6 @@ export default {
 }
 .interaction{
     display: flex;
-    /* justify-content: space-between; */
     font-size: 14px;
 }
 .interaction-left{
@@ -202,8 +187,6 @@ export default {
     display: flex;
     align-content: center;
     margin: 10px 0;
-    /* padding: 10px 20px; */
-    /* background-color: yellow; */
     justify-content: space-between;
 }
 .interaction-mid{

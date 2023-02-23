@@ -1,7 +1,5 @@
 import VueRouter from "vue-router";
 import Vue from "vue";
-import Index from "@/components/Index"
-import MainIndex from "@/page/main/MainIndex"
 Vue.use(VueRouter)
 
 export default new VueRouter({
@@ -9,11 +7,11 @@ export default new VueRouter({
         {
             name:'container',
             path:'/',
-            components: {container:() => import('@/components/Index.vue')},
+            components: {container:() => import('@/page/Container.vue')},
             children:[{
                     name:'index',
                     path:'index',
-                    components:{indexView:() => import('@/page/main/MainIndex.vue')}
+                    components:{indexView:() => import('@/page/main/Index.vue')}
                 },
                 {
                     name:'category',

@@ -7,14 +7,6 @@
             <el-main>
               <Main></Main>
             </el-main>
-            <!-- <el-container class="main">
-                <el-aside :width="asideWidth">
-                  <Sidebar></Sidebar>
-                </el-aside>
-                <el-main>
-                  <Main></Main>
-                </el-main>
-            </el-container> -->
         </el-container>
     </div>
 </template>

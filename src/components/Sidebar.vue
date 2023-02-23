@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="sidebar-container">
         <div class="content">
             <div class="index">
                 <ul>
@@ -120,7 +120,7 @@ export default {
 </script>
 
 <style scoped>
-.container{
+.sidebar-container{
     width: 240px;
     height: 100%h;
     background-color: white;
