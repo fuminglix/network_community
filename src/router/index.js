@@ -14,9 +14,9 @@ export default new VueRouter({
                     components:{indexView:() => import('@/page/main/Index.vue')}
                 },
                 {
-                    name:'category',
-                    path:'category',
-                    components:{indexView:() => import('@/page/category/Category.vue')}
+                    name:'ArticleMain',
+                    path:'ArticleMain',
+                    components:{indexView:() => import('@/components/main/ArticleMain.vue')}
                 }
             ]
         },

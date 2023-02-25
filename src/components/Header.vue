@@ -9,7 +9,7 @@
             <ul>
               <li @click="show('index')">首页</li>
               <!-- <li @click="show('category')">分类</li> -->
-              <li @click="show('index')">发现</li>
+              <li @click="show('Categorize')">发现</li>
             </ul>
           </div>
         </el-col>
@@ -23,7 +23,7 @@
         <el-col :span="2" :offset="0">
           <div class="user-icon">
               <!-- <img class="user-img" src="@/assets/qiu2.jpg" alt=""> -->
-              <el-avatar size="medium" :src="squareUrl"></el-avatar>
+              <el-avatar :size="medium" :src="squareUrl"></el-avatar>
           </div>
         </el-col>
         <el-col class="header-right-around" :span="16" :offset="0">
@@ -175,7 +175,7 @@ export default {
   border-radius: 18px;
 }
 ::v-deep .el-input__inner{
-  border-radius: 20px;
+  border-radius: 20px 0 0 20px;
 }
 ::v-deep .el-input-group__append{
   background-color: #449bf1;

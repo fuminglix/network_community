@@ -1,76 +1,76 @@
 <template>
     <div>
         <div v-for="item in 8" class="content">
-        <div class="content-left">
-            <div class="title">
-                <span>
-                    <a href="">文章标题</a>
-                </span>
-            </div>
-            <div v-if="isShow(item) == item ? false : true" class="summary">
-                <div v-if="0" class="summary-around">
-                    <img src=".../App.vue" alt="">
+            <div class="content-left">
+                <div class="title">
+                    <span>
+                        <el-link href="http://localhost:8080/#/ArticleMain" target="_blank">文章标题</el-link>
+                    </span>
                 </div>
-                <span>
-                    <p class="summary-text">
-                    1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
-                    1111111111111111111111111111111111
-                    11111111111111111111111111111111111111111111
-                    </p>
-                    <span @click="retract(item)" class="preview-btn">展开</span>
+                <div v-if="isShow(item) == item ? false : true" class="summary">
+                    <div v-if="0" class="summary-around">
+                        <img src=".../App.vue" alt="">
+                    </div>
+                    <span>
+                        <p class="summary-text">
+                        1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+                        1111111111111111111111111111111111
+                        11111111111111111111111111111111111111111111
+                        </p>
+                        <span @click="retract(item)" class="preview-btn">展开</span>
 
-                </span>
-            </div>
-            <div v-else class="summary">
-                <span>
-                    <p class="summary-text-preview">
-                    222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222
-                    222222222222222222222222222222222222222222
-                    222222222222222222222222222222222222222222
-                    222222222222222222222222222222222222222222
-                    222222222222222222222222222222222222222222
-                    222222222222222222222222222222222222222222222222222222222222222222222222222222222222
-                    222222222222222222222222222222222222222222222222222222222222222222222222222222222222
-                    222222222222222222222222222222222222222222
-                    222222222222222222222222222222222222222222
-                    222222222222222222222222222222222222222222
-                    222222222222222222222222222222222222222222
-                    222222222222222222222222222222222222222222
-                    <span @click="retract(item)" class="preview-btn">收起</span>
-                    </p>
-                </span>
-            </div>
-            <div class="interaction">
-                <div class="interaction-left">
-                    <div class="thumbs-up">
-                    <img src="../../assets/thumbs-up.png" alt="">
-                    <span>点赞</span>
-                    </div>
-                    <div class="comment">
-                        <img src="../../assets/thumbs-up.png" alt="">
-                        <span>100</span> 条评论
-                    </div>
-                    <div class="share">
-                        <img src="../../assets/thumbs-up.png" alt="">
-                        <span>收藏</span>
-                    </div>
-                    <div class="Collection">
-                        <img src="../../assets/thumbs-up.png" alt="">
-                        <span>分享</span>  
-                    </div>
-                    <div class="report">
-                        <img src="../../assets/thumbs-up.png" alt="">
-                        <span>举报</span>
-                    </div>
+                    </span>
                 </div>
-                <div class="interaction-mid">
-                    <div class="views">
-                        <span>100</span>  次浏览 · <span>1小时前</span>
+                <div v-else class="summary">
+                    <span>
+                        <p class="summary-text-preview">
+                        222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222
+                        222222222222222222222222222222222222222222
+                        222222222222222222222222222222222222222222
+                        222222222222222222222222222222222222222222
+                        222222222222222222222222222222222222222222
+                        222222222222222222222222222222222222222222222222222222222222222222222222222222222222
+                        222222222222222222222222222222222222222222222222222222222222222222222222222222222222
+                        222222222222222222222222222222222222222222
+                        222222222222222222222222222222222222222222
+                        222222222222222222222222222222222222222222
+                        222222222222222222222222222222222222222222
+                        222222222222222222222222222222222222222222
+                        <span @click="retract(item)" class="preview-btn">收起</span>
+                        </p>
+                    </span>
+                </div>
+                <div class="interaction">
+                    <div class="interaction-left">
+                        <div class="thumbs-up">
+                        <img src="../../assets/thumbs-up.png" alt="">
+                        <span>点赞</span>
+                        </div>
+                        <div class="comment">
+                            <img src="../../assets/thumbs-up.png" alt="">
+                            <span>100</span> 条评论
+                        </div>
+                        <div class="share">
+                            <img src="../../assets/thumbs-up.png" alt="">
+                            <span>收藏</span>
+                        </div>
+                        <div class="Collection">
+                            <img src="../../assets/thumbs-up.png" alt="">
+                            <span>分享</span>  
+                        </div>
+                        <div class="report">
+                            <img src="../../assets/thumbs-up.png" alt="">
+                            <span>举报</span>
+                        </div>
+                    </div>
+                    <div class="interaction-mid">
+                        <div class="views">
+                            <span>100</span>  次浏览 · <span>1小时前</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
     </div>
 </template>
 

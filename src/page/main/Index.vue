@@ -15,17 +15,20 @@
                 </div>
             </div>
             <Category></Category>
+            <Postbar></Postbar>
         </div>
     </div>
 </template>
 <script>
 import SingleContent from '@/components/main/SingleContent.vue'
 import Category from '@/components/category/Category.vue'
+import Postbar from '@/components/main/Postbar.vue'
 export default {
     name:'Index',
     components:{
         SingleContent,
-        Category
+        Category,
+        Postbar
     },
     data(){
         return{
