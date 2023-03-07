@@ -8,7 +8,8 @@ export default new VueRouter({
             name:'container',
             path:'/',
             components: {container:() => import('@/page/Container.vue')},
-            children:[{
+            children:[
+                {
                     name:'index',
                     path:'index',
                     components:{indexView:() => import('@/page/main/Index.vue')}
@@ -16,7 +17,12 @@ export default new VueRouter({
                 {
                     name:'ArticleMain',
                     path:'ArticleMain',
-                    components:{indexView:() => import('@/components/main/ArticleMain.vue')}
+                    components:{indexView:() => import('@/page/main/ArticleMain.vue')}
+                },
+                {
+                    name:'Postbar',
+                    path:'Postbar',
+                    components:{indexView:() => import('@/page/main/Postbar.vue')},
                 }
             ]
         },

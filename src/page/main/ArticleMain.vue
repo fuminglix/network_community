@@ -1,5 +1,115 @@
 <template>
-    <div class="index-container">
+    <Common>
+        <template slot="content-left">
+            <div class="content">
+                <div class="content-left">
+                    <div class="title">
+                        <span>
+                            <el-link type="default" :underline="false" href="http://localhost:8080/#/ArticleMain" target="_blank">文章标题</el-link>
+                        </span>
+                    </div>
+                    <div class="article">
+                        <span>
+                            <p class="article-text">
+                            222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222
+                            222222222222222222222222222222222222222222
+                            222222222222222222222222222222222222222222
+                            222222222222222222222222222222222222222222
+                            222222222222222222222222222222222222222222
+                            222222222222222222222222222222222222222222222222222222222222222222222222222222222222
+                            222222222222222222222222222222222222222222222222222222222222222222222222222222222222
+                            222222222222222222222222222222222222222222
+                            222222222222222222222222222222222222222222
+                            222222222222222222222222222222222222222222
+                            222222222222222222222222222222222222222222
+                            222222222222222222222222222222222222222222
+                            222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222
+                            222222222222222222222222222222222222222222
+                            222222222222222222222222222222222222222222
+                            222222222222222222222222222222222222222222
+                            222222222222222222222222222222222222222222
+                            222222222222222222222222222222222222222222222222222222222222222222222222222222222222
+                            222222222222222222222222222222222222222222222222222222222222222222222222222222222222
+                            222222222222222222222222222222222222222222
+                            222222222222222222222222222222222222222222
+                            222222222222222222222222222222222222222222
+                            222222222222222222222222222222222222222222 222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222
+                            222222222222222222222222222222222222222222
+                            222222222222222222222222222222222222222222
+                            222222222222222222222222222222222222222222
+                            222222222222222222222222222222222222222222
+                            222222222222222222222222222222222222222222222222222222222222222222222222222222222222
+                            222222222222222222222222222222222222222222222222222222222222222222222222222222222222
+                            222222222222222222222222222222222222222222
+                            222222222222222222222222222222222222222222
+                            222222222222222222222222222222222222222222
+                            222222222222222222222222222222222222222222 222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222
+                            222222222222222222222222222222222222222222
+                            222222222222222222222222222222222222222222
+                            222222222222222222222222222222222222222222
+                            222222222222222222222222222222222222222222
+                            222222222222222222222222222222222222222222222222222222222222222222222222222222222222
+                            222222222222222222222222222222222222222222222222222222222222222222222222222222222222
+                            222222222222222222222222222222222222222222
+                            222222222222222222222222222222222222222222
+                            222222222222222222222222222222222222222222
+                            222222222222222222222222222222222222222222
+                            </p>
+                        </span>
+                    </div>
+                    <Comment></Comment>
+                </div>
+            </div>
+        </template>
+        <template slot="content-right">
+            <div class="author-around">
+                <div class="author-info">
+                    <el-avatar :size="70" :src="circleUrl"></el-avatar>
+                    <div class="author-introduce">
+                        <div>
+                            <el-link 
+                            type="default" 
+                            :underline="false" 
+                            href="http://localhost:8080/#/ArticleMain" 
+                            target="_blank">浮名里</el-link>
+                        </div>
+                        <div class="author-profile-around">
+                            <span class="author-profile">简介222222222222222222222222222222222222222222222</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="author-regard-around">
+                    <div class="author-regard">
+                        <span>99</span>
+                        <div>
+                            <span>关注</span>
+                        </div>
+                    </div>
+                    <div class="author-fans">
+                        <span>5</span>
+                        <div>
+                            <span>粉丝</span>
+                        </div>
+                    </div>
+                    <div class="author-Articles">
+                        <span>58</span>
+                        <div>
+                            <span>文章</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="other-article">
+                    <span>其他文章</span>
+                    <SideItem></SideItem>
+                </div>
+            </div>
+            <div class="recommend-article-around">
+                <span>相似文章</span>
+                <SideItem></SideItem>
+            </div>
+        </template>
+    </Common>
+    <!-- <div class="index-container">
         <div class="content-around">
             <div class="content">
                 <div class="content-left">
@@ -124,37 +234,23 @@
                 </div>
                 <div class="other-article">
                     <span>其他文章</span>
-                    <div v-for="item in 5" class="other-article-list">
-                        <span class="el-icon-tickets tickets-icon"></span>
-                        <div class="other-article-list-title">
-                            <span>第一篇文章</span>
-                            <div class="other-article-list-data">
-                                <span>数据</span>
-                            </div>
-                        </div>
-                    </div>
+                    <SideItem></SideItem>
                 </div>
             </div>
             <div class="recommend-article-around">
                 <span>相似文章</span>
-                <div v-for="item in 2" class="other-article-list">
-                    <span class="el-icon-tickets tickets-icon"></span>
-                    <div class="other-article-list-title">
-                        <span>第一篇文章</span>
-                        <div class="other-article-list-data">
-                            <span>数据</span>
-                        </div>
-                    </div>
-                </div>
+                <SideItem></SideItem>
             </div>
         </div>
-    </div>
+    </div> -->
 </template>
 
 <script>
-import Comment from './Comment.vue';
+import SideItem from '@/components/main/SideItem.vue';
+import Comment from '@/components/main/Comment';
+import Common from '@/components/Common.vue';
 export default {
-    components: { Comment },
+    components: { Comment,SideItem,Common },
     data(){
         return{
             circleUrl:'',
@@ -165,22 +261,6 @@ export default {
 </script>
 
 <style scoped lang="less">
-.index-container{
-    width: 1000px;
-    height: 100%;
-    margin: 10px auto;
-    display: flex;
-}
-.content-around{
-    width: 70%;
-    border-radius: 10px;
-    background-color: aquamarine;
-}
-.content-right{
-    width: 30%;
-    padding-left: 10px;
-    background-color: yellowgreen;
-}
 .content{
     width: 100%;
     display: flex;
@@ -243,41 +323,8 @@ export default {
     float: left;
     margin-right: 10px;
 }
-.comment{
-    margin-top: 30px;
-}
-.comment-order{
-    display: flex;
-    border-bottom: 1px solid rgb(220, 220, 220);
-}
-.order-by-hot,.order-by-time{
-    /* width: 100px; */
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: 600;
-    height: 40px;
-    line-height: 40px;
-    text-align: center;
-}
-.order-by-hot{
-    /* background-color: pink; */
-
-}
-.order-by-time{
-    margin-left: 40px;
-    /* background-color: aqua; */
-}
-.edit-comment{
-    display: flex;
-    align-items: center;
-    margin: 20px 0;
-}
-.edit-input{
-    margin-left: 20px;
-    width: 80%;
-}
 .author-around{
-    /* margin-left: 10px; */
+    margin-left: 10px;
     /* height: 60px; */
     // padding-left: 10px;
     padding: 10px 0;
@@ -330,25 +377,8 @@ export default {
 .other-article{
     margin: 20px 20px 0 20px;
 }
-.other-article-list{
-    margin: 10px 0 20px 0;
-    display: flex;
-}
-.tickets-icon{
-    font-size: 20px;
-}
-.other-article-list-title{
-    margin-left: 5px;
-    font-size: 14px;
-    // display: flex;
-    // align-items: center;
-}
-.other-article-list-data{
-    // margin-left: 10px;
-    color: gray;
-}
 .recommend-article-around{
-    margin-top: 10px;
+    margin: 10px 0 0 10px;
     border-radius: 5px;
     background-color: pink;
     padding: 10px 20px;

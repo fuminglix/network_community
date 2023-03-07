@@ -1,5 +1,24 @@
 <template>
-    <div class="index-container">
+    <Common>
+        <template slot="content-left">
+            <SingleContent></SingleContent>
+        </template>
+        <template slot="content-right">
+            <div class="hot">
+                <div class="hot-title">
+                    <span>热门</span>
+                </div>
+                <div v-for="item in 5" class="hot-content">
+                    <div class="hot-content-text">
+                        <span>1111</span>
+                    </div>
+                </div>
+            </div>
+            <Category></Category>
+            <PostbarItem></PostbarItem>
+        </template>
+    </Common>
+    <!-- <div class="index-container">
         <div class="content-around">
             <SingleContent></SingleContent>
         </div>
@@ -15,20 +34,22 @@
                 </div>
             </div>
             <Category></Category>
-            <Postbar></Postbar>
+            <PostbarItem></PostbarItem>
         </div>
-    </div>
+    </div> -->
 </template>
 <script>
+import Common from '@/components/Common.vue';
 import SingleContent from '@/components/main/SingleContent.vue'
 import Category from '@/components/category/Category.vue'
-import Postbar from '@/components/main/Postbar.vue'
+import PostbarItem from '@/components/main/PostbarItem.vue'
 export default {
     name:'Index',
     components:{
         SingleContent,
         Category,
-        Postbar
+        PostbarItem,
+        Common
     },
     data(){
         return{
@@ -70,7 +91,7 @@ export default {
 }
 .content-around{
     width: 70%;
-    border-radius: 10px;
+    border-radius: 5px;
 }
 .content-right{
     width: 30%;

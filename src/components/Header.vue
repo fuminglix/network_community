@@ -13,7 +13,7 @@
             </ul>
           </div>
         </el-col>
-        <el-col :span="15" :offset="1">
+        <el-col :span="14" :offset="1">
           <el-input placeholder="请输入内容" v-model="msg" class="input-with-select">
             <el-button type="primary" native-type="submit" slot="append" icon="el-icon-search"></el-button>
           </el-input>
@@ -23,38 +23,38 @@
         <el-col :span="2" :offset="0">
           <div class="user-icon">
               <!-- <img class="user-img" src="@/assets/qiu2.jpg" alt=""> -->
-              <el-avatar :size="medium" :src="squareUrl"></el-avatar>
+              <el-avatar :size="40" :src="squareUrl"></el-avatar>
           </div>
         </el-col>
         <el-col class="header-right-around" :span="16" :offset="0">
           <div class="header-right-text">
             <button class="el-icon-message-solid icon-btn"></button>
             <div class="nav-text">
-              <span>通知</span>
+                <el-link type="default" :underline="false" href="http://localhost:8080/#/Postbar" target="_blank">通知</el-link>
             </div>
           </div>
           <div class="header-right-text">
             <button class="el-icon-s-promotion icon-btn"></button>
             <div class="nav-text">
-              <span>发布</span>
+              <el-link type="default" :underline="false" href="http://localhost:8080/#/Postbar" target="_blank">发布</el-link>
             </div>
           </div>
           <div class="header-right-text">
             <button class="el-icon-edit-outline icon-btn"></button>
             <div class="nav-text">
-              <span>关注</span>
+              <el-link type="default" :underline="false" href="http://localhost:8080/#/Postbar" target="_blank">关注</el-link>
             </div>
           </div>
           <div class="header-right-text">
             <button class="el-icon-star-off icon-btn"></button>
             <div class="nav-text">
-              <span>收藏</span>
+              <el-link type="default" :underline="false" href="http://localhost:8080/#/Postbar" target="_blank">收藏</el-link>
             </div>
           </div>
           <div class="header-right-text">
             <button class="el-icon-time icon-btn"></button>
             <div class="nav-text">
-              <span>历史</span>
+              <el-link type="default" :underline="false" href="http://localhost:8080/#/Postbar" target="_blank">历史</el-link>
             </div>
           </div>
         </el-col>
@@ -184,7 +184,10 @@ export default {
   overflow: hidden;
 }
 .nav-text{
-  text-align: center;
+
+}
+.nav-text a{
+  /* text-align: center; */
   font-size: 12px;
   color: gray;
   font-weight: 600;
