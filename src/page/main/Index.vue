@@ -15,7 +15,7 @@
                 </div>
             </div>
             <Category></Category>
-            <PostbarItem></PostbarItem>
+            <IndexPostbarItem></IndexPostbarItem>
         </template>
     </Common>
     <!-- <div class="index-container">
@@ -42,13 +42,13 @@
 import Common from '@/components/Common.vue';
 import SingleContent from '@/components/main/SingleContent.vue'
 import Category from '@/components/category/Category.vue'
-import PostbarItem from '@/components/main/PostbarItem.vue'
+import IndexPostbarItem from '@/components/main/IndexPostbarItem.vue'
 export default {
     name:'Index',
     components:{
         SingleContent,
         Category,
-        PostbarItem,
+        IndexPostbarItem,
         Common
     },
     data(){

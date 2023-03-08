@@ -2,7 +2,7 @@
   <div class="postbar-container">
     <div class="content">
         <div class="content-title">
-            <span class="el-icon-chat-line-round">推荐贴吧</span>
+            <span @click="toPostbarMain('PostbarMain')" class="el-icon-chat-line-round">推荐贴吧</span>
         </div>
         <div class="content-info">
             <SideItem></SideItem>
@@ -21,6 +21,13 @@ export default {
     data(){
         return{
             url:''
+        }
+    },
+    methods:{
+        toPostbarMain(page){
+            this.$router.push({
+                name:page
+            },()=>{})
         }
     }
 }

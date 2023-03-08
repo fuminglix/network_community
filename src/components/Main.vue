@@ -17,7 +17,7 @@ export default {
 
 <style scoped> 
 .main-container{
-  width: 1000px;
+  /* width: 1000px; */
   margin: 0 auto;
   position: relative;
   /* width: 100%; */

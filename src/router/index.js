@@ -23,6 +23,11 @@ export default new VueRouter({
                     name:'Postbar',
                     path:'Postbar',
                     components:{indexView:() => import('@/page/main/Postbar.vue')},
+                },
+                {
+                    name:'PostbarMain',
+                    path:'PostbarMain',
+                    components:{indexView:() => import('@/page/main/PostbarMain.vue')},
                 }
             ]
         },
