@@ -9,11 +9,11 @@
             <ul>
               <li @click="show('index')">首页</li>
               <!-- <li @click="show('category')">分类</li> -->
-              <li @click="show('Categorize')">发现</li>
+              <li @click="show('discover')">发现</li>
             </ul>
           </div>
         </el-col>
-        <el-col :span="14" :offset="1">
+        <el-col :span="12" :offset="1">
           <el-input placeholder="请输入内容" v-model="msg" class="input-with-select">
             <el-button type="primary" native-type="submit" slot="append" icon="el-icon-search"></el-button>
           </el-input>
@@ -21,7 +21,7 @@
       </el-col>
       <el-col class="header-right" :span="8" :offset="0">
         <el-col :span="2" :offset="0">
-          <div class="user-icon">
+          <div @click="show('homeMain')" class="user-icon">
               <!-- <img class="user-img" src="@/assets/qiu2.jpg" alt=""> -->
               <el-avatar :size="40" :src="squareUrl"></el-avatar>
           </div>

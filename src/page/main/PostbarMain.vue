@@ -76,7 +76,7 @@
                         <div class="hot-content-title">
                             <span>热门话题</span>
                         </div>
-                        <div class="hot-content-info">
+                        <div v-for="item in 6" class="hot-content-info">
                             <div class="hot-content-info-name">
                                 <span>222222222222222222222222222222222222222222222222</span>
                             </div>
@@ -116,7 +116,7 @@ export default {
     width: 240px;
 }
 .PostbarMain-left{
-    background-color: aqua;
+    background-color: white;
     margin-right: 10px;
     border-radius: 5px;
 }
@@ -228,6 +228,8 @@ export default {
     margin-left: 10px;
 }
 .notice-content{
+    font-size: 15px;
+    font-weight: 600;
     padding: 10px;
     background-color: white;
     border-radius: 5px;
@@ -247,7 +249,7 @@ export default {
     margin-bottom: 10px;
 }
 .hot-content-info{
-    margin: 0 10px;
+    margin: 0 10px 10px 10px;
 }
 .hot-content-info-name span{
     font-size: 14px;

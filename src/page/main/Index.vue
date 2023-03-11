@@ -18,25 +18,6 @@
             <IndexPostbarItem></IndexPostbarItem>
         </template>
     </Common>
-    <!-- <div class="index-container">
-        <div class="content-around">
-            <SingleContent></SingleContent>
-        </div>
-        <div class="content-right">
-            <div class="hot">
-                <div class="hot-title">
-                    <span>热门</span>
-                </div>
-                <div v-for="item in 5" class="hot-content">
-                    <div class="hot-content-text">
-                        <span>1111</span>
-                    </div>
-                </div>
-            </div>
-            <Category></Category>
-            <PostbarItem></PostbarItem>
-        </div>
-    </div> -->
 </template>
 <script>
 import Common from '@/components/Common.vue';
@@ -110,9 +91,4 @@ export default {
 .hot-content{
     margin-top: 5px;
 }
-/* .extend{
-    width: 17%;
-    margin-top: 20px;
-    background-color: whitesmoke;
-} */
 </style>
