@@ -40,7 +40,7 @@ export default {
 
 <style scoped>
 .Quote-item-info{
-    margin-left: 60px;
+    /* margin-left: 60px; */
     padding: 5px;
     border-radius: 5px;
     background-color: rgb(235, 235, 235);

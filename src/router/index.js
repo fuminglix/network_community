@@ -4,6 +4,12 @@ Vue.use(VueRouter)
 
 import RegardItem from '@/page/home/RegardItem'
 import RegardCommunityItem from '@/page/home/RegardCommunityItem'
+import Account from '@/page/main/setting/Account'
+import Reply from '@/page/main/message/Reply'
+import AtMe from '@/page/main/message/AtMe'
+import Love from '@/page/main/message/Love'
+import SystemMsg from '@/page/main/message/SystemMsg'
+import ConfigMsg from '@/page/main/message/ConfigMsg'
 export default new VueRouter({
     routes:[
         {
@@ -74,6 +80,60 @@ export default new VueRouter({
                             components:{HomeMainView:() => import('@/page/home/Community.vue')},
                         }
                     ]
+                },
+                {
+                    name:'activityMain',
+                    path:'activityMain',
+                    components:{indexView:() => import('@/page/main/ActivityMain.vue')},
+                },
+                {
+                    name:'settingMain',
+                    path:'settingMain',
+                    components:{indexView:() => import('@/page/main/SettingMain.vue')},
+                    children:[
+                        {
+                            name:'account',
+                            path:'account',
+                            component:Account
+                        }
+                    ]
+                },
+                {
+                    name:'messageMain',
+                    path:'messageMain',
+                    components:{indexView:() => import('@/page/main/MessageMain.vue')},
+                    children:[
+                        {
+                            name:'reply',
+                            path:'reply',
+                            component:Reply
+                        },
+                        {
+                            name:'atMe',
+                            path:'atMe',
+                            component:AtMe
+                        },
+                        {
+                            name:'love',
+                            path:'love',
+                            component:Love
+                        },
+                        {
+                            name:'systemMsg',
+                            path:'systemMsg',
+                            component:SystemMsg
+                        },
+                        {
+                            name:'configMsg',
+                            path:'configMsg',
+                            component:ConfigMsg
+                        }
+                    ]
+                },
+                {
+                    name:'buildMain',
+                    path:'buildMain',
+                    components:{indexView:() => import('@/page/main/BuildMain.vue')},
                 }
             ]
         },

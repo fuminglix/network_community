@@ -7,14 +7,16 @@
                     <span class="PostbarMain-left-name">fumingli</span>
                 </div>
                 <div class="PostbarMain-left-collects-around">
-                    <div class="PostbarMain-left-collects-title">
-                        <span>经常浏览</span>
-                    </div>
+                    <span class="PostbarMain-left-collects-title">经常浏览</span>
                     <div class="PostbarMain-left-collects">
                         <div v-for="item in 6" class="PostbarMain-left-collects-bar">
-                            <el-avatar shape="square" :size="40" :src="squareUrl"></el-avatar><br>
-                            <span class="PostbarMain-left-collects-barName">二次元222</span>
+                            <el-avatar shape="square" :size="40" :src="squareUrl"></el-avatar>
+                            <span class="PostbarMain-left-collects-barName">二次元222222</span>
                         </div>
+                        <!-- <div v-for="item in 6" class="PostbarMain-left-collects-bar">
+                            <br>
+                            <span class="PostbarMain-left-collects-barName">二次元222</span>
+                        </div> -->
                     </div>
                 </div>
             </div>
@@ -49,13 +51,18 @@
                 <div class="PostbarMain-mid-content-around">
                     <div class="PostbarMain-mid-content">
                         <div v-for="i in 4" class="PostbarMain-mid-content-item">
-                            <div class="PostbarMain-mid-content-item-title">
-                                <div class="PostbarMain-mid-content-item-img">
-                                    <el-avatar shape="square" :size="50" :src="squareUrl"></el-avatar>
-                                </div>
-                                <span>二次元社区</span>
+                            <div class="PostbarMain-mid-content-item-img">
+                                <el-avatar shape="square" :size="50" :src="squareUrl"></el-avatar>
                             </div>
-                            <QuoteItemVue></QuoteItemVue>
+                            <div>
+                                <div class="PostbarMain-mid-content-item-title">
+                                    <span>二次元社区</span>
+                                    <p>
+                                        <span>time</span>
+                                    </p>
+                                </div>
+                                <QuoteItem></QuoteItem>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -90,11 +97,11 @@
 </template>
 
 <script>
-import QuoteItemVue from '@/components/main/QuoteItem.vue'
+import QuoteItem from '@/components/main/QuoteItem.vue'
 export default {
     name:'PostbatMain',
     components:{
-        QuoteItemVue
+        QuoteItem
     },
     data(){
         return{
@@ -116,12 +123,13 @@ export default {
     width: 240px;
 }
 .PostbarMain-left{
+    height: 250px;
     background-color: white;
     margin-right: 10px;
     border-radius: 5px;
 }
 .PostbarMain-left-title{
-    margin: 10px;
+    padding: 10px;
     display: flex;
     align-items: center;
 }
@@ -129,24 +137,26 @@ export default {
     margin-left: 5px;
 }
 .PostbarMain-left-collects-around{
-    margin: 20px 10px;
+    margin: 10px 10px;
 }
 .PostbarMain-left-collects-title{
     font-size: 15px;
     font-weight: 600;
-    margin-bottom: 10px;
 }
 .PostbarMain-left-collects{
-    // display: flex;
+    width: 100%;
+    margin-top: 10px;
 }
 .PostbarMain-left-collects-bar{
-    width: 50px;
+    width: 28%;
+    height: 70px;
     text-align: center;
-    margin: 0 20px 10px 0;
     float: left;
+    padding: 0 5px;
 }
 .PostbarMain-left-collects-barName{
-    font-size: 11px;
+    font-size: 12px;
+    font-weight: 500;
     word-break: break-all;
     word-wrap: break-word;
     overflow: hidden;
@@ -167,7 +177,7 @@ export default {
     border-radius: 5px;
 }
 .PostbarMain-mid-hotBar-title{
-    margin: 10px 10px 0 10px;
+    padding: 10px 10px 0 10px;
     span{
         font-size: 15px;
         font-weight: 600;
@@ -204,27 +214,35 @@ export default {
 .PostbarMain-mid-content{
     margin-top: 10px;
     border-radius: 5px;
-    background-color: yellowgreen;
+    // background-color: yellowgreen;
     
 }
 .PostbarMain-mid-content-item{
     border-bottom: 1px solid gray;
     padding: 10px;
+    display: flex;
     background-color: white;
 }
+.PostbarMain-mid-content-item-img{
+    width: 30%;
+    margin-left: 10px;
+}
 .PostbarMain-mid-content-item-title{
-    display: flex;
-    align-items: center;
+    height: 50px;
+    padding-left: 10px;
     span{
-        margin-left: 10px;
         font-size: 15px;
+
+    }
+    p span{
+        font-size: 12px;
     }
 }
 .PostbarMain-right-around{
     width: 300px;
 }
 .PostbarMain-right{
-    background-color: yellowgreen;
+    // background-color: yellowgreen;
     margin-left: 10px;
 }
 .notice-content{

@@ -20,8 +20,9 @@ export default {
   /* width: 1000px; */
   margin: 0 auto;
   position: relative;
+  /* overflow: hidden; */
   /* width: 100%; */
-  height: 100%;
+  /* height: 100%; */
   /* background-color: pink; */
 }
 </style>

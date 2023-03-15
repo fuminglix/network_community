@@ -51,6 +51,7 @@ export default {
     width: 1536px;
     margin: 0 auto;
     height: 100%;
+    overflow: hidden;
 }
 .el-header, .el-footer {
     background-color: #ffffff;

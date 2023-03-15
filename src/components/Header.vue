@@ -30,25 +30,25 @@
           <div class="header-right-text">
             <button class="el-icon-message-solid icon-btn"></button>
             <div class="nav-text">
-                <el-link type="default" :underline="false" href="http://localhost:8080/#/Postbar" target="_blank">通知</el-link>
+                <el-link type="default" :underline="false" href="http://localhost:8080/#/messageMain" target="_blank">通知</el-link>
             </div>
           </div>
           <div class="header-right-text">
             <button class="el-icon-s-promotion icon-btn"></button>
             <div class="nav-text">
-              <el-link type="default" :underline="false" href="http://localhost:8080/#/Postbar" target="_blank">发布</el-link>
+              <el-link type="default" :underline="false" href="http://localhost:8080/#/buildMain" target="_blank">发布</el-link>
             </div>
           </div>
           <div class="header-right-text">
             <button class="el-icon-edit-outline icon-btn"></button>
             <div class="nav-text">
-              <el-link type="default" :underline="false" href="http://localhost:8080/#/Postbar" target="_blank">关注</el-link>
+              <el-link type="default" :underline="false" href="http://localhost:8080/#/activityMain" target="_blank">动态</el-link>
             </div>
           </div>
           <div class="header-right-text">
             <button class="el-icon-star-off icon-btn"></button>
             <div class="nav-text">
-              <el-link type="default" :underline="false" href="http://localhost:8080/#/Postbar" target="_blank">收藏</el-link>
+              <el-link type="default" :underline="false" href="http://localhost:8080/#/settingMain" target="_blank">收藏</el-link>
             </div>
           </div>
           <div class="header-right-text">
@@ -94,7 +94,7 @@ export default {
 .header-container{
   width: 1536px;
   height: 60px;
-  
+  overflow: hidden;
 }
 .nav-mid{
   display: flex;
