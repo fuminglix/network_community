@@ -19,7 +19,7 @@ export default new VueRouter({
             children:[
                 {
                     name:'index',
-                    path:'index',
+                    path:'/',
                     components:{indexView:() => import('@/page/main/Index.vue')}
                 },
                 {
@@ -134,6 +134,23 @@ export default new VueRouter({
                     name:'buildMain',
                     path:'buildMain',
                     components:{indexView:() => import('@/page/main/BuildMain.vue')},
+                    children:[
+                        {
+                            name:'publishContent',
+                            path:'publishContent',
+                            component:()=>import('@/page/main/publish/PublishContent.vue')
+                        },
+                        {
+                            name:'commentManage',
+                            path:'commentManage',
+                            component:()=>import('@/page/main/manage/Comment.vue')
+                        },
+                        {
+                            name:'articleManage',
+                            path:'articleManage',
+                            component:()=>import('@/page/main/manage/Article.vue')
+                        }
+                    ]
                 }
             ]
         },

@@ -89,12 +89,9 @@
 </template>
 
 <script>
-import Common from '@/components/Common.vue';
 export default {
     name:'HomeMain',
-    components:{
-        Common
-    },
+    components:{},
     data(){
         return{
             circleUrl:''

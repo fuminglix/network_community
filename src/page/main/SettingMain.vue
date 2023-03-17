@@ -30,12 +30,9 @@
 </template>
 
 <script>
-import Common from '@/components/Common.vue';
 export default {
     name:'SettingMain',
-    components:{
-        Common
-    },
+    components:{},
     data(){
         return{
 

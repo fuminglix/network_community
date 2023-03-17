@@ -23,20 +23,5 @@ export default {
   height: 100%;
   background-color: lightcyan;
   overflow: hidden;
-  /* overflow-x: hidden;
-  overflow-y: hidden; */
 }
-/*
-.Sidebar{
-}
-.Main{
-}
-.content{
-  width: 1490px;
-  height: 100%;
-  display: flex;
-  background-color: rgb(209, 209, 209);
-}
-.container{
-} */
 </style>

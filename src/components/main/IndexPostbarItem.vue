@@ -2,7 +2,8 @@
   <div class="postbar-container">
     <div class="content">
         <div class="content-title">
-            <span @click="toPostbarMain('PostbarMain')" class="el-icon-chat-line-round">推荐贴吧</span>
+            <img src="@/assets/community_y.png" alt="">
+            <span @click="toPostbarMain('PostbarMain')"></span> 推荐社区
         </div>
         <div class="content-info">
             <SideItem></SideItem>
@@ -33,21 +34,31 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="less">
 .postbar-container{
     /* width: 100%; */
-    margin: 0 10px;
+    // margin: 0 10px;
 }
 .content{
     /* margin: 0 auto; */
-    padding: 10px 20px;
+    padding: 10px;
     border-radius: 5px;
-    background-color: pink;
+    background-color: white;
 }
 .content-title{
-
+    display: flex;
+    align-items: center;
+    font-size: 15px;
+    span{
+        font-size: 18px;
+    }
+    img{
+        width: 20px;
+        height: 20px;
+        margin-right: 8px;
+    }
 }
-.content-info-around{
-    height: 30px;
+.content-info{
+    margin-top: 20px;
 }
 </style>

@@ -21,7 +21,7 @@
       </el-col>
       <el-col class="header-right" :span="8" :offset="0">
         <el-col :span="2" :offset="0">
-          <div @click="show('homeMain')" class="user-icon">
+          <div @click="show('activity')" class="user-icon">
               <!-- <img class="user-img" src="@/assets/qiu2.jpg" alt=""> -->
               <el-avatar :size="40" :src="squareUrl"></el-avatar>
           </div>
@@ -30,13 +30,13 @@
           <div class="header-right-text">
             <button class="el-icon-message-solid icon-btn"></button>
             <div class="nav-text">
-                <el-link type="default" :underline="false" href="http://localhost:8080/#/messageMain" target="_blank">通知</el-link>
+                <el-link type="default" :underline="false" href="http://localhost:8080/#/messageMain/reply" target="_blank">通知</el-link>
             </div>
           </div>
           <div class="header-right-text">
             <button class="el-icon-s-promotion icon-btn"></button>
             <div class="nav-text">
-              <el-link type="default" :underline="false" href="http://localhost:8080/#/buildMain" target="_blank">发布</el-link>
+              <el-link type="default" :underline="false" href="http://localhost:8080/#/buildMain/publishContent" target="_blank">发布</el-link>
             </div>
           </div>
           <div class="header-right-text">

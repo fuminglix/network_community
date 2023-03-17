@@ -112,11 +112,8 @@
 </template>
 
 <script>
-import SideItem from '@/components/main/SideItem.vue';
-import Comment from '@/components/main/Comment';
-import Common from '@/components/Common.vue';
 export default {
-    components: { Comment,SideItem,Common },
+    components: { },
     data(){
         return{
             circleUrl:'',
@@ -177,7 +174,7 @@ export default {
     display: -webkit-box;
     -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
-    background-color: green;
+    background-color: white;
 }
 .article img{
     width: 190px;
@@ -195,7 +192,7 @@ export default {
     // padding-left: 10px;
     padding: 10px 0;
     border-radius: 5px;
-    background-color: aqua;
+    background-color: white;
 }
 .author-info{
     // display: flex;
@@ -246,7 +243,7 @@ export default {
 .recommend-article-around{
     margin: 10px 0 0 10px;
     border-radius: 5px;
-    background-color: pink;
+    background-color: white;
     padding: 10px 20px;
 }
 </style>

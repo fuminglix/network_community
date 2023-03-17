@@ -4,7 +4,7 @@
             <div class="content-left">
                 <div class="title">
                     <span>
-                        <el-link href="http://localhost:8080/#/ArticleMain" target="_blank">文章标题</el-link>
+                        <el-link :underline="false" href="http://localhost:8080/#/ArticleMain" target="_blank">文章标题</el-link>
                     </span>
                 </div>
                 <div v-if="isShow(item) == item ? false : true" class="summary">
@@ -43,23 +43,23 @@
                 <div class="interaction">
                     <div class="interaction-left">
                         <div class="thumbs-up">
-                        <img src="../../assets/thumbs-up.png" alt="">
-                        <span>点赞</span>
+                        <img src="../../assets/thumbs-up3.png" alt="">
+                        <span>133</span>点赞
                         </div>
                         <div class="comment">
-                            <img src="../../assets/thumbs-up.png" alt="">
+                            <img src="../../assets/comment3.png" alt="">
                             <span>100</span> 条评论
                         </div>
                         <div class="share">
-                            <img src="../../assets/thumbs-up.png" alt="">
+                            <img src="../../assets/collect2.png" alt="">
                             <span>收藏</span>
                         </div>
                         <div class="Collection">
-                            <img src="../../assets/thumbs-up.png" alt="">
+                            <img src="../../assets/dispatch3.png" alt="">
                             <span>分享</span>  
                         </div>
                         <div class="report">
-                            <img src="../../assets/thumbs-up.png" alt="">
+                            <img src="../../assets/report2.png" alt="">
                             <span>举报</span>
                         </div>
                     </div>
@@ -103,7 +103,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="less">
 .content{
     width: 100%;
     display: flex;
@@ -116,10 +116,12 @@ export default {
     width: 100%;
     margin: 20px 20px;
 }
-.title span{
+.title span a{
     font-size: 18px;
     font-weight: 600;
     line-height: 1.6;
+    color: black;
+
     word-break: break-all;
     word-wrap: break-word;
     overflow: hidden;
@@ -127,9 +129,6 @@ export default {
     display: -webkit-box;
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
-}
-.title span a{
-    color: black;
 }
 .summary{
     width: 100%;
@@ -179,17 +178,28 @@ export default {
     color: rgb(68, 133, 229);
 }
 .interaction{
+    width: 100%;
     display: flex;
     font-size: 14px;
 }
 .interaction-left{
-    width: 50%;
+    width: 60%;
+    height: 20px;
+    line-height: 20px;
     display: flex;
     align-content: center;
     margin: 10px 0;
     justify-content: space-between;
+    .thumbs-up{
+        width: 80px;
+        color: gray;
+        span{
+            color: black;
+        }
+    }
 }
 .interaction-mid{
+    width: 40%;
     font-size: 12px;
     color: rgb(132, 127, 127);
     margin-left: 40px;

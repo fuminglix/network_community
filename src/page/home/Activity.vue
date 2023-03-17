@@ -24,14 +24,10 @@
 </template>
 
 <script>
-import Common from '@/components/Common.vue';
-import SingleContent from '@/components/main/SingleContent.vue';
 import PersonalData from '@/components/home/PersonalData.vue';
 export default {
     name:'Activity',
     components:{
-        Common,
-        SingleContent,
         PersonalData
     }
 

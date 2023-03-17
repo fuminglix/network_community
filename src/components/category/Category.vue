@@ -2,8 +2,8 @@
     <div class="category">
         <div class="category-content">
             <div class="title">
-                <span class="el-icon-s-grid" style="font-size: 18px"></span>
-                 <span style="margin-left: 8px;font-size: 14px">热门分类</span>
+                <img src="@/assets/category.png" alt="">
+                <span>热门分类</span>
             </div>
             <div class="category-list">
                 <ul>
@@ -56,19 +56,29 @@ export default {
 
 <style scoped lang="less">
 .category{
-    margin: 10px;
+    width: 100%;
+    height: 200px;
     background-color: white;
     border-radius: 5px;
 }
 .category-content{
-    /* width: 100%; */
-    margin: 10px 0;
+    width: 100%;
 }
 .title{
     display: flex;
     align-items: center;
+    height: 30px;
+    line-height: 30px;
     font-size: 15px;
     margin: 0 10px;
+    img{
+        width: 20px;
+        height: 20px;
+        margin-right: 8px;
+    }
+    span{
+        font-size: 14px;
+    }
 }
 .category-list{
     padding: 0 10px;

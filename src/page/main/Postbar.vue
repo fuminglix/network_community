@@ -52,14 +52,10 @@
 </template>
 
 <script>
-import Common from '@/components/Common.vue';
-import SideItem from '@/components/main/SideItem'
 import PostbarItem from '@/components/postbar/PostbarItem.vue';
 export default {
     name:'Postbar',
     components:{
-        Common,
-        SideItem,
         PostbarItem
     },
     data(){

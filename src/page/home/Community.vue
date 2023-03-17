@@ -40,13 +40,11 @@
 </template>
 
 <script>
-import Common from '@/components/Common.vue';
 import PostbarItemVue from '@/components/postbar/PostbarItem.vue';
 import PersonalData from '@/components/home/PersonalData.vue';
 export default {
     name:'Community',
     components:{
-        Common,
         PostbarItemVue,
         PersonalData
     },

@@ -6,31 +6,30 @@
         <template slot="content-right">
             <div class="hot">
                 <div class="hot-title">
+                    <img src="@/assets/hot_red.png" alt="">
                     <span>热门</span>
                 </div>
-                <div v-for="item in 5" class="hot-content">
-                    <div class="hot-content-text">
-                        <span>1111</span>
-                    </div>
+                <div class="hot-content">
+                    <SideItem></SideItem>
                 </div>
             </div>
-            <Category></Category>
-            <IndexPostbarItem></IndexPostbarItem>
+            <div class="category-container">
+                <Category></Category>
+            </div>
+            <div class="indexPostbarItem-container">
+                <IndexPostbarItem></IndexPostbarItem>
+            </div>
         </template>
     </Common>
 </template>
 <script>
-import Common from '@/components/Common.vue';
-import SingleContent from '@/components/main/SingleContent.vue'
 import Category from '@/components/category/Category.vue'
 import IndexPostbarItem from '@/components/main/IndexPostbarItem.vue'
 export default {
     name:'Index',
     components:{
-        SingleContent,
         Category,
-        IndexPostbarItem,
-        Common
+        IndexPostbarItem
     },
     data(){
         return{
@@ -40,7 +39,7 @@ export default {
     }
 }
 </script>
-<style scoped>
+<style scoped lang="less">
 .index-container{
     width: 1000px;
     height: 100%;
@@ -83,12 +82,27 @@ export default {
     margin: 0 10px;
     border-radius: 5px;
     padding: 10px;
-    background-color: yellowgreen;
+    background-color: white;
 }
 .hot-title{
-
+    display: flex;
+    align-items: center;
+    img{
+        width: 20px;
+        height: 20px;
+        margin-right: 8px;
+    }
+    span{
+        font-size: 15px;
+    }
 }
 .hot-content{
-    margin-top: 5px;
+    margin-top: 20px;
+}
+.category-container{
+    padding: 10px;
+}
+.indexPostbarItem-container{
+    padding: 10px;
 }
 </style>

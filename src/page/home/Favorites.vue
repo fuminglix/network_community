@@ -39,14 +39,9 @@
     </Common>
 </template>
 <script>
-import Common from '@/components/Common.vue';
-import SingleContent from '@/components/main/SingleContent.vue';
 export default {
     name:'Favorites',
-    components:{
-        Common,
-        SingleContent
-    },
+    components:{},
     data(){
         return{
 

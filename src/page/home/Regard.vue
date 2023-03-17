@@ -33,12 +33,10 @@
 </template>
 
 <script>
-import Common from '@/components/Common.vue'
 import PersonalData from '@/components/home/PersonalData.vue'
 export default {
     name:'Regard',
     components:{
-        Common,
         PersonalData
     },
     data(){

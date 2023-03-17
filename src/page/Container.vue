@@ -13,33 +13,20 @@
 
 <script>
 import Header from '@/components/Header.vue'
-import Sidebar from '@/components/Sidebar.vue'
 import Main from '@/components/Main.vue'
 export default {
     name:'Index',
     components:{
         Header,
-        Sidebar,
         Main
     },
     data(){
       return{
-        isClose:false,
-        closeSidebar:'closeSidebar',
-        sideba:'sideba'
       }
     },
     mounted(){
-      this.$bus.$on("closeSidebar",(flag)=>{
-        this.isClose=flag;
-        console.log(this.isClose)
-      })
     },
     computed:{
-      asideWidth(){
-        if(this.isClose)return "55px";
-          return "240px";
-      }
     },
     methods:{
     }
@@ -57,39 +44,13 @@ export default {
     background-color: #ffffff;
     color: #333;
     height: 40px;
-    /* text-align: center; */
-    /* line-height: 60px; */
   }
   
-/* .el-aside {
-  background-color: #D3DCE6;
-  color: #333;
-  transition: width 0.3s;
-  height: 100%;
-} */
-
 .el-main {
   width: 1536px;
   background-color: #E9EEF3;
   color: #333;
-  /* text-align: center; */
-  /* line-height: 160px;   */
   padding: 0;
-  /* height: 100vh;
-  overflow-y: auto; */
-}
-
-body > .el-container {
-  /* margin-bottom: 40px; */
-}
-
-.el-container:nth-child(5) .el-aside,
-.el-container:nth-child(6) .el-aside {
-  /* line-height: 260px; */
-}
-
-.el-container:nth-child(7) .el-aside {
-  /* line-height: 320px; */
 }
 .main{
   padding: 0 20px;
