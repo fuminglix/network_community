@@ -103,6 +103,6 @@ export default {
     padding: 10px;
 }
 .indexPostbarItem-container{
-    padding: 10px;
+    padding: 0 10px 10px 10px;
 }
 </style>

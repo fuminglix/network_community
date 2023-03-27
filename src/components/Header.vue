@@ -21,7 +21,7 @@
       </el-col>
       <el-col class="header-right" :span="8" :offset="0">
         <el-col :span="2" :offset="0">
-          <div @click="show('activity')" class="user-icon">
+          <div @click="show('article')" class="user-icon">
               <!-- <img class="user-img" src="@/assets/qiu2.jpg" alt=""> -->
               <el-avatar :size="40" :src="squareUrl"></el-avatar>
           </div>
@@ -30,31 +30,31 @@
           <div class="header-right-text">
             <button class="el-icon-message-solid icon-btn"></button>
             <div class="nav-text">
-                <el-link type="default" :underline="false" href="http://localhost:8080/#/messageMain/reply" target="_blank">通知</el-link>
+                <el-link type="default" :underline="false" href="http://localhost:86/#/login" target="_blank">通知</el-link>
             </div>
           </div>
           <div class="header-right-text">
             <button class="el-icon-s-promotion icon-btn"></button>
             <div class="nav-text">
-              <el-link type="default" :underline="false" href="http://localhost:8080/#/buildMain/publishContent" target="_blank">发布</el-link>
+              <el-link type="default" :underline="false" href="http://localhost:86/#/buildMain/publishContent" target="_blank">发布</el-link>
             </div>
           </div>
           <div class="header-right-text">
             <button class="el-icon-edit-outline icon-btn"></button>
             <div class="nav-text">
-              <el-link type="default" :underline="false" href="http://localhost:8080/#/activityMain" target="_blank">动态</el-link>
+              <el-link type="default" :underline="false" href="http://localhost:86/#/activityMain" target="_blank">动态</el-link>
             </div>
           </div>
           <div class="header-right-text">
             <button class="el-icon-star-off icon-btn"></button>
             <div class="nav-text">
-              <el-link type="default" :underline="false" href="http://localhost:8080/#/settingMain" target="_blank">收藏</el-link>
+              <el-link type="default" :underline="false" href="http://localhost:86/#/settingMain" target="_blank">收藏</el-link>
             </div>
           </div>
           <div class="header-right-text">
             <button class="el-icon-time icon-btn"></button>
             <div class="nav-text">
-              <el-link type="default" :underline="false" href="http://localhost:8080/#/Postbar" target="_blank">历史</el-link>
+              <el-link type="default" :underline="false" href="http://localhost:86/#/Postbar" target="_blank">历史</el-link>
             </div>
           </div>
         </el-col>
@@ -73,7 +73,7 @@ export default {
     return{
       msg:'',
       flag:false,
-      squareUrl:''
+      squareUrl:'http://rs6c4ew2k.hn-bkt.clouddn.com/qiu2.jpg?e=1679917124&token=Au1Tszq7zBY0rfxaKBKCXebdYDSSznay0zPsZjl9:7_yZHDsskDRbjOy4qx7E-FhMack='
     }
   },
    methods:{

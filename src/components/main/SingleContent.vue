@@ -9,7 +9,7 @@
                 </div>
                 <div v-if="isShow(item) == item ? false : true" class="summary">
                     <div v-if="0" class="summary-around">
-                        <img src=".../App.vue" alt="">
+                        <img src="@/assets/at.png" alt="">
                     </div>
                     <span>
                         <p class="summary-text">

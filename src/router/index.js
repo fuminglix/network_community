@@ -48,6 +48,11 @@ export default new VueRouter({
                     components:{indexView:() => import('@/page/home/HomeMain.vue')},
                     children:[
                         {
+                            name:'article',
+                            path:'article',
+                            components:{HomeMainView:() => import('@/page/home/Article.vue')},
+                        },
+                        {
                             name:'activity',
                             path:'activity',
                             components:{HomeMainView:() => import('@/page/home/Activity.vue')},
@@ -154,6 +159,11 @@ export default new VueRouter({
                 }
             ]
         },
+        {
+            name:'login',
+            path:'/login',
+            components: {container:() => import('@/page/login/Login.vue')},
+        }
         
     ]
 })

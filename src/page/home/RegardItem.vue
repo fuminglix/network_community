@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div v-for="item in 4" class="regardItem-content">
+        <div v-for="item in 2" class="regardItem-content">
             <div class="regardItem-avatar">
                 <el-avatar :size="55" :src="circleUrl"></el-avatar>
             </div>

@@ -15,6 +15,11 @@
                     <template slot="title"><i class="el-icon-menu"></i>数据中心</template>
                 </el-submenu>
                 <el-submenu index="3">
+                    <template slot="title"><i class="el-icon-setting"></i>社区管理</template>
+                    <el-menu-item index="3-1">创建社区</el-menu-item>
+                    <el-menu-item index="3-2">管理社区</el-menu-item>
+                </el-submenu>
+                <el-submenu index="4">
                     <template slot="title"><i class="el-icon-setting"></i>待定</template>
                 </el-submenu>
             </el-menu>

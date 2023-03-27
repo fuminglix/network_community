@@ -21,7 +21,9 @@
                         </li>
                     </ul>
                 </div>
-                <router-view></router-view>
+                <div class="router-view">
+                    <router-view></router-view>
+                </div>
             </div>
         </template>
         <template slot="content-right">
@@ -77,4 +79,8 @@ export default {
         padding-bottom: 20px;
     }
 }
+// .router-view{
+//     width: 100%;
+//     height: 57vh;
+// }
 </style>

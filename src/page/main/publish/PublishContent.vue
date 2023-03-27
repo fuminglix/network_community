@@ -146,7 +146,6 @@
                     </div>
                 </div>  
             </div>
-            
         </div>
     </div>
 </template>
@@ -181,7 +180,14 @@ export default {
                 value: '选项5',
                 label: '北京烤鸭'
             }],
-                value: ''
+            value: '',
+            content: '',
+            config: {
+                toolbar: [
+                    [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript' ]
+                ],
+                height: 300      
+                }
         }
     },
     methods:{

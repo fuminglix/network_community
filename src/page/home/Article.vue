@@ -3,7 +3,7 @@
         <Common>
             <template slot="content-left">
                 <!-- <SingleContent></SingleContent> -->
-                <PostbarItem></PostbarItem>
+                <SingleContent></SingleContent>
             </template>
             <template slot="content-right">
                 <div class="content-around">
@@ -26,12 +26,10 @@
 
 <script>
 import PersonalData from '@/components/home/PersonalData.vue';
-import PostbarItem from '@/components/postbar/PostbarItem.vue';
 export default {
-    name:'Activity',
+    name:'Article',
     components:{
-        PersonalData,
-        PostbarItem
+        PersonalData
     }
 
 }

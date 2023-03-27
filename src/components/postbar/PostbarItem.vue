@@ -17,17 +17,30 @@
             <div class="postbar-left-content">
                 <div class="postbar-dispatch-text">
                     <span>
-                        123
+                        dispatch-text
                     </span>
                 </div>
                 <div class="postbar-report-content">
-                    <p :class="retract(item) > 0 ? content : null" class="postbar-report-content-hidden">222222222222222222222222222222222222
-                        2222222222222222222222222222222222222222
-                        222222222222222222222222222222222222
-                        2222222222222222222222222222222222222222222222222222222222222222222222222222
-                        2222222222222222222222222222222222222222
-                    </p>
-                    <span style="cursor: pointer;color:#00AEEC" @click="isShow(item)">{{ retract(item) > 0 ? '收起' : '展开' }}</span>
+                    <div v-if="1">
+                        <p :class="retract(item) > 0 ? content : null" class="postbar-report-content-hidden">222222222222222222222222222222222222
+                            2222222222222222222222222222222222222222
+                            222222222222222222222222222222222222
+                            2222222222222222222222222222222222222222222222222222222222222222222222222222
+                            2222222222222222222222222222222222222222
+                        </p>
+                        <span style="cursor: pointer;color:#00AEEC" @click="isShow(item)">{{ retract(item) > 0 ? '收起' : '展开' }}</span>
+                        <div v-if="srcList.length > 0" class="Quote-item-info-content-img">
+                            <span v-for="url in srcList">
+                                <el-image 
+                                style="width: 180px; height: 180px"
+                                :src="url" 
+                                :preview-src-list="srcList"
+                                fit="cover">
+                                </el-image>
+                            </span>
+                        </div>
+                    </div>
+                    <QuoteItem v-else></QuoteItem>
                 </div>
                 <div class="postbar-commentBar">
                     <div>
@@ -49,10 +62,12 @@
 
 <script>
 import Comment from '@/components/main/Comment.vue';
+import QuoteItem from '@/components/main/QuoteItem.vue';
 export default {
     name:'PostbarItem',
     components:{
-        Comment
+        Comment,
+        QuoteItem
     },
     data(){
         return{
@@ -66,7 +81,16 @@ export default {
             showObj:{
                 showContentArr:[],
                 showCommentArr:[]
-            }
+            },
+            url: '',
+            srcList: [
+            'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg',
+            'https://fuss10.elemecdn.com/1/8e/aeffeb4de74e2fde4bd74fc7b4486jpeg.jpeg',
+            'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg',
+            'https://fuss10.elemecdn.com/1/8e/aeffeb4de74e2fde4bd74fc7b4486jpeg.jpeg',
+            'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg',
+            'https://fuss10.elemecdn.com/1/8e/aeffeb4de74e2fde4bd74fc7b4486jpeg.jpeg'
+            ]
         }
     }
     ,
@@ -141,6 +165,15 @@ export default {
 .postbar-report-content{
     
 }
+.Quote-item-info-content-img{
+    width: 100%;
+    padding: 10px 0;
+    span{
+        margin: 2px;
+        width: 200px;
+        height: 200px;
+    }
+}
 .postbar-report-content-hidden{
     word-break: break-all;
     word-wrap: break-word;
@@ -154,6 +187,7 @@ export default {
     display: block;
 }
 .postbar-commentBar{
+    margin-top: 10px;
     display: flex;
 }
 .postbar-commentBar div{

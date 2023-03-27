@@ -21,6 +21,11 @@
                 <div class="item-list">
                     <div class="item-list-left">
                         <ul>
+                            <li @click="toHomeView('article')">
+                                <div>
+                                    <span>文章</span>
+                                </div>
+                            </li>
                             <li @click="toHomeView('activity')">
                                 <div>
                                     <span>动态</span>
@@ -31,7 +36,7 @@
                                     <span>收藏</span>
                                 </div>
                             </li>
-                            <li @click="toHomeView('regard')">
+                            <li @click="toHomeView('regardItem')">
                                 <div>
                                     <span>关注</span>
                                 </div>
@@ -83,7 +88,9 @@
                     </div>
                 </div>
             </div>
-            <router-view name="HomeMainView"></router-view>
+            <div class="router-view">
+                <router-view name="HomeMainView"></router-view>
+            </div>
         </div>
     </div>
 </template>
@@ -118,7 +125,7 @@ export default {
 .homemain-header{
     width: 100%;
     /* height: 200px; */
-    background-color: yellowgreen;
+    background-color: white;
     position: relative;
     border-radius: 0 0 5px 5px;
 }
@@ -193,5 +200,9 @@ export default {
     div>span{
         font-size: 12px;
     }
+}
+.router-view{
+    width: 100%;
+    height: 62vh;
 }
 </style>

@@ -74,6 +74,7 @@ export default {
 }
 
 .postbar-footsteps{
+    height: 130px;
     padding: 20px;
     font-size: 15px;
     font-weight: 600;

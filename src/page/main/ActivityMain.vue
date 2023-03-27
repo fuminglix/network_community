@@ -39,7 +39,78 @@
         <div class="activityMain-mid-around">
             <div class="activityMain-mid">
                 <div class="activityMain-mid-edit-around">
-                    1
+                    <div class="activityMain-mid-edit-text">
+                        <el-input
+                        type="textarea"
+                        :rows="2"
+                        placeholder="和大家分享一些内容？"
+                        :autosize="{ minRows: 2, maxRows: 7}"
+                        v-model="textarea"
+                        resize="none">
+                        </el-input>
+                        <!-- <textarea 
+                        name="" 
+                        id="" 
+                        cols="90" 
+                        rows="7"
+                        placeholder="和大家分享一些内容？">
+
+                        </textarea> -->
+                    </div>
+                    <div v-show="isShow" class="activityMain-mid-edit-img">
+                        <el-upload
+                        action="#"
+                        list-type="picture-card"
+                        :auto-upload="false">
+                            <i slot="default" class="el-icon-plus"></i>
+                            <div slot="file" slot-scope="{file}">
+                            <img
+                                class="el-upload-list__item-thumbnail"
+                                :src="file.url" alt=""
+                            >
+                            <span class="el-upload-list__item-actions">
+                                <span
+                                class="el-upload-list__item-preview"
+                                @click="handlePictureCardPreview(file)"
+                                >
+                                <i class="el-icon-zoom-in"></i>
+                                </span>
+                                <span
+                                v-if="!disabled"
+                                class="el-upload-list__item-delete"
+                                @click="handleDownload(file)"
+                                >
+                                <i class="el-icon-download"></i>
+                                </span>
+                                <span
+                                v-if="!disabled"
+                                class="el-upload-list__item-delete"
+                                @click="handleRemove(file)"
+                                >
+                                <i class="el-icon-delete"></i>
+                                </span>
+                            </span>
+                            </div>
+                        </el-upload>
+                        <el-dialog :visible.sync="dialogVisible">
+                        <img width="100%" :src="dialogImageUrl" alt="">
+                        </el-dialog>
+                    </div>
+                    <div class="activityMain-mid-edit-option">
+                        <el-row>
+                            <el-col :span="21" :offset="0" class="activityMain-mid-edit-option-col">
+                                <el-col :span="2" :offset="0">
+                                    <img src="@/assets/emoji.png" alt="">
+                                </el-col>
+                                <el-col :span="2" :offset="0">
+                                    <span @click="showImg" class="el-icon-picture-outline-round"></span>
+                                </el-col>
+                            </el-col>
+                            <el-col :span="3" :offset="0">
+                                <el-button type="primary">发布</el-button>
+                            </el-col>
+                        </el-row>
+                    </div>
                 </div>
                 <div class="activityMain-mid-content-around">
                     <div class="activityMain-mid-content">
@@ -129,7 +200,27 @@ export default {
         return{
             circleUrl:'',
             squareUrl:'',
-            src:''
+            src:'',
+            textarea:'',
+            dialogImageUrl: '',
+            dialogVisible: false,
+            disabled: false,
+            isShow: false
+        }
+    },
+    methods:{
+        handleRemove(file) {
+            console.log(file);
+        },
+        handlePictureCardPreview(file) {
+            this.dialogImageUrl = file.url;
+            this.dialogVisible = true;
+        },
+        handleDownload(file) {
+            console.log(file);
+        },
+        showImg(){
+            this.isShow = !this.isShow
         }
     }
 }
@@ -188,7 +279,29 @@ export default {
 .activityMain-mid-edit-around{
     background-color: white;
     border-radius: 5px;
-    height: 130px;
+    padding: 10px 20px;
+    // height: 130px;
+}
+.activityMain-mid-edit-text{
+    margin-bottom: 10px;
+
+}
+.activityMain-mid-edit-img{
+    margin-bottom: 10px;
+}
+.activityMain-mid-edit-option{
+
+}
+.activityMain-mid-edit-option-col{
+    img{
+        cursor: pointer;
+    }
+    span{
+        font-size: 26px;
+        color: rgb(157, 157, 157);
+        // color: #1296db;
+        cursor: pointer;
+    }
 }
 .activityMain-mid-content-around{
     margin-top: 10px;
@@ -302,5 +415,36 @@ export default {
 .hot-content-info-num{
     font-size: 12px;
     color: gray;
+}
+::v-deep .el-textarea__inner{
+    border: 0;
+    font-family: Microsoft YaHei;
+    font-size: 15px;
+    // font-weight: 600;
+    color: black;
+    padding: 5px 0;
+}
+/*滚动条整体粗细样式*/
+::-webkit-scrollbar {
+    /*高宽分别对应横竖滚动条的尺寸*/
+    width: 8px;
+    height: 8px;
+}
+
+/*滚动条里面小方块*/
+::-webkit-scrollbar-thumb {
+    border-radius: 10px !important;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2) !important;
+    /* 颜色 */
+    background:#b6b6b6!important;
+    /* 线性渐变背景 */
+    /* background-image: linear-gradient(45deg, #ffbd61 25%,#ffbd61 25%, #ff8800 25%, #ff8800 50%,#ffbd61 50%, #ffbd61 75%, #ff8800 75%, #ff8800 100%)!important; */
+}
+
+/*滚动条轨道*/
+::-webkit-scrollbar-track {
+    border-radius: 10px !important;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2) !important;
+    background: #EDEDED !important;
 }
 </style>

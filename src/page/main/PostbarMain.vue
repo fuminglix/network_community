@@ -13,10 +13,6 @@
                             <el-avatar shape="square" :size="40" :src="squareUrl"></el-avatar>
                             <span class="PostbarMain-left-collects-barName">二次元222222</span>
                         </div>
-                        <!-- <div v-for="item in 6" class="PostbarMain-left-collects-bar">
-                            <br>
-                            <span class="PostbarMain-left-collects-barName">二次元222</span>
-                        </div> -->
                     </div>
                 </div>
             </div>
@@ -218,7 +214,7 @@ export default {
     
 }
 .PostbarMain-mid-content-item{
-    border-bottom: 1px solid gray;
+    border-bottom: 1px solid rgb(237, 237, 237);
     padding: 10px;
     display: flex;
     background-color: white;
