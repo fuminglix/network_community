@@ -6,7 +6,7 @@
                 
             </h1>
             <!-- 登录注册 -->
-            <div v-show="!err2005" class="">
+            <div  class="">
                 <div v-if="login==1" class="loginBox">
                     <div class="lr-title">
                         <h1>登录</h1>
@@ -25,7 +25,6 @@
                         placeholder="用户名"
                         v-model="username">
                     </el-input>
-
                     <el-input
                             type="password"
                           placeholder="密码"
@@ -123,6 +122,7 @@ import {setToken} from '@/utils/auth'
                 email: '',//邮箱
                 password: '',//密码
                 nusername: '',//新用户注册名
+                nnickName:'',//新用户昵称
                 nemail: '',//新用户注册邮箱
                 npassword: '',//新用户注册密码
                 npassword2: '',//新用户注册重复密码
@@ -161,6 +161,9 @@ import {setToken} from '@/utils/auth'
                     setToken(response.token)
                     // 存储用户信息
                     localStorage.setItem("userInfo",JSON.stringify(response.userInfo))
+                    // 修改store中的登录状态
+                    this.$store.commit('CHANGEISLOGIN',true)
+                    this.$store.commit('ADDUSERINFO',response.userInfo)
                     if(localStorage.getItem('logUrl')){
                         this.$router.push({path:localStorage.getItem('logUrl')});
                     }else{

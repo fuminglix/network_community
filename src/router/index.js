@@ -141,9 +141,17 @@ export default new VueRouter({
                     components:{indexView:() => import('@/page/main/BuildMain.vue')},
                     children:[
                         {
-                            name:'publishContent',
-                            path:'publishContent',
-                            component:()=>import('@/page/main/publish/PublishContent.vue')
+                            name:'publishMenu',
+                            path:'publishMenu',
+                            component:()=>import('@/page/main/publish/PublishMenu.vue'),
+                            children:[
+                                {
+                                    name:'publishContent',
+                                    path:'publishContent',
+                                    component:()=>import('@/page/main/publish/PublishContent.vue')
+                                },
+                                
+                            ]
                         },
                         {
                             name:'commentManage',

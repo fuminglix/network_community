@@ -7,7 +7,7 @@ export function userLogin(username,password) {
         method: 'post',
         headers: {
             isToken: false,
-          },
+        },
         data: {'userName':username,'password':password}
     })
 }
@@ -26,7 +26,7 @@ export function userRegister(username,nickName,email,password) {
 
 export function logout() {
     return request({
-        url: '/logout',
+        url: '/user/logout',
         method: 'post'
     })
 }
@@ -39,6 +39,16 @@ export function getUserInfo(userId) {
     })
 }
 
+export function getAuthorInfo(authorId) {
+    return request ({
+        url: '/user/getAuthorInfo/'+authorId,
+        method: 'get',
+        headers: {
+            isToken: false,
+        },
+        // params: {"authorId":authorId}
+    })
+}
 
 export function savaUserInfo(userinfo) {
     return request({

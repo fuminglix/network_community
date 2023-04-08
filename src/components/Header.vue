@@ -7,9 +7,8 @@
         <el-col :span="6" :offset="0">
           <div class="nav-mid-text">
             <ul>
-              <li @click="show('index')">首页</li>
-              <!-- <li @click="show('category')">分类</li> -->
-              <li @click="show('discover')">发现</li>
+              <li @click="toOtherPages('index')">首页</li>
+              <li @click="toOtherPages('discover')">发现</li>
             </ul>
           </div>
         </el-col>
@@ -21,22 +20,69 @@
       </el-col>
       <el-col class="header-right" :span="8" :offset="0">
         <el-col :span="2" :offset="0">
-          <div @click="show('article')" class="user-icon">
-              <!-- <img class="user-img" src="@/assets/qiu2.jpg" alt=""> -->
-              <el-avatar :size="40" :src="squareUrl"></el-avatar>
+          <el-popover
+            placement="bottom"
+            trigger="hover"
+            :open-delay=50
+            :close-delay=100>
+              <el-menu
+                v-if="isLogin"
+                default-active=""
+                class="el-menu-vertical-demo menu"
+                @open="handleOpen"
+                @close="handleClose">
+                <el-menu-item index="1">
+                  <template slot="title">
+                    <i class="el-icon-user-solid"></i>
+                    <span>我的主页</span>
+                  </template>
+                </el-menu-item>
+                <el-menu-item index="2">
+                  <template slot="title">
+                    <i class="el-icon-s-management"></i>
+                    <span>内容管理</span>
+                  </template>
+                </el-menu-item>
+                <el-menu-item index="3">
+                  <i class="el-icon-s-tools"></i>
+                  <span slot="title">设置</span>
+                </el-menu-item>
+                <el-menu-item @click="userlogout" index="4">
+                  <i class="el-icon-switch-button"></i>
+                  <span slot="title">退出账号</span>
+                </el-menu-item>
+              </el-menu>
+              <el-main v-else>
+                <el-button type="primary" @click="toOtherPages('login')">马上去登录</el-button>
+              </el-main>
+          <div slot="reference" @click="toOtherPages('avatar')" class="user-icon">
+            <el-avatar 
+            :size="40" 
+            :src="squareUrl"
+            fit="contain"
+            v-if="isLogin">
+            </el-avatar>
+            <el-avatar v-else> 登录 </el-avatar>
           </div>
+          </el-popover>
         </el-col>
         <el-col class="header-right-around" :span="16" :offset="0">
-          <div class="header-right-text">
-            <button class="el-icon-message-solid icon-btn"></button>
-            <div class="nav-text">
-                <el-link type="default" :underline="false" href="http://localhost:86/#/login" target="_blank">通知</el-link>
+          <el-popover
+            placement="top-start"
+            trigger="hover"
+            :open-delay=50
+            :close-delay=100>
+            <div slot="reference" class="header-right-text">
+              <button class="el-icon-message-solid icon-btn"></button>
+              <div class="nav-text">
+                  <el-link type="default" :underline="false" href="http://localhost:86/#/PostbarMain" target="_blank">通知</el-link>
+              </div>
             </div>
-          </div>
+          </el-popover>
           <div class="header-right-text">
             <button class="el-icon-s-promotion icon-btn"></button>
             <div class="nav-text">
-              <el-link type="default" :underline="false" href="http://localhost:86/#/buildMain/publishContent" target="_blank">发布</el-link>
+              <el-link type="default" :underline="false" href="http://localhost:86/#/buildMain/publishMenu/publishContent" target="_blank">发布</el-link>
             </div>
           </div>
           <div class="header-right-text">
@@ -67,26 +113,79 @@
 </template>
 
 <script>
+import {logout} from '@/api/user'
+import {removeToken} from '@/utils/auth'
 export default {
   name:'Header',
   data(){
     return{
       msg:'',
       flag:false,
-      squareUrl:'http://rs6c4ew2k.hn-bkt.clouddn.com/qiu2.jpg?e=1679917124&token=Au1Tszq7zBY0rfxaKBKCXebdYDSSznay0zPsZjl9:7_yZHDsskDRbjOy4qx7E-FhMack='
+      squareUrl:'',
+      userInfo:{}
     }
   },
    methods:{
-    isClose(flag){
-      this.$bus.$emit('closeSidebar',!flag);
-      this.flag=!flag;
+    getUserInfo(){ // 当用户登陆后从localStorage中获取用户信息
+      // console.log("userInfo",)
+      if(!this.$store.state.main.isLogin) return;
+      this.userInfo = JSON.parse(localStorage.getItem('userInfo'))
+      this.squareUrl = this.$store.state.main.defaultAvatar;
+      if(this.userInfo.avatar != null) this.squareUrl = this.userInfo.avatar;
     },
-    show(page){
-            this.$router.push({
-                name:page,
-            },()=>{})
-        }
-   }
+    routeChange(){ // 路由改变时触发的事件
+      this.getUserInfo()
+    },
+    handleOpen(key, keyPath) {
+      console.log(key, keyPath);
+    },
+    handleClose(key, keyPath) {
+      console.log(key, keyPath);
+    },
+		userlogout(){ // 用户退出登录
+			var that = this;
+      logout().then((response)=>{
+        removeToken()
+        localStorage.removeItem('userInfo');
+        this.$store.commit('CHANGEISLOGIN',false);
+        this.$store.commit('REMOVEUSERINFO');
+        window.location.reload();
+          that.$message({
+            type: 'success',
+            message: '退出成功!'
+          });
+        // if (that.$route.path == '/UserInfo') {
+          that.$router.push({
+            path: '/'
+          });
+        // }
+      })
+		},
+    toOtherPages(page){ // 路由跳转页面
+      if(page === 'avatar'){
+        page='article'
+        if(!this.isLogin) page='login'
+      }
+      this.$router.push({
+        name:page
+      },()=>{})
+    }
+   },
+   watch: {
+    // 如果路由有变化，会再次执行该方法
+    '$route':'routeChange',
+    '$store.state.keywords':'routeChange'
+    },
+    created(){ //生命周期函数
+        var that = this;
+        that.routeChange();
+    },
+    computed:{
+      isLogin(){  //同步登录状态
+        console.log("isLogin=>",this.$store.state.main.isLogin)
+        return this.$store.state.main.isLogin
+      }
+    }
 }
 </script>
 
@@ -140,6 +239,7 @@ export default {
   height: 60px;
   display: flex;
   align-items: center;
+  cursor: pointer;
 }
 .icon-btn{
   font-size: 20px;
@@ -202,5 +302,9 @@ export default {
   background-color: white;
   border-radius: 5px;
   z-index: 10;
+}
+.menu{
+  border: none;
+  /* text-align: center; */
 }
 </style>

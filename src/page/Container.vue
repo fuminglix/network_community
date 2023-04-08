@@ -51,6 +51,9 @@ export default {
   background-color: #E9EEF3;
   color: #333;
   padding: 0;
+  position: relative;
+  top: 60px;
+  overflow-x: hidden;
 }
 .main{
   padding: 0 20px;
@@ -58,6 +61,8 @@ export default {
 }
 .header{
   border-bottom: 1px solid rgb(229, 229, 229);
+  position: fixed;
+  z-index: 10;
 }
 ::v-deep .el-card__body{
   padding: 0;

@@ -1,98 +1,54 @@
 <template>
     <Common>
         <template slot="content-left">
-            <div class="content">
-                <div class="content-left">
+            <div class="articleMain-content">
+                <div class="articleMain-content-left">
                     <div class="title">
                         <span>
-                            <el-link type="default" :underline="false" href="http://localhost:8080/#/ArticleMain" target="_blank">文章标题</el-link>
+                            <el-link type="default" :underline="false" href="http://localhost:8080/#/ArticleMain" target="_blank">{{ articleObj.title }}</el-link>
                         </span>
                     </div>
                     <div class="article">
                         <span>
-                            <p class="article-text">
-                            222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222
-                            222222222222222222222222222222222222222222
-                            222222222222222222222222222222222222222222
-                            222222222222222222222222222222222222222222
-                            222222222222222222222222222222222222222222
-                            222222222222222222222222222222222222222222222222222222222222222222222222222222222222
-                            222222222222222222222222222222222222222222222222222222222222222222222222222222222222
-                            222222222222222222222222222222222222222222
-                            222222222222222222222222222222222222222222
-                            222222222222222222222222222222222222222222
-                            222222222222222222222222222222222222222222
-                            222222222222222222222222222222222222222222
-                            222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222
-                            222222222222222222222222222222222222222222
-                            222222222222222222222222222222222222222222
-                            222222222222222222222222222222222222222222
-                            222222222222222222222222222222222222222222
-                            222222222222222222222222222222222222222222222222222222222222222222222222222222222222
-                            222222222222222222222222222222222222222222222222222222222222222222222222222222222222
-                            222222222222222222222222222222222222222222
-                            222222222222222222222222222222222222222222
-                            222222222222222222222222222222222222222222
-                            222222222222222222222222222222222222222222 222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222
-                            222222222222222222222222222222222222222222
-                            222222222222222222222222222222222222222222
-                            222222222222222222222222222222222222222222
-                            222222222222222222222222222222222222222222
-                            222222222222222222222222222222222222222222222222222222222222222222222222222222222222
-                            222222222222222222222222222222222222222222222222222222222222222222222222222222222222
-                            222222222222222222222222222222222222222222
-                            222222222222222222222222222222222222222222
-                            222222222222222222222222222222222222222222
-                            222222222222222222222222222222222222222222 222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222
-                            222222222222222222222222222222222222222222
-                            222222222222222222222222222222222222222222
-                            222222222222222222222222222222222222222222
-                            222222222222222222222222222222222222222222
-                            222222222222222222222222222222222222222222222222222222222222222222222222222222222222
-                            222222222222222222222222222222222222222222222222222222222222222222222222222222222222
-                            222222222222222222222222222222222222222222
-                            222222222222222222222222222222222222222222
-                            222222222222222222222222222222222222222222
-                            222222222222222222222222222222222222222222
-                            </p>
+                            <p class="article-text article-content markdown-body" v-html="articleObj.content"></p>
                         </span>
                     </div>
-                    <Comment></Comment>
+                    <Comment :articleId="articleObj.id"></Comment>
                 </div>
             </div>
         </template>
         <template slot="content-right">
             <div class="author-around">
                 <div class="author-info">
-                    <el-avatar :size="70" :src="circleUrl"></el-avatar>
+                    <el-avatar :size="70" :src="authorInfo.avatar"></el-avatar>
                     <div class="author-introduce">
                         <div>
                             <el-link 
                             type="default" 
                             :underline="false" 
                             href="http://localhost:8080/#/ArticleMain" 
-                            target="_blank">浮名里</el-link>
+                            target="_blank">{{ authorInfo.nickName }}</el-link>
                         </div>
                         <div class="author-profile-around">
-                            <span class="author-profile">简介222222222222222222222222222222222222222222222</span>
+                            <span class="author-profile">{{ authorInfo.profile }}</span>
                         </div>
                     </div>
                 </div>
                 <div class="author-regard-around">
                     <div class="author-regard">
-                        <span>99</span>
+                        <span>{{ authorInfo.userTotal.regardCount }}</span>
                         <div>
                             <span>关注</span>
                         </div>
                     </div>
                     <div class="author-fans">
-                        <span>5</span>
+                        <span>{{ authorInfo.userTotal.fansCount }}</span>
                         <div>
                             <span>粉丝</span>
                         </div>
                     </div>
                     <div class="author-Articles">
-                        <span>58</span>
+                        <span>{{ authorInfo.userTotal.articleCount }}</span>
                         <div>
                             <span>文章</span>
                         </div>
@@ -112,19 +68,44 @@
 </template>
 
 <script>
+import { mavonEditor } from 'mavon-editor'
+import {getArticle} from '@/api/article'
+import {getAuthorInfo} from '@/api/user'
 export default {
+    name:'ArticleMain',
     components: { },
     data(){
         return{
-            circleUrl:'',
-            textarea1:''
+            textarea1:'',
+            articleObj:{},
+            authorInfo:{}
         }
+    },
+    methods:{
+        getArticleById(){ //获取文章内容
+            getArticle(parseInt(this.$route.query.articleId)).then((response)=>{
+                const markdownIt = mavonEditor.getMarkdownIt()
+                this.articleObj = response
+                this.articleObj.content = markdownIt.render(this.articleObj.content)
+                console.log("articleObj",this.articleObj)
+            })
+        },
+        getAuthorInfoById(){
+            getAuthorInfo(parseInt(this.$route.query.authorId)).then((response)=>{
+                this.authorInfo = response
+            })
+        }
+    },
+    created(){
+        console.log("query=>",this.$route)
+        this.getArticleById();
+        this.getAuthorInfoById();
     }
 }
 </script>
 
 <style scoped lang="less">
-.content{
+.articleMain-content{
     width: 100%;
     display: flex;
     align-items: top;
@@ -132,7 +113,7 @@ export default {
     border-radius: 5px 5px 0 0;
     border-bottom: 1px solid rgb(237, 237, 237);
 }
-.content-left{
+.articleMain-content-left{
     width: 100%;
     margin: 20px 20px;
 }

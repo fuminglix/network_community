@@ -6,31 +6,43 @@
                 <el-input
                 style="font-size:22px;"
                 type="textarea"
-                :rows="2"
+                :rows="1"
                 placeholder="请输入标题"
                 maxlength="30"
                 show-word-limit
-                v-model="textarea1">
+                v-model="articleObj.title">
+                </el-input>
+                <p></p>
+                <el-input
+                style="font-size:22px;"
+                type="textarea"
+                :rows="2"
+                placeholder="请输入文章摘要"
+                maxlength="100"
+                show-word-limit
+                v-model="articleObj.summary">
                 </el-input>
             </div>
         </div>
         <div class="buildMain-content-main">
             <mavon-editor 
             ref="mdedit" 
+            v-model="articleObj.content"
             style="height: 100%; width: 100%;"
-            ></mavon-editor>
+            @imgAdd="addImg">
+            </mavon-editor>
         </div>
         <div class="buildMain-content-footer">
             <div class="buildMain-content-footer-setting">
                 <div style="width:30%">
                     <div class="buildMain-content-footer-category">
                         <span>类别</span>
-                        <el-select v-model="value" placeholder="请选择类别">
+                        <el-select v-model="articleObj.categoryId" placeholder="请选择类别">
                             <el-option
-                            v-for="item in options"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value"
+                            v-for="item in categoryOptions"
+                            :key="item.id"
+                            :label="item.name"
+                            :value="item.id"
                             :disabled="item.disabled">
                             </el-option>
                         </el-select>
@@ -55,41 +67,72 @@
                     v-if="tagsList.length" 
                     v-for="item in tagsList" 
                     closable 
-                    @close="delTags(item.id)" 
-                    :key="item.id">{{ item.text }}</el-tag>
+                    @close="delTags(item.tId)" 
+                    :key="item.tId">{{ item.tagName }}</el-tag>
                 </div>
             </div>
             <div class="buildMain-content-footer-options">
                 <div class="buildMain-content-footer-type-around">
                     <div class="buildMain-content-footer-type">
                         <span>文章类型</span>
-                        <el-radio v-model="radio" label="1">原创</el-radio>
-                        <el-radio v-model="radio" label="2">转载</el-radio>
+                        <el-radio v-model="articleObj.articleType" label="1">原创</el-radio>
+                        <el-radio v-model="articleObj.articleType" label="2">转载</el-radio>
                     </div>
                     <div class="buildMain-content-footer-style">
                         <span>发布形式</span>
-                        <el-radio v-model="radio" label="1">全部可见</el-radio>
-                        <el-radio v-model="radio" label="2">仅我可见</el-radio>
-                        <el-radio v-model="radio" label="3">粉丝可见</el-radio>
+                        <el-radio v-model="articleObj.releaseForm" label="1">全部可见</el-radio>
+                        <el-radio v-model="articleObj.releaseForm" label="2">仅我可见</el-radio>
+                        <el-radio v-model="articleObj.releaseForm" label="3">粉丝可见</el-radio>
                     </div>
-                    <div class="buildMain-content-footer-Scheduled">
-                        <span>定时发布</span>
+                    <div class="buildMain-content-footer-comment">
+                        <span>是否允许评论</span>
                         <el-switch
-                            v-model.number="switchValue"
+                            v-model="articleObj.isComment"
                             active-color="#2389e3"
                             inactive-color="#d9d9d9"
                             :active-value="1"
                             :inactive-value="0">
                         </el-switch>
-                        <div v-if="switchValue" class="buildMain-content-footer-Scheduled-time">
+                    </div>
+                    <div class="buildMain-content-footer-community">
+                        <span>同时发布到我的社区</span>
+                        <el-switch
+                            v-model="isDispatch"
+                            active-color="#2389e3"
+                            inactive-color="#d9d9d9"
+                            :active-value="true"
+                            :inactive-value="false">
+                        </el-switch>
+                        <div v-if="isDispatch" class="buildMain-content-footer-Scheduled-time">
+                            <el-select v-model="articleObj.communityId" placeholder="请选择社区">
+                                <el-option
+                                v-for="item in communityOptions"
+                                :key="item.id"
+                                :label="item.communityName"
+                                :value="item.id"
+                                :disabled="item.disabled">
+                                </el-option>
+                            </el-select>
+                        </div>
+                    </div>
+                    <div class="buildMain-content-footer-Scheduled">
+                        <span>定时发布</span>
+                        <el-switch
+                            v-model="isScheduled"
+                            active-color="#2389e3"
+                            inactive-color="#d9d9d9"
+                            :active-value="true"
+                            :inactive-value="false">
+                        </el-switch>
+                        <div v-if="isScheduled" class="buildMain-content-footer-Scheduled-time">
                             <el-date-picker
                             style="margin-right:20px"
-                            v-model="value1"
+                            v-model="scheduledDate.day"
                             type="date"
                             placeholder="选择日期">
                             </el-date-picker>
                             <el-time-picker
-                                v-model="value1"
+                                v-model="scheduledDate.time"
                                 :picker-options="{
                                 }"
                                 placeholder="任意时间点">
@@ -97,19 +140,21 @@
                         </div>
                     </div>
                     <div class="buildMain-content-footer-publishStyle">
-                        <el-button type="primary" round>发布</el-button>
-                        <el-button type="info" round>草稿箱</el-button>
+                        <el-button type="primary" @click="handleSubmit(true)" round>发布</el-button>
+                        <el-button type="info" @click="handleSubmit(false)" round>草稿箱</el-button>
                     </div>
                 </div>
                 <div class="buildMain-content-footer-img">
                     <span>添加缩略图</span>
                     <div class="upload">
                         <el-upload
+                        :file-list="fileList"
+                        :http-request="handleUpload"
+                        :on-remove="fileRemove"
                         :on-exceed="overflow"
                         :limit=1
-                        action="#"
-                        list-type="picture-card"
-                        :auto-upload="false">
+                        action="upload"
+                        list-type="picture-card">
                             <i slot="default" class="el-icon-plus"></i>
                             <div slot="file" slot-scope="{file}">
                             <img
@@ -133,7 +178,7 @@
                                 <span
                                 v-if="!disabled"
                                 class="el-upload-list__item-delete"
-                                @click="handleRemove(file)"
+                                @click="fileRemove(file)"
                                 >
                                 <i class="el-icon-delete"></i>
                                 </span>
@@ -150,77 +195,112 @@
     </div>
 </template>
 <script>
+import {addArticle,category} from '@/api/article'
+import {myCommunityList} from '@/api/community'
+import {uploadImg} from '@/api/upload'
 export default {
     name:'PublishContent',
     data(){
         return{
-            value1:0,
-            switchValue:0,
-            radio:'1',
+            isScheduled:false,
+            isDispatch:false,
             inputTag:'',
-            textarea1:'',
             tagsList:[],
             dialogImageUrl:'',
             dialogVisible: false,
             disabled: false,
-            options: [{
-                value: '选项1',
-                label: '黄金糕'
-            }, {
-                value: '选项2',
-                label: '双皮奶',
-                disabled: true
-            }, {
-                value: '选项3',
-                label: '蚵仔煎'
-            }, {
-                value: '选项4',
-                label: '龙须面'
-            }, {
-                value: '选项5',
-                label: '北京烤鸭'
-            }],
-            value: '',
-            content: '',
+            categoryOptions: [],
+            communityOptions: [],
+            categoryValue: '',
+            communityValue:'',
+            fileList:[],
+            scheduledDate:{
+                day:'',
+                time:'',
+            },
             config: {
                 toolbar: [
                     [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript' ]
                 ],
                 height: 300      
-                }
+            },
+            articleObj:{
+                title:'',
+                summary:'',
+                content:'',
+                categoryId:'',
+                communityId:'',
+                tags:[],
+                thumbnail:'',
+                isTop:0,
+                isComment:'1',
+                articleType:'1',
+                releaseForm:'1',
+                status:'',
+                scheduled:'',
+            }
         }
     },
     methods:{
-        addTag(msg){
+        handleSubmit(isSubmit){
+            this.articleObj.status = '2'
+            if(!isSubmit){
+                this.articleObj.status = '1'
+            }
+            this.articleObj.tags = this.tagsList;
+            addArticle(this.articleObj).then((response)=>{
+                this.articleObj.status === '1' ? this.$modal.msgSuccess('已保存到草稿箱中！') : this.$modal.msgSuccess('文章发布成功！');
+                window.location.reload();
+            })
+        },
+        addTag(msg){ //添加标签
             this.inputTag = ''
             console.log("===>"+this.tagsList.length)
             const temp = this.tagsList.filter((tag)=>{
-                return tag.text == msg
+                return tag.tagName == msg
             })
             if(temp.length){
                 alert("标签已存在！");
                 return;
             }
             if(this.tagsList.length == 0){
-                this.tagsList.unshift({id:1,text:msg});
+                this.tagsList.unshift({tId:1,tagName:msg});
                 return;
             }
-            this.tagsList.unshift({id:(this.tagsList[0].id)+1,text:msg})
+            this.tagsList.unshift({tId:(this.tagsList[0].tId)+1,tagName:msg})
             if(this.tagsList.length == 10){
                 const h = this.$createElement;
                 this.$notify.warning({
                     title: '警告',
                     message: '标签已足够!'
                 });
-
             }
         },
-        delTags(id){
-            this.tagsList = this.tagsList.filter((tag)=>{
-                return tag.id != id;
+        // 绑定@imgAdd event
+        addImg(pos, file) {
+            // 第一步.将图片上传到服务器.
+            uploadImg(file).then(response => {
+                this.$refs.mdedit.$img2Url(pos, response)
+            }).catch(error => {
+                this.$message.error(error.msg)
             })
         },
-
+        handleUpload(img) { //上传缩略图
+            uploadImg(img.file).then(response => {
+                this.articleObj.thumbnail = response
+                this.fileList.push({ name: img.file.name, url: response })
+            }).catch(error => {
+                this.$message.error(error.msg)
+            })
+        },
+        delTags(id){ //删除标签
+            this.tagsList = this.tagsList.filter((tag)=>{
+                return tag.tId != id;
+            })
+        },
+        fileRemove(){ //删除缩略图
+            this.fileList.pop()
+        },
         handleRemove(file) {
             console.log(file);
         },
@@ -233,24 +313,54 @@ export default {
         },
         overflow(){
             const h = this.$createElement;
-
             this.$notify.error({
                 title: '错误',
                 message: '只能上传一张缩略图!'
             });
-        }
+        },
+        getCategory(){ //获取分类列表
+            category().then((response)=>{
+                console.log("getCategory",response)
+                this.categoryOptions = response
+            })
+        },
+        routeChange(){
+            this.getCategory()
+        },
     },
     computed:{
+        userInfo(){ //获取当前登录用户信息
+            // console.log("=>",this.$store.state.main.userInfo)
+            return this.$store.state.main.userInfo
+        },
+    },
+    watch: {
+        // 如果路由有变化，会再次执行该方法
+        '$route':'routeChange',
+        '$store.state.keywords':'routeChange',
+        isDispatch(newValue,oldValue){ //获取当前用户已加入的社区列表
+            if(newValue){
+                myCommunityList(this.userInfo.id).then((response)=>{
+                    console.log(response)
+                    this.communityOptions = response
+                })
+            }
+        },
+    },
+    created(){ //生命周期函数
+        // console.log(this.$route);
+        var that = this;
+        that.routeChange();
     }
 }
 </script>
 
 <style scoped lang="less">
 .buildMain-content{
-    width: 80%;
-    height: 85vh;
-    overflow: scroll;
-    overflow-x: hidden;
+    width: 100%;
+    height: 71vh;
+    // overflow: scroll;
+    // overflow-x: hidden;
     background-color: rgb(255, 255, 255);
     margin: 0 auto;
     padding: 20px 60px;
@@ -260,16 +370,10 @@ export default {
 }
 .buildMain-content-top-title{
     width: 100%;
-    display: flex;
-    align-items: start;
     font-weight: 600;
-    // span{
-    //     font-size: 18px;
-    //     font-weight: 600;
-    //     margin-right: 5px;
-    //     width: 50px;
-        
-    // }
+    p{
+        height: 20px;
+    }
 }
 .buildMain-content-main{
     margin-top: 10px;
@@ -341,6 +445,22 @@ export default {
         margin-right: 20px;
     }
 }
+.buildMain-content-footer-comment{
+    margin-top: 30px;
+    span{
+        font-size: 18px;
+        font-weight: 600;
+        margin-right: 20px;
+    }
+}
+.buildMain-content-footer-community{
+    margin-top: 30px;
+    span{
+        font-size: 18px;
+        font-weight: 600;
+        margin-right: 20px;
+    }
+}
 .buildMain-content-footer-Scheduled{
     margin-top: 30px;
     span{
@@ -369,6 +489,15 @@ export default {
     .upload{
         margin-top: 10px;
     }
+}
+::v-deep .el-textarea__inner{
+    border: 0;
+    border-bottom: 1px solid rgb(220, 220, 220);
+    font-family: Microsoft YaHei;
+    // font-size: 15px;
+    // font-weight: 600;
+    color: black;
+    padding: 5px 0;
 }
 /*滚动条整体粗细样式*/
 ::-webkit-scrollbar {

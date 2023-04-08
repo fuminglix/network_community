@@ -3,7 +3,7 @@
         <el-aside width="200px">
             <el-menu router 
             :default-active="this.$router.path">
-                <el-menu-item index="/buildMain/publishContent">
+                <el-menu-item index="/buildMain/publishMenu/publishContent">
                     <el-button style="margin: 10px 0 10px 8px;width: 140px;height: 40px;" type="primary">发布</el-button>
                 </el-menu-item>
                 <el-submenu index="1">

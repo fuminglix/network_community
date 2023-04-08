@@ -3,15 +3,20 @@
         <div class="PostbarMain-left-around">
             <div class="PostbarMain-left">
                 <div class="PostbarMain-left-title">
-                    <el-avatar :size="48" :src="circleUrl"></el-avatar>
-                    <span class="PostbarMain-left-name">fumingli</span>
+                    <el-avatar :size="48" :src="userCommunityInfo.avatar"></el-avatar>
+                    <span class="PostbarMain-left-name">{{ userCommunityInfo.userName }}</span>
                 </div>
                 <div class="PostbarMain-left-collects-around">
-                    <span class="PostbarMain-left-collects-title">经常浏览</span>
+                    <span class="PostbarMain-left-collects-title">我加入的社区</span>
                     <div class="PostbarMain-left-collects">
-                        <div v-for="item in 6" class="PostbarMain-left-collects-bar">
-                            <el-avatar shape="square" :size="40" :src="squareUrl"></el-avatar>
-                            <span class="PostbarMain-left-collects-barName">二次元222222</span>
+                        <div v-for="item in myCommunityList" class="PostbarMain-left-collects-bar">
+                            <!-- <el-avatar shape="square" :size="40" :src="item.avatar"></el-avatar> -->
+                            <el-image 
+                            style="width: 40px; height: 40px;border-radius: 5px;"
+                            :src="item.avatar" 
+                            fit="cover">
+                            </el-image>
+                            <span class="PostbarMain-left-collects-barName">{{ item.communityName }}</span>
                         </div>
                     </div>
                 </div>
@@ -25,17 +30,28 @@
                             <span>热门社区</span>
                         </div>
                         <el-carousel :autoplay="false" height="190px" indicator-position="outside">
-                            <el-carousel-item v-for="item in 4" :key="item">
+                            <el-carousel-item v-for="item in 3" :key="item">
                                 <div class="PostbarMain-mid-carousel-around">
-                                    <div v-for="it in 9" class="PostbarMain-mid-carousel-item">
+                                    <div v-for="citem,index in cList(item)" :key="citem.id" class="PostbarMain-mid-carousel-item">
                                         <div class="PostbarMain-mid-carousel-img">
-                                            <el-avatar shape="square" :size="50" :src="squareUrl"></el-avatar>
+                                            <el-image 
+                                            style="width: 50px; height: 50px;border-radius: 5px;"
+                                            :src="citem.avatar" 
+                                            
+                                            fit="cover">
+                                            </el-image>
+                                            <!-- <el-avatar 
+                                            shape="square" 
+                                            style="width: 50px; height: 50px"
+                                            fit="cover" 
+                                            :size="50" 
+                                            :src="item.avatar"></el-avatar> -->
                                         </div>
                                         <div class="PostbarMain-mid-carousel-info">
-                                            <span class="PostbarMain-mid-carousel-info-barName">二次元社区</span>
+                                            <span class="PostbarMain-mid-carousel-info-barName">{{ citem.communityName }}</span>
                                             <div class="PostbarMain-mid-carousel-info-total">
-                                                <span>200w</span><br>
-                                                <span>3000w</span>
+                                                <span class="el-icon-user">{{ citem.userNumber }}</span><br>
+                                                <span class="el-icon-chat-line-square">{{ citem.contentNumber }}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -93,6 +109,7 @@
 </template>
 
 <script>
+import {hotCommunityList,myCommunityList} from '@/api/community'
 import QuoteItem from '@/components/main/QuoteItem.vue'
 export default {
     name:'PostbatMain',
@@ -103,8 +120,85 @@ export default {
         return{
             circleUrl:'',
             squareUrl:'',
-            src:''
+            src:'',
+            hotCommunityList:[],
+            myCommunityList:[],
+            userCommunityInfo:{
+                userName:'',
+                avatar:'',
+                userId:'',
+                communityList:[]
+            },
+            // 查询参数
+            queryParams: {
+                pageNum: 1,
+                pageSize: 36,
+            },
         }
+    },
+    methods:{
+        communityList(){ //获取社区信息
+            hotCommunityList(this.queryParams).then((response)=>{         
+                this.hotCommunityList = response
+                console.log("hotCommunityList:",this.hotCommunityList)
+            })
+        },
+        cList(index){ //处理社区信息
+            if(index == 1){
+                return this.hotCommunityList.filter((c,index)=>{
+                    return index < 9;
+                })
+            }
+            else if(index == 2){
+                return this.hotCommunityList.filter((c,index)=>{
+                    return index < 18 && index>8;
+                })
+            }
+            else{
+                return this.hotCommunityList.filter((c,index)=>{
+                    return index > 17;
+                }) 
+            }
+        },
+        getUserInfo(){
+            if(this.hasLogin && localStorage.getItem("userInfo") != null){
+                let userInfo = JSON.parse(localStorage.getItem('userInfo'))
+                this.userCommunityInfo.userName = userInfo.nickName
+                this.userCommunityInfo.avatar = userInfo.avatar
+                this.userCommunityInfo.userId = userInfo.id
+                console.log("userCommunityInfo",this.userCommunityInfo)
+            }
+        },
+        getMyCommunityList(userId){
+            console.log(userId)
+            myCommunityList(userId).then((response)=>{
+                console.log("myCommunityList",response)
+                this.myCommunityList = response
+            })
+        }
+        ,
+        routeChange(){
+            var that = this;
+            this.getUserInfo();
+            // this.queryParams.categoryId = (that.$route.query.classId==undefined?0:parseInt(that.$route.query.classId));//获取传参的classId
+            this.communityList();
+            this.getMyCommunityList(parseInt(this.userCommunityInfo.userId));
+        },
+    },
+    watch: {
+    // 如果路由有变化，会再次执行该方法
+    '$route':'routeChange',
+    '$store.state.keywords':'routeChange'
+    },
+    computed:{
+        hasLogin(){
+            return this.$store.state.main.isLogin;
+        }
+    },
+    created(){ //生命周期函数
+        // console.log(this.$route);
+        var that = this;
+        that.routeChange();
     }
 }
 </script>
@@ -181,13 +275,15 @@ export default {
 }
 .PostbarMain-mid-carousel-around{
     width: 80%;
-    margin: 10px auto;
+    margin: 10px 0 10px 100px;
 }
 .PostbarMain-mid-carousel-item{
     width: 150px;
     display: flex;
     float: left;
-    margin: 0 30px 8px 0;
+    margin: 0 15px 8px 15px;
+}
+.PostbarMain-mid-carousel-img{
 }
 .PostbarMain-mid-carousel-info{
     margin-left: 8px;
@@ -204,7 +300,7 @@ export default {
     -webkit-box-orient: vertical;
 }
 .PostbarMain-mid-carousel-info-total{
-    font-size: 10px;
+    font-size: 12px;
     color: gray;
 }
 .PostbarMain-mid-content{

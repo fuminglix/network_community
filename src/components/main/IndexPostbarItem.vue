@@ -1,11 +1,11 @@
 <template>
   <div class="postbar-container">
-    <div class="content">
-        <div class="content-title">
+    <div class="postbar_content">
+        <div class="postbar_content-title">
             <img src="@/assets/community_y.png" alt="">
             <span @click="toPostbarMain('PostbarMain')"></span> 推荐社区
         </div>
-        <div class="content-info">
+        <div class="postbar_content-info">
             <SideItem></SideItem>
         </div>
     </div>
@@ -39,13 +39,13 @@ export default {
     /* width: 100%; */
     // margin: 0 10px;
 }
-.content{
+.postbar_content{
     /* margin: 0 auto; */
     padding: 10px;
     border-radius: 5px;
     background-color: white;
 }
-.content-title{
+.postbar_content-title{
     display: flex;
     align-items: center;
     font-size: 15px;
@@ -58,7 +58,7 @@ export default {
         margin-right: 8px;
     }
 }
-.content-info{
+.postbar_content-info{
     margin-top: 20px;
 }
 </style>
