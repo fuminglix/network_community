@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div v-for="item in articleList" :key="item.id" class="content">
+        <div v-for="item in articleLists" :key="item.id" class="content">
             <div class="content-left">
                 <div class="title">
                     <span>
@@ -70,12 +70,13 @@
                 </div>
             </div>
         </div>
+        <el-empty v-if="articleLists.length == 0" :image-size="200"></el-empty>
     </div>
 </template>
 
 <script>
 export default {
-    name:'SingleContent',
+    name:'SearchArticle',
     data(){
         return{
             showArr:[],
@@ -104,11 +105,11 @@ export default {
         
     },
     computed:{
-      // articleLists(){
-      //   if(this.articleList != null) return this.articleList;
-      //   if(this.$route.query.articleList != null) return this.$route.query.articleList;
-      //   if(this.$route.params.articleList != null) return this.$route.params.articleList;
-      // }
+      articleLists(){
+        if(this.articleList != null) return this.articleList;
+        if(this.$route.query.articleList != null) return this.$route.query.articleList;
+        if(this.$route.params.articleList != null) return this.$route.params.articleList;
+      }
     },
     created() { //生命周期函数
       // if(this.$route.query.search != null){
@@ -117,6 +118,8 @@ export default {
         // if(this.$route.query.search != null){
         //   console.log(this.$route.query.search)
         // }
+
+
     },
     mounted(){
         

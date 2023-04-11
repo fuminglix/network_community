@@ -171,19 +171,23 @@ export default {
       },()=>{})
     },
     search(){
-      console.log("this.$route.name",this.$route)
+      // console.log("search1",this.$store.state.main.search)
       if(this.$route.path.indexOf('searchMain') == -1 && this.searchInput.trim() != ''){
         this.$store.commit('CHANGESEARCH',this.searchInput)
+        this.$store.commit('CHANGEISSEARCH',true)
         this.$router.push({
-          name:'searchMain'
+          name:'searchMain',
+          params:{
+            flag:true
+          }
         },()=>{})
-        console.log("1")
+        // console.log("1")
         return;
       }
       if(this.searchInput.trim() != ''){
         this.$store.commit('CHANGESEARCH',this.searchInput)
         this.$store.commit('CHANGEISSEARCH',true);
-        console.log("2",this.$store.state.main.search)
+        // console.log("2",this.$store.state.main.search)
       }
     }
    },

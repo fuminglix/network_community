@@ -53,6 +53,7 @@
 
 <script>
 import PostbarItem from '@/components/postbar/PostbarItem.vue';
+import {CommunityInfo} from '@/api/community'
 export default {
     name:'Postbar',
     components:{
@@ -61,10 +62,20 @@ export default {
     data(){
         return{
             circleUrl:'',
-            
+            queryParams:{
+                pageNum:1,
+                pageSize:10,
+                communityId:3,
+            }
         }
     },
     methods:{
+        getCommunityInfo(){
+            // this.queryParams.communityId = this.$route.query.communityId
+            CommunityInfo(this.queryParams).then((response)=>{
+                
+            })
+        }
     },
     computed:{
     }

@@ -1,6 +1,6 @@
 import request from '@/api/request'
 
-// 查询文章列表
+// 查询热门社区列表
 export function hotCommunityList(query) {
     return request({
         url: '/community/hotCommunityList',
@@ -12,18 +12,19 @@ export function hotCommunityList(query) {
     })
 }
 
-//查询最热文章
-export function hotArticleList() {
-    return request({
-        url: '/article/hotArticleList',
-        headers: {
-          isToken: false
-        },
-        method: 'get'
-    })
+//查询首页推荐社区列表信息
+export function recommendCommunity(query) {
+  return request({
+      url: '/community/recommendCommunity',
+      method: 'get',
+      headers: {
+        isToken: false
+      },
+      params: query
+  })
 }
 
-//获取文章详情
+//发布时获取我加入的社区列表详情
 export function myCommunityList(userId) {
     return request({
         url: '/community/myCommunityList/' + userId,
@@ -34,13 +35,24 @@ export function myCommunityList(userId) {
     })
 }
 
-export function updateViewCount(articleId) {
-    return request({
-        url: '/article/updateViewCount/' + articleId,
-        headers: {
-          isToken: false
-        },
-        method: 'put'
-    })
-    
+//查询当前社区信息
+export function CommunityInfo(query) {
+  return request({
+      url: '/community/CommunityInfo',
+      method: 'get',
+      headers: {
+        isToken: false
+      },
+      params: query
+  })
 }
+// export function updateViewCount(articleId) {
+//     return request({
+//         url: '/article/updateViewCount/' + articleId,
+//         headers: {
+//           isToken: false
+//         },
+//         method: 'put'
+//     })
+    
+// }

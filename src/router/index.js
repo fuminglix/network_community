@@ -171,9 +171,9 @@ export default new VueRouter({
                     components:{indexView:() => import('@/page/main/SearchMain.vue')},
                     children:[
                         {
-                            name:'singleContent',
-                            path:'singleContent',
-                            component:()=>import('@/components/main/SingleContent.vue')
+                            name:'searchArticle',
+                            path:'searchArticle',
+                            component:()=>import('@/page/search/SearchArticle.vue')
                         },
                         {
                             name:'searchUser',

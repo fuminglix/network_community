@@ -44,14 +44,17 @@
                 </div>
                 <div class="postbar-commentBar">
                     <div>
-                        <img style="width:18px;height:18px" src="@/assets/dispatch1.png" alt="">
-                        <span>1</span></div>
+                        <img style="width:18px;height:18px" src="@/assets/dispatch3.png" alt="">
+                        <span>1</span>
+                    </div>
                     <div @click="toInteraction(item)">
                         <img style="width:15px;height:15px;margin-left: 40px;" src="@/assets/comment1.png" alt="">
-                        <span>2</span></div>
+                        <span>2</span>
+                    </div>
                     <div>
                         <img style="width:17px;height:17px;margin-left: 40px;" src="@/assets/thumbs-up1.png" alt="">
-                        <span>3</span></div>
+                        <span>3</span>
+                    </div>
                 </div>
             </div>
             <!-- <router-view name="interaction"></router-view> -->

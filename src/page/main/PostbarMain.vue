@@ -37,7 +37,6 @@
                                             <el-image 
                                             style="width: 50px; height: 50px;border-radius: 5px;"
                                             :src="citem.avatar" 
-                                            
                                             fit="cover">
                                             </el-image>
                                             <!-- <el-avatar 
@@ -62,18 +61,23 @@
                 </div>
                 <div class="PostbarMain-mid-content-around">
                     <div class="PostbarMain-mid-content">
-                        <div v-for="i in 4" class="PostbarMain-mid-content-item">
+                        <div v-for="item in recommendCommunityList" class="PostbarMain-mid-content-item">
                             <div class="PostbarMain-mid-content-item-img">
-                                <el-avatar shape="square" :size="50" :src="squareUrl"></el-avatar>
+                                <!-- <el-avatar shape="square" :size="50" :src="squareUrl"></el-avatar> -->
+                                <el-image 
+                                style="width: 50px; height: 50px;border-radius: 5px;"
+                                :src="item.community.avatar" 
+                                fit="cover">
+                                </el-image>
                             </div>
-                            <div>
+                            <div class="PostbarMain-mid-content-item-title-around">
                                 <div class="PostbarMain-mid-content-item-title">
-                                    <span>二次元社区</span>
-                                    <p>
+                                    <span>{{ item.community.communityName }}</span>
+                                    <!-- <p>
                                         <span>time</span>
-                                    </p>
+                                    </p> -->
                                 </div>
-                                <QuoteItem></QuoteItem>
+                                <QuoteItem :articleObj="item"></QuoteItem>
                             </div>
                         </div>
                     </div>
@@ -109,7 +113,7 @@
 </template>
 
 <script>
-import {hotCommunityList,myCommunityList} from '@/api/community'
+import {hotCommunityList,myCommunityList,recommendCommunity} from '@/api/community'
 import QuoteItem from '@/components/main/QuoteItem.vue'
 export default {
     name:'PostbatMain',
@@ -123,6 +127,7 @@ export default {
             src:'',
             hotCommunityList:[],
             myCommunityList:[],
+            recommendCommunityList:[],
             userCommunityInfo:{
                 userName:'',
                 avatar:'',
@@ -132,12 +137,14 @@ export default {
             // 查询参数
             queryParams: {
                 pageNum: 1,
-                pageSize: 36,
+                pageSize: 0,
             },
         }
     },
     methods:{
         communityList(){ //获取社区信息
+            this.queryParams.pageNum = 1
+            this.queryParams.pageSize = 36
             hotCommunityList(this.queryParams).then((response)=>{         
                 this.hotCommunityList = response
                 console.log("hotCommunityList:",this.hotCommunityList)
@@ -175,6 +182,12 @@ export default {
                 console.log("myCommunityList",response)
                 this.myCommunityList = response
             })
+        },
+        getRecommendCommunity(){
+            this.queryParams.pageSize = 10
+            recommendCommunity(this.queryParams).then((response)=>{
+                this.recommendCommunityList = response.rows
+            })
         }
         ,
         routeChange(){
@@ -183,6 +196,7 @@ export default {
             // this.queryParams.categoryId = (that.$route.query.classId==undefined?0:parseInt(that.$route.query.classId));//获取传参的classId
             this.communityList();
             this.getMyCommunityList(parseInt(this.userCommunityInfo.userId));
+            this.getRecommendCommunity();
         },
     },
     watch: {
@@ -316,10 +330,14 @@ export default {
     background-color: white;
 }
 .PostbarMain-mid-content-item-img{
-    width: 30%;
+    width: 10%;
     margin-left: 10px;
 }
+.PostbarMain-mid-content-item-title-around{
+    width: 85%;
+}
 .PostbarMain-mid-content-item-title{
+    // width: 70%;
     height: 50px;
     padding-left: 10px;
     span{

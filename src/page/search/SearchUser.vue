@@ -16,6 +16,7 @@
                 <span v-else>取消关注</span>
             </div>
         </div>
+        <el-empty v-if="userList.length == 0" :image-size="200"></el-empty>
     </div>
 </template>
 

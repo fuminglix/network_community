@@ -98,7 +98,6 @@ export default {
         },
         getAuthorInfoById(){
             getAuthorInfo(parseInt(this.$route.query.authorId)).then((response)=>{
-                
                 this.authorInfo = response
             })
         }

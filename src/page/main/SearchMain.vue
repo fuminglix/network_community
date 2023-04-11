@@ -3,17 +3,17 @@
         <div class="search-header">
             <div class="search-nav">
                 <el-menu router 
-                default-active="/searchMain/singleContent" 
+                :default-active="activeIndex"
                 class="el-menu-demo" 
                 mode="horizontal" 
                 @select="handleSelect">
-                <el-menu-item index="/searchMain/singleContent">综合</el-menu-item>
+                <el-menu-item index="/searchMain/searchArticle">综合</el-menu-item>
                 <el-menu-item index="/searchMain/searchUser">用户</el-menu-item>
                 <el-menu-item index="#">社区</el-menu-item>
                 </el-menu>
             </div>
             <div class="search-orderBy">
-                
+                {{ searchInput }}
             </div>
         </div>
         <Common>
@@ -43,8 +43,7 @@ export default {
     name:'SearchMain',
     data(){
         return{
-            // activeIndex: '/searchMain/singleContent',
-            select:'/searchMain/singleContent',
+            activeIndex:'/searchMain/searchArticle',
             articleListTemp:[],
             userListTemp:[],
             queryParams:{
@@ -54,19 +53,20 @@ export default {
     },
     methods:{
         handleSelect(keyPath) {
-            this.select = keyPath
-            console.log("this.select",this.select);
-            if(keyPath.indexOf('singleContent') != -1){
+            this.activeIndex = keyPath
+            // console.log("this.select",this.select);
+            if(keyPath.indexOf('searchArticle') != -1){
                 // console.log("keyPath",keyPath)
                 this.$router.push({
-                    name:'singleContent',
+                    name:'searchArticle',
                     params:{
                         articleList: this.articleListTemp,
                     }
                 },()=>{})
+                // console.log("route",this.$route)
             }
             if(keyPath.indexOf('searchUser') != -1){
-                this.getUserList(this.queryParams)
+                // this.getUserList(this.queryParams)
                 this.$router.push({
                     name:'searchUser',
                     params:{
@@ -84,14 +84,15 @@ export default {
                     article.content = markdownIt.render(article.content)
                     return true;
                 })
-                console.log("res",response)
+                console.log("res",this.articleListTemp)
+                this.$store.commit('CHANGEISSEARCH',false);
+                this.$store.commit('CHANGESEARCH','')
                 this.$router.push({
-                    name:'singleContent',
-                    query:{
-                        articleList: this.articleListTemp
+                    name:'searchArticle',
+                    params:{
+                        articleList: this.articleListTemp,
                     }
                 },()=>{})
-                this.$store.commit('CHANGEISSEARCH',false);
             })
         },
         getUserList(params){
@@ -100,7 +101,14 @@ export default {
                 console.log("userListTemp",response)
             })
             this.$store.commit('CHANGEISSEARCH',false);
-        }
+            this.$store.commit('CHANGESEARCH','')
+            this.$router.push({
+                    name:'searchUser',
+                    params:{
+                        userList: this.userListTemp,
+                    }
+                },()=>{})
+        },
     },
     computed:{
         search(){
@@ -108,35 +116,34 @@ export default {
             return this.$store.state.main.isSearch;
         },
         searchInput(){
+            console.log('searchInput:',this.$store.state.main.search)
+            if(this.$store.state.main.search != ''){
+                this.queryParams.search = this.$store.state.main.search;
+                this.getArticleList(this.queryParams)
+                this.getUserList(this.queryParams)
+                console.log("articleListTemp=>",this.articleListTemp)
+                console.log("userListTemp=>",this.userListTemp)
+            }
             return this.$store.state.main.search;
         }
     },
     watch:{
         '$route':'routeChange',
         '$store.state.keywords':'routeChange',
-        searchInput(newValue,oldValue){
-                this.queryParams.search = newValue;
-                console.log("newValue",newValue)
-                if(this.select.indexOf('singleContent') != -1){
-                this.getArticleList(this.queryParams);
-                }
-                if(this.select.indexOf('searchUser') != -1){
-                this.getUserList(this.queryParams);
-                }
+        articleListTemp(newValue,oldValue){
+            console.log("newValue",newValue)
         },
-        search(newValue,oldValue){
-            if(newValue && this.select.indexOf('singleContent') != -1){
-                this.getArticleList(this.queryParams);
-            }
-            if(newValue && this.select.indexOf('searchUser') != -1){
-                this.getUserList(this.queryParams);
-            }
+        userListTemp(newValue,oldValue){
         }
     },
     created(){ //生命周期函数
-        this.queryParams.search = this.$store.state.main.search
-        this.getArticleList(this.queryParams);
-        console.log("route",this.$route)
+        // this.getArticleList(this.queryParams)
+        // this.$router.push({
+        //     name:'searchArticle',
+        //     params:{
+        //         articleList: this.articleListTemp,
+        //     }
+        // },()=>{})
     },
 }
 </script>
