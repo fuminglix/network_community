@@ -335,7 +335,7 @@ export default {
         routeChange(){//重新加载
             var that = this;
             this.queryParams.pageNum = 1
-            this.showCommentList(true);
+            
         },
         sendSuccess(){ //评论发送成功提示
             this.$message.success('发送成功！');
@@ -394,9 +394,9 @@ export default {
     created() { //生命周期函数
         // console.log(this.$route);
         var that = this;
-        that.sendCommentObj.articleId = parseInt(that.articleId)
-        that.respondCommentObj.articleId = parseInt(that.articleId)
-        console.log("articleId",that.articleId)
+        // that.sendCommentObj.articleId = parseInt(that.articleId)
+        // that.respondCommentObj.articleId = parseInt(that.articleId)
+        // console.log("articleId",that.articleId)
         that.routeChange();
     },
     mounted(){//页面加载完成后
@@ -406,6 +406,22 @@ export default {
             deep:true,
             handler(){
                 // console.log("commentList改变了！")
+            }
+        },
+        articleId:{
+            deep:true,
+            handler(newValue,oldValue){
+                if(newValue != null){
+                    this.sendCommentObj.articleId = parseInt(newValue)
+                    this.respondCommentObj.articleId = parseInt(newValue)
+                    this.showCommentList(true);
+                    console.log("newValue",newValue)
+                    return;
+                }
+                this.sendCommentObj.articleId = parseInt(oldValue)
+                this.respondCommentObj.articleId = parseInt(oldValue)
+                this.showCommentList(true);
+                console.log("oldValue",oldValue)
             }
         }
     },

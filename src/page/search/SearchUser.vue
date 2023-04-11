@@ -1,16 +1,16 @@
 <template>
     <div>
-        <div v-for="item in 2" class="regardItem-content">
-            <div class="regardItem-avatar">
-                <el-avatar :size="55" :src="circleUrl"></el-avatar>
+        <div v-for="item in userList" :key="item.id" class="searchUser-content">
+            <div class="searchUser-avatar">
+                <el-avatar :size="55" :src="item.avatar"></el-avatar>
             </div>
-            <div class="regardItem-info">
-                <span>fumingli</span>
-                <div class="regardItem-name">
-                    <span>简介</span>
+            <div class="searchUser-info">
+                <span>{{ item.userName }}</span>
+                <div class="searchUser-name">
+                    <span>{{ item.profile }}</span>
                 </div>
             </div>
-            <div @mouseover="isRegard(item)" @mouseout="isRegard(item)" @click="removeRegard(item)" class="regardItem-btn">
+            <div @mouseover="isRegard(item)" @mouseout="isRegard(item)" @click="removeRegard(item)" class="searchUser-btn">
                 <!-- <el-button @mouseover="isRegard(item)" @mouseleave="isRegard(item)" @click="removeRegard(item)" type="info"> -->
                 <span v-if="!flagArr[item]">已关注</span>
                 <span v-else>取消关注</span>
@@ -21,7 +21,7 @@
 
 <script>
 export default {
-    name:'RegardItem',
+    name:'SearchUser',
     data(){
         return{
             circleUrl:'',
@@ -41,33 +41,36 @@ export default {
         }
     },
     computed:{
-        
+        userList(){
+            console.log("userList",this.$route.query.userList)
+            if(this.$route.params.userList != null) return this.$route.params.userList;
+        }
     }
 }
 </script>
 
 <style scoped lang="less">
-.regardItem-content{
+.searchUser-content{
     margin-top: 20px;
     display: flex;
     align-items: center;
     position: relative;
 }
-.regardItem-info{
+.searchUser-info{
     margin-left: 20px;
     span {
         font-size: 16px;
         font-weight: 600;
     }
 }
-.regardItem-name{
+.searchUser-name{
     span{
         font-size: 13px;
         font-weight: 500;
         color: gray;
     }
 }
-.regardItem-btn{
+.searchUser-btn{
     width: 96px;
     height: 33px;
     right: 10px;

@@ -78,7 +78,13 @@ export default {
         return{
             textarea1:'',
             articleObj:{},
-            authorInfo:{}
+            authorInfo:{
+                userTotal:{
+                    regardCount:0,
+                    fansCount:0,
+                    articleCount:0,
+                }
+            }
         }
     },
     methods:{
@@ -92,6 +98,7 @@ export default {
         },
         getAuthorInfoById(){
             getAuthorInfo(parseInt(this.$route.query.authorId)).then((response)=>{
+                
                 this.authorInfo = response
             })
         }

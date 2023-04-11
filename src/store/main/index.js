@@ -8,8 +8,12 @@ const state = {
     // baseURL:'http://localhost:8917/api'
     defaultAvatar:'http://rs6c4ew2k.hn-bkt.clouddn.com/86-9.jpg?e=1680247714&token=Au1Tszq7zBY0rfxaKBKCXebdYDSSznay0zPsZjl9:BPP7zAx93Aj0sB0LQPf_RThH0NU=',
     // isLogin:localStorage.getItem('userInfo') == null ? false : true
+    // http://rs6c4ew2k.hn-bkt.clouddn.com/logo.png
+    defaultImg:'http://rs6c4ew2k.hn-bkt.clouddn.com/logo.png',
     isLogin:false,
-    userInfo:{}
+    userInfo:{},
+    search:'',
+    isSearch:false,
 }
 const action = {
     changeIsLogin(context,value){
@@ -26,6 +30,12 @@ const mutations = {
     },
     REMOVEUSERINFO(state){
         state.userInfo = null;
+    },
+    CHANGESEARCH(state,value){
+        state.search = value;
+    },
+    CHANGEISSEARCH(state,value){
+        state.isSearch = value;
     }
 }
 const getters = {}

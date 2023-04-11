@@ -164,6 +164,23 @@ export default new VueRouter({
                             component:()=>import('@/page/main/manage/Article.vue')
                         }
                     ]
+                },
+                {
+                    name:'searchMain',
+                    path:'searchMain',
+                    components:{indexView:() => import('@/page/main/SearchMain.vue')},
+                    children:[
+                        {
+                            name:'singleContent',
+                            path:'singleContent',
+                            component:()=>import('@/components/main/SingleContent.vue')
+                        },
+                        {
+                            name:'searchUser',
+                            path:'searchUser',
+                            component:()=>import('@/page/search/SearchUser.vue')
+                        },
+                    ]
                 }
             ]
         },

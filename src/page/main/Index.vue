@@ -152,7 +152,7 @@ export default {
 
 
 .hot{
-    margin: 0 10px;
+    margin: 0 0 0 10px;
     border-radius: 5px;
     padding: 10px;
     background-color: white;
@@ -173,9 +173,9 @@ export default {
     margin-top: 20px;
 }
 .category-container{
-    padding: 10px;
+    padding: 10px 0 10px 10px;
 }
 .indexPostbarItem-container{
-    padding: 0 10px 10px 10px;
+    padding: 0 0 10px 10px;
 }
 </style>

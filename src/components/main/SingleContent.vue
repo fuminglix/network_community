@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div v-for="item in articleList" :key="item.id" class="content">
+        <div v-for="item in articleLists" :key="item.id" class="content">
             <div class="content-left">
                 <div class="title">
                     <span>
@@ -79,7 +79,7 @@ export default {
     data(){
         return{
             showArr:[],
-   
+            // articleLists:[]
         }
     },
     props:{
@@ -104,10 +104,19 @@ export default {
         
     },
     computed:{
+      articleLists(){
+        if(this.articleList != null) return this.articleList;
+        if(this.$route.query.articleList != null) return this.$route.query.articleList;
+        if(this.$route.params.articleList != null) return this.$route.params.articleList;
+      }
     },
     created() { //生命周期函数
-        var that = this;
-        
+      // if(this.$route.query.search != null){
+          // console.log(this.$route)
+        // }
+        // if(this.$route.query.search != null){
+        //   console.log(this.$route.query.search)
+        // }
     },
     mounted(){
         

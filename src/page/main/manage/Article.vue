@@ -7,8 +7,7 @@
             :default-active="activeIndex"
             class="el-menu-demo"
             mode="horizontal"
-            @select="handleSelect"
-          >
+            @select="handleSelect">
             <el-menu-item index="1">文章管理</el-menu-item>
             <!-- <el-menu-item index="3">消息中心</el-menu-item> -->
           </el-menu>
@@ -17,8 +16,8 @@
           <el-input
             placeholder="搜索文章"
             suffix-icon="el-icon-search"
-            v-model="input1"
-          >
+            v-model="searchInput"
+            @change="searchMyArticle(searchInput)">
           </el-input>
         </el-col>
       </el-row>
@@ -27,31 +26,29 @@
       <el-row :gutter="20">
         <el-col style="font-size: 14px" :span="17" :offset="0">
           <el-col :span="4" :offset="0">
-            <span>全部文章</span>
+            <span class="clickSpan" @click="showArticle(-1)">全部文章</span>
           </el-col>
           <el-col :span="4" :offset="0">
-            <span>草稿</span>
+            <span class="clickSpan" @click="showArticle(1)">草稿</span>
           </el-col>
         </el-col>
         <el-col :span="3" :offset="0">
-          <el-select v-model="progressOptionsValue" placeholder="请选择">
+          <el-select v-model="queryParams.status" placeholder="请选择">
             <el-option
               v-for="item in progressOptions"
               :key="item.value"
               :label="item.label"
-              :value="item.value"
-            >
+              :value="item.value">
             </el-option>
           </el-select>
         </el-col>
         <el-col :span="4" :offset="0">
-          <el-select v-model="sortOptionsValue" placeholder="请选择">
+          <el-select v-model="queryParams.orderBy" placeholder="请选择">
             <el-option
               v-for="item in sortOptions"
               :key="item.value"
               :label="item.label"
-              :value="item.value"
-            >
+              :value="item.value">
             </el-option>
           </el-select>
         </el-col>
@@ -65,51 +62,54 @@
         <el-col :span="6" :offset="0"> </el-col>
       </el-row>
       <div class="CommentManage-content-footer">
-        <div class="CommentManage-content-msg-around">
-          <div v-for="item in 1" class="reply-content-item">
-            <!-- <div class="comment-checkbox">
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </div> -->
-            <div class="reply-content-img">
-              <!-- <el-avatar :size="50" :src="circleUrl"></el-avatar> -->
-              <el-image
-                style="width: 100px; height: 100px"
-                :src="url"
-                fit="fill"
-              ></el-image>
-            </div>
-            <div class="reply-content-userInfo">
-              <div class="reply-content-userInfo-title">
-                <span>title</span>
+          <el-main class="CommentManage-content-msg-around">
+            <div v-for="item in articleList" class="reply-content-item">
+              <!-- <div class="comment-checkbox">
+                          <el-checkbox v-model="checked"></el-checkbox>
+                      </div> -->
+              <div class="reply-content-img">
+                <!-- <el-avatar :size="50" :src="circleUrl"></el-avatar> -->
+                <el-image
+                  style="width: 100px; height: 100px"
+                  :src="item.thumbnail == null ? defaultImg : item.thumbnail"
+                  fit="fill"
+                ></el-image>
               </div>
-              <!-- <div class="reply-content-userInfo-info">
-                            <span>22222222
-                            </span>
-                        </div> -->
-              <div class="reply-content-userInfo-time">
-                <p>
-                  <span>2022年5月13日 12:08</span>
-                </p>
-                <span class="el-icon-chat-dot-round" style="font-size: 13px">
-                  回复</span
-                >
+              <div class="reply-content-userInfo">
+                <div class="reply-content-userInfo-title">
+                  <span>{{ item.title }}</span>
+                </div>
+                <!-- <div class="reply-content-userInfo-info">
+                              <span>22222222
+                              </span>
+                          </div> -->
+                <div class="reply-content-userInfo-time">
+                  <p>
+                    <span>{{ item.createTime }}</span>
+                  </p>
+                  <el-tag 
+                  class="checkTag"
+                  :type="typeList[parseInt(item.status)]"
+                  effect="dark">{{ articleStatus(parseInt(item.status)) }}</el-tag>
+                  <!-- <span class="el-icon-chat-dot-round" style="font-size: 13px">回复</span> -->
+                </div>
+              </div>
+              <div class="reply-content-msg">
+                <el-button @click="editArticle(item.id)">编辑</el-button>
+                <el-popover placement="left" width="200" trigger="hover">
+                  <el-button>默认按钮</el-button>
+                  <span slot="reference" class="el-icon-s-operation"></span>
+                </el-popover>
               </div>
             </div>
-            <div class="reply-content-msg">
-              <el-button>编辑</el-button>
-              <el-popover placement="left" width="200" trigger="hover">
-                <el-button>默认按钮</el-button>
-                <span slot="reference" class="el-icon-s-operation"></span>
-              </el-popover>
-            </div>
-          </div>
-        </div>
+          </el-main>
       </div>
     </el-main>
   </div>
 </template>
   
-  <script>
+<script>
+import {myArticleList} from '@/api/manage/article'
 export default {
   name: "Article",
   data() {
@@ -118,51 +118,126 @@ export default {
       activeIndex2: "1",
       option: "全部文章",
       value: "",
-      input1: "",
+      searchInput:"",
       checked: true,
       circleUrl: "",
       url: "",
       sortOptions: [
         {
-          value: "选项1",
+          value: 1,
           label: "发布时间排序",
         },
         {
-          value: "选项2",
+          value: 2,
           label: "浏览量排序",
         },
         {
-          value: "选项3",
+          value: 3,
           label: "评论数排序",
         },
         {
-          value: "选项4",
+          value: 4,
           label: "收藏数排序",
         },
       ],
       progressOptions: [
         {
-          value: "选项1",
+          value: -1,
+          label: "全部文章",
+        },
+        {
+          value: 0,
           label: "已通过",
         },
         {
-          value: "选项2",
+          value: 1,
+          label: "草稿",
+        },
+        {
+          value: 2,
           label: "审核中",
         },
         {
-          value: "选项3",
+          value: 3,
           label: "未通过",
         },
       ],
-      progressOptionsValue: "",
-      sortOptionsValue:''
+      progressOptionsValue: -1,
+      sortOptionsValue:'',
+      articleList:[],
+      typeList:[
+        'success',
+        'warning',
+        'danger'
+      ],
+      // 查询参数
+      queryParams: {
+          pageNum: 1,
+          pageSize: 10,
+          userId: 0,
+          status:-1,
+          orderBy:1,
+          search:''
+      }
     };
   },
   methods: {
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
     },
+    getAllArticle(){
+      this.queryParams.userId = this.userId
+      myArticleList(this.queryParams).then((response)=>{
+        this.articleList = response.rows
+        // console.log(response)
+      })
+    },
+    articleStatus(status){
+      if(!status){
+        return '审核通过'
+      }else if(status == 1){
+        return '草稿'
+      }else if(status == 2){
+        return '审核中'
+      }else{
+        return '未通过'
+      }
+    },
+    editArticle(articleId){
+      this.$router.push({
+        name:'publishContent',
+        query:{
+          articleId
+        }
+      })
+    },
+    showArticle(status){
+      this.queryParams.status = status;
+      this.getAllArticle();
+    },
+    searchMyArticle(search){
+      this.queryParams.search = search
+    }
   },
+  created(){
+    this.getAllArticle()
+  },
+  computed:{
+    userId(){
+      return this.$store.state.main.userInfo.id;
+    },
+    defaultImg(){
+      return this.$store.state.main.defaultImg;
+    }
+  },
+  watch:{
+    queryParams:{
+      deep:true,
+      handler(newValue,oldValue){
+        this.getAllArticle()
+      }
+    },
+  }
 };
 </script>
 
@@ -193,30 +268,11 @@ export default {
     margin-left: 20px;
   }
 }
-//   .selectSort{
-//       display: flex;
-//       li{
-//           // margin-right: 20px;
-//           cursor: pointer;
-//           margin: 0 10px;
-//           font-size: 14px;
-//           text-align: center;
-//           height: 50px;
-//           line-height: 50px;
-//       }
-//       i{
-//           height: 12px;
-//           margin-top: 20px;
-//           border: 1px solid rgb(203, 203, 203);
-//       }
-//       li:hover{
-//           font-weight: 600;
-//           color: rgb(8, 151, 198);
-//       }
-//   }
 .CommentManage-content-footer {
+  
 }
 .CommentManage-content-msg-around {
+  height: 72vh;
 }
 .reply-content-item {
   padding-top: 20px;
@@ -258,12 +314,15 @@ export default {
   display: flex;
   margin-top: 10px;
   align-items: center;
-  p {
-  }
-  span {
+  p span {
     margin-right: 12px;
     font-size: 12px;
     color: gray;
+  }
+}
+.checkTag{
+  span{
+    color: white;
   }
 }
 .reply-content-msg {
@@ -289,5 +348,11 @@ export default {
   //       -webkit-line-clamp: 3;
   //       -webkit-box-orient: vertical;
   //   }
+}
+.clickSpan{
+  cursor: pointer;
+}
+::v-deep .CommentManage-content-footer .el-main{
+  padding: 0;
 }
 </style>

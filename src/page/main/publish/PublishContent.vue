@@ -75,14 +75,14 @@
                 <div class="buildMain-content-footer-type-around">
                     <div class="buildMain-content-footer-type">
                         <span>文章类型</span>
-                        <el-radio v-model="articleObj.articleType" label="1">原创</el-radio>
-                        <el-radio v-model="articleObj.articleType" label="2">转载</el-radio>
+                        <el-radio v-model="articleObj.articleType" label="0">原创</el-radio>
+                        <el-radio v-model="articleObj.articleType" label="1">转载</el-radio>
                     </div>
                     <div class="buildMain-content-footer-style">
                         <span>发布形式</span>
-                        <el-radio v-model="articleObj.releaseForm" label="1">全部可见</el-radio>
-                        <el-radio v-model="articleObj.releaseForm" label="2">仅我可见</el-radio>
-                        <el-radio v-model="articleObj.releaseForm" label="3">粉丝可见</el-radio>
+                        <el-radio v-model="articleObj.releaseForm" label="0">全部可见</el-radio>
+                        <el-radio v-model="articleObj.releaseForm" label="1">仅我可见</el-radio>
+                        <el-radio v-model="articleObj.releaseForm" label="2">粉丝可见</el-radio>
                     </div>
                     <div class="buildMain-content-footer-comment">
                         <span>是否允许评论</span>
@@ -141,7 +141,7 @@
                     </div>
                     <div class="buildMain-content-footer-publishStyle">
                         <el-button type="primary" @click="handleSubmit(true)" round>发布</el-button>
-                        <el-button type="info" @click="handleSubmit(false)" round>草稿箱</el-button>
+                        <el-button v-if="isEdit" type="info" @click="handleSubmit(false)" round>草稿箱</el-button>
                     </div>
                 </div>
                 <div class="buildMain-content-footer-img">
@@ -196,6 +196,7 @@
 </template>
 <script>
 import {addArticle,category} from '@/api/article'
+import { getArticle,updateArticle } from '@/api/manage/article'
 import {myCommunityList} from '@/api/community'
 import {uploadImg} from '@/api/upload'
 export default {
@@ -204,6 +205,8 @@ export default {
         return{
             isScheduled:false,
             isDispatch:false,
+            isEdit:true,
+            updateArticleId:0,
             inputTag:'',
             tagsList:[],
             dialogImageUrl:'',
@@ -248,9 +251,18 @@ export default {
                 this.articleObj.status = '1'
             }
             this.articleObj.tags = this.tagsList;
-            addArticle(this.articleObj).then((response)=>{
-                this.articleObj.status === '1' ? this.$modal.msgSuccess('已保存到草稿箱中！') : this.$modal.msgSuccess('文章发布成功！');
-                window.location.reload();
+            if(this.isEdit){ 
+                addArticle(this.articleObj).then((response)=>{
+                    this.articleObj.status === '1' ? this.$message.success('已保存到草稿箱中！') : this.$message.success('文章发布成功！');
+                    window.location.reload();
+                })
+                return;
+            }
+            updateArticle(this.articleObj).then((response)=>{
+                this.$message.success('修改成功！')
+                this.$router.push({
+                    name:'articleManage'
+                })
             })
         },
         addTag(msg){ //添加标签
@@ -326,6 +338,8 @@ export default {
         },
         routeChange(){
             this.getCategory()
+            this.updateArticleId = this.$route.query.articleId
+            console.log("=>",this.$router)
         },
     },
     computed:{
@@ -346,6 +360,24 @@ export default {
                 })
             }
         },
+        updateArticleId(newValue,oldValue){
+            if(newValue){
+                this.isEdit = false
+                getArticle(newValue).then((response)=>{
+                    console.log("response",response)
+                    
+                    for(let i in response)for(let k in this.articleObj)if(i==k)this.articleObj[i]=response[k]
+                    this.articleObj.isComment = parseInt(response.isComment)
+                    this.fileList.push({ name: '', url: response.thumbnail })
+                    this.tagsList = response.tags == null ? this.tagsList : response.tags;
+                    this.$set(this.articleObj,'id',response.id)
+                    if(response.communityId != '0'){
+                        this.isDispatch = true
+                    }
+                    console.log("this.articleObj",this.articleObj)
+                })
+            }
+        }
     },
     created(){ //生命周期函数
         // console.log(this.$route);

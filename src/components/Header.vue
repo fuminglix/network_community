@@ -13,8 +13,8 @@
           </div>
         </el-col>
         <el-col :span="12" :offset="1">
-          <el-input placeholder="请输入内容" v-model="msg" class="input-with-select">
-            <el-button type="primary" native-type="submit" slot="append" icon="el-icon-search"></el-button>
+          <el-input placeholder="请输入内容" v-model="searchInput" class="input-with-select">
+            <el-button type="primary" @click="search" native-type="submit" slot="append" icon="el-icon-search"></el-button>
           </el-input>
         </el-col>
       </el-col>
@@ -106,9 +106,9 @@
         </el-col>
       </el-col>
     </el-row>
-    <div class="fixed">
+    <!-- <div class="fixed">
       123
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -119,7 +119,7 @@ export default {
   name:'Header',
   data(){
     return{
-      msg:'',
+      searchInput:'',
       flag:false,
       squareUrl:'',
       userInfo:{}
@@ -169,6 +169,22 @@ export default {
       this.$router.push({
         name:page
       },()=>{})
+    },
+    search(){
+      console.log("this.$route.name",this.$route)
+      if(this.$route.path.indexOf('searchMain') == -1 && this.searchInput.trim() != ''){
+        this.$store.commit('CHANGESEARCH',this.searchInput)
+        this.$router.push({
+          name:'searchMain'
+        },()=>{})
+        console.log("1")
+        return;
+      }
+      if(this.searchInput.trim() != ''){
+        this.$store.commit('CHANGESEARCH',this.searchInput)
+        this.$store.commit('CHANGEISSEARCH',true);
+        console.log("2",this.$store.state.main.search)
+      }
     }
    },
    watch: {
