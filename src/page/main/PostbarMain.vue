@@ -9,7 +9,7 @@
                 <div class="PostbarMain-left-collects-around">
                     <span class="PostbarMain-left-collects-title">我加入的社区</span>
                     <div class="PostbarMain-left-collects">
-                        <div v-for="item in myCommunityList" class="PostbarMain-left-collects-bar">
+                        <div v-for="item in myCommunityList" :key="item.id" class="PostbarMain-left-collects-bar">
                             <!-- <el-avatar shape="square" :size="40" :src="item.avatar"></el-avatar> -->
                             <el-image 
                             style="width: 40px; height: 40px;border-radius: 5px;"
@@ -47,7 +47,7 @@
                                             :src="item.avatar"></el-avatar> -->
                                         </div>
                                         <div class="PostbarMain-mid-carousel-info">
-                                            <span class="PostbarMain-mid-carousel-info-barName">{{ citem.communityName }}</span>
+                                            <span class="PostbarMain-mid-carousel-info-barName">{{ citem.communityName }}社区</span>
                                             <div class="PostbarMain-mid-carousel-info-total">
                                                 <span class="el-icon-user">{{ citem.userNumber }}</span><br>
                                                 <span class="el-icon-chat-line-square">{{ citem.contentNumber }}</span>
@@ -61,7 +61,7 @@
                 </div>
                 <div class="PostbarMain-mid-content-around">
                     <div class="PostbarMain-mid-content">
-                        <div v-for="item in recommendCommunityList" class="PostbarMain-mid-content-item">
+                        <div v-for="item in recommendCommunityList" :key="item.community.id" class="PostbarMain-mid-content-item">
                             <div class="PostbarMain-mid-content-item-img">
                                 <!-- <el-avatar shape="square" :size="50" :src="squareUrl"></el-avatar> -->
                                 <el-image 
@@ -72,12 +72,12 @@
                             </div>
                             <div class="PostbarMain-mid-content-item-title-around">
                                 <div class="PostbarMain-mid-content-item-title">
-                                    <span>{{ item.community.communityName }}</span>
+                                    <span>{{ item.community.communityName }}社区</span>
                                     <!-- <p>
                                         <span>time</span>
                                     </p> -->
                                 </div>
-                                <QuoteItem :articleObj="item"></QuoteItem>
+                                <QuoteItem :articleObj="item.article"></QuoteItem>
                             </div>
                         </div>
                     </div>

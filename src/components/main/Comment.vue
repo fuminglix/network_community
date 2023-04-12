@@ -146,11 +146,14 @@ export default {
             queryParams: {
                 pageNum: 1,
                 pageSize: 10,
-                articleId: 0
+                articleId: 0,
+                type:0,
+                // activityId: 0,
             },
             sendCommentObj:{
                 type:0,//回复评论的当前的commentId
                 articleId:0,//文章id
+                // activityId: 0,//动态id
                 rootId:-1,//根评论id，如果是针对文字评论直接用-1表示
                 toCommentId:-1,//所回复评论的id
                 toCommentUserId:-1,//所评论的用户id
@@ -158,11 +161,13 @@ export default {
             respondCommentObj:{
                 type:0,//回复评论的当前的commentId
                 articleId:0,//文章id
+                // activityId: 0,//动态id
             }
         }
     },
     props:{
-        articleId:String
+        articleId:String,
+        // activityId:String,
     },
     methods:{
         //事件处理器
@@ -211,6 +216,7 @@ export default {
             if(that.textarea.trim != ''){
                 // that.sendTip = '咻~~';
                 console.log("sendCommentObj",this.sendCommentObj)
+                // let {type,articleId,activityId,rootId,toCommentId,toCommentUserId} = that.sendCommentObj
                 let {type,articleId,rootId,toCommentId,toCommentUserId} = that.sendCommentObj
                 sendComment(type,articleId,rootId,toCommentId,toCommentUserId,this.textarea).then((response)=>{
                     that.textarea = '';
@@ -303,7 +309,9 @@ export default {
         showCommentList(initData){//评论列表
             var that = this;
             // that.aid = that.$route.query.aid==undefined ? 1 : parseInt(that.$route.query.aid);//获取传参的aid
-            that.queryParams.articleId = parseInt(that.articleId)
+            if(that.articleId != null){
+                that.queryParams.articleId = parseInt(that.articleId)
+            }
             //判断当前用户是否登录
             // var token = getToken();
             // if(token){
@@ -315,14 +323,18 @@ export default {
             //公用设置数据方法
             if(that.$route.name=='ArticleMain'){//文章列表的评论
                 that.sendCommentObj.type = 0;
+                that.queryParams.type = 0;
+                that.respondCommentObj.type = 0;
                 getArticleComment(that.queryParams).then((response)=>{
                     console.log("response",response)
                     that.setData(initData,response);
                 })
             }else{//其他评论
-                if(that.$route.name == 'FriendsLink'){
-                    that.sendCommentObj.type = 1
-                    getLinkComment(that.queryParams).then((response)=>{
+                if(that.$route.name == 'Postbar'){
+                    that.sendCommentObj.type = 1;
+                    that.queryParams.type = 1;
+                    that.respondCommentObj.type = 1;
+                    getArticleComment(that.queryParams).then((response)=>{
                         that.setData(initData,response);
                     })
                 }
@@ -335,7 +347,7 @@ export default {
         routeChange(){//重新加载
             var that = this;
             this.queryParams.pageNum = 1
-            
+            this.showCommentList(true);
         },
         sendSuccess(){ //评论发送成功提示
             this.$message.success('发送成功！');
@@ -394,9 +406,9 @@ export default {
     created() { //生命周期函数
         // console.log(this.$route);
         var that = this;
-        // that.sendCommentObj.articleId = parseInt(that.articleId)
-        // that.respondCommentObj.articleId = parseInt(that.articleId)
-        // console.log("articleId",that.articleId)
+        that.sendCommentObj.articleId = parseInt(that.articleId)
+        that.respondCommentObj.articleId = parseInt(that.articleId)
+        console.log("articleId",that.articleId)
         that.routeChange();
     },
     mounted(){//页面加载完成后
@@ -414,6 +426,7 @@ export default {
                 if(newValue != null){
                     this.sendCommentObj.articleId = parseInt(newValue)
                     this.respondCommentObj.articleId = parseInt(newValue)
+                    this.queryParams.articleId = parseInt(newValue)
                     this.showCommentList(true);
                     console.log("newValue",newValue)
                     return;

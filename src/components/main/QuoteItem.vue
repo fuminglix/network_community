@@ -9,7 +9,7 @@
                     <span>{{ articleObj.user.nickName }}</span>
                 </div>
                 <div class="Quote-item-info-time">
-                    <span>{{ articleObj.article.createTime }}</span>
+                    <span>{{ articleObj.createTime }}</span>
                     <!-- <span>1小时前 · 发表</span> -->
                 </div>
             </div>
@@ -34,18 +34,18 @@
                         :to="{
                           path:'/ArticleMain',
                           query:{
-                            articleId:articleObj.article.id,
+                            articleId:articleObj.id,
                             authorId:articleObj.user.id
                           }
                         }"
-                        >{{ articleObj.article.title }}</router-link>
+                        >{{ articleObj.title }}</router-link>
                             <!-- <el-link :underline="false" href="http://localhost:8080/#/ArticleMain" target="_blank">{{ articleObj.article.title }}</el-link> -->
                         </span>
                     </div>
                     <div class="summary">
                         <span>
                             <p class="summary-text">
-                            {{ articleObj.article.summary }}
+                            {{ articleObj.summary }}
                             </p>
                         </span>
                     </div>
@@ -54,11 +54,11 @@
             </div>
         </div>
         <!-- <div v-if="srcList.length > 0" class="Quote-item-info-content-img"> -->
-        <div v-if="articleObj.article.thumbnail != null" class="Quote-item-info-content-img">
+        <div v-if="articleObj.thumbnail != null" class="Quote-item-info-content-img">
             <span>
                 <el-image 
                 style="width: 180px; height: 180px"
-                :src="articleObj.article.thumbnail" 
+                :src="articleObj.thumbnail" 
                 fit="cover">
                 </el-image>
             </span>

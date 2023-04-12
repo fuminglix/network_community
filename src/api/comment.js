@@ -25,9 +25,9 @@ export function getArticleComment(query) {
 }
 
 
-export function getLinkComment(query) {
+export function getActivityComment(query) {
     return request({
-        url: '/article/comment/linkCommentList',
+        url: '/article/comment/activityComment',
         method: 'get',
         params: query
     })

@@ -1,53 +1,50 @@
 <template>
     <div>
-        <div v-for="item in 4" class="postbar-left-container">
+        <div v-for="item in activityList" :key="item.id" class="postbar-left-container">
             <div class="postbar-left-title">
                 <div class="postbar-avatar">
-                    <el-avatar :size="48" :src="circleUrl"></el-avatar>
+                    <el-avatar :size="48" :src="item.user.avatar"></el-avatar>
                 </div>
                 <div class="postbar-author">
                     <div class="postbar-author-name">
-                        <span>浮名里</span>
+                        <span>{{ item.user.nickName }}</span>
                     </div>
                     <div class="postbar-content-time">
-                        <span>1小时前 · 发表</span>
+                        <span>{{ item.createTime }} · 发表</span>
                     </div>
                 </div>
             </div>
             <div class="postbar-left-content">
                 <div class="postbar-dispatch-text">
-                    <span>
-                        dispatch-text
+                    <span v-if="item.dispatchContent != null">
+                        {{ item.dispatchContent }}
                     </span>
                 </div>
                 <div class="postbar-report-content">
-                    <div v-if="1">
-                        <p :class="retract(item) > 0 ? content : null" class="postbar-report-content-hidden">222222222222222222222222222222222222
-                            2222222222222222222222222222222222222222
-                            222222222222222222222222222222222222
-                            2222222222222222222222222222222222222222222222222222222222222222222222222222
-                            2222222222222222222222222222222222222222
+                    <div v-if="item.isRef === '0'">
+                        <p :class="retract(item.id) > 0 ? content : null" class="postbar-report-content-hidden" v-html="item.content">
+                            <!-- {{ item.content }} -->
                         </p>
-                        <span style="cursor: pointer;color:#00AEEC" @click="isShow(item)">{{ retract(item) > 0 ? '收起' : '展开' }}</span>
-                        <div v-if="srcList.length > 0" class="Quote-item-info-content-img">
-                            <span v-for="url in srcList">
+                        <span style="cursor: pointer;color:#00AEEC" @click="isShow(item.id)">{{ retract(item.id) > 0 ? '收起' : '展开' }}</span>
+                        <div v-if="item.contentImg != null" class="Quote-item-info-content-img">
+                            <span v-for="url,index in item.contentImg" :key="index">
                                 <el-image 
                                 style="width: 180px; height: 180px"
                                 :src="url" 
-                                :preview-src-list="srcList"
+                                :preview-src-list="item.contentImg"
                                 fit="cover">
                                 </el-image>
                             </span>
                         </div>
                     </div>
-                    <QuoteItem v-else></QuoteItem>
+                    <QuoteItem v-else :articleObj="item.articleVo"></QuoteItem>
                 </div>
                 <div class="postbar-commentBar">
                     <div>
                         <img style="width:18px;height:18px" src="@/assets/dispatch3.png" alt="">
                         <span>1</span>
                     </div>
-                    <div @click="toInteraction(item)">
+                    <div @click="toInteraction(item.id)">
                         <img style="width:15px;height:15px;margin-left: 40px;" src="@/assets/comment1.png" alt="">
                         <span>2</span>
                     </div>
@@ -58,7 +55,7 @@
                 </div>
             </div>
             <!-- <router-view name="interaction"></router-view> -->
-            <Comment :class="isShowComment(item) >0 ? 'ShowComment' : 'hiddenComment' "></Comment>
+            <Comment v-if="isShowComment(item.id)" :articleId="item.id"></Comment>
         </div>
     </div>
 </template>
@@ -72,6 +69,9 @@ export default {
         Comment,
         QuoteItem
     },
+    props:{
+        activityContents:Array
+    },
     data(){
         return{
             circleUrl:'',
@@ -81,19 +81,20 @@ export default {
             buttonArr:['展开','收起'],
             button:'展开',
             flag:false,
+            activityList:[],
             showObj:{
                 showContentArr:[],
                 showCommentArr:[]
             },
-            url: '',
-            srcList: [
-            'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg',
-            'https://fuss10.elemecdn.com/1/8e/aeffeb4de74e2fde4bd74fc7b4486jpeg.jpeg',
-            'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg',
-            'https://fuss10.elemecdn.com/1/8e/aeffeb4de74e2fde4bd74fc7b4486jpeg.jpeg',
-            'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg',
-            'https://fuss10.elemecdn.com/1/8e/aeffeb4de74e2fde4bd74fc7b4486jpeg.jpeg'
-            ]
+            // url: '',
+            // srcList: [
+            // 'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg',
+            // 'https://fuss10.elemecdn.com/1/8e/aeffeb4de74e2fde4bd74fc7b4486jpeg.jpeg',
+            // 'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg',
+            // 'https://fuss10.elemecdn.com/1/8e/aeffeb4de74e2fde4bd74fc7b4486jpeg.jpeg',
+            // 'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg',
+            // 'https://fuss10.elemecdn.com/1/8e/aeffeb4de74e2fde4bd74fc7b4486jpeg.jpeg'
+            // ]
         }
     }
     ,
@@ -132,6 +133,11 @@ export default {
             })
             if(temp.length) return temp.pop(0);
             return 0;
+        }
+    },
+    created(){
+        if(this.activityContents != null){
+            this.activityList = this.activityContents
         }
     }
 }

@@ -1,39 +1,44 @@
 <template>
     <Common>
         <template slot="content-left">
-            <PostbarItem></PostbarItem>
+            <PostbarItem :activityContents="communityInfoObj.activityContents"></PostbarItem>
         </template>
         <template slot="content-right">
             <div class="content-right-around">
                 <div class="postbar-info">
                     <div class="postbar-basic-info">
                         <div class="postbar-avatar">
-                            <el-avatar shape="square" :size="48" :src="circleUrl"></el-avatar>
+                            <!-- <el-avatar shape="square" :size="48" :src="circleUrl"></el-avatar> -->
+                            <el-image 
+                            style="width: 48px; height: 48px;border-radius: 5px;"
+                            :src="communityInfoObj.community.avatar" 
+                            fit="cover">
+                            </el-image>
                         </div>
                         <div class="postbar-introduce">
                             <div class="postbar-name">
-                                <span>二次元社区</span>
+                                <span>{{ communityInfoObj.community.communityName }}</span>
                             </div>
-                            <span class="postbar-introduce-text">介绍</span>
+                            <span class="postbar-introduce-text">{{ communityInfoObj.community.description }}</span>
                         </div>
                     </div>
                     <div class="postbar-other-info">
                         <div>
                             <div>
                                 <span>人数</span><br>
-                                <a href="">100</a>
+                                <a href="">{{ communityInfoObj.community.userNumber }}</a>
                             </div>
                         </div>
                         <div>
                             <div>
                                 <span>帖子</span><br>
-                                <a href="">1000</a>
+                                <a href="">{{ communityInfoObj.community.contentNumber }}</a>
                             </div>
                         </div>
                         <div>
                             <div>
                                 <span>活跃度</span><br>
-                                <a href="">80</a>
+                                <a href="">{{ communityInfoObj.community.activity }}</a>
                             </div>
                         </div>
                     </div>
@@ -62,6 +67,7 @@ export default {
     data(){
         return{
             circleUrl:'',
+            communityInfoObj:{},
             queryParams:{
                 pageNum:1,
                 pageSize:10,
@@ -73,11 +79,14 @@ export default {
         getCommunityInfo(){
             // this.queryParams.communityId = this.$route.query.communityId
             CommunityInfo(this.queryParams).then((response)=>{
-                
+                this.communityInfoObj = response
             })
         }
     },
     computed:{
+    },
+    created(){
+        this.getCommunityInfo()
     }
 }
 </script>
