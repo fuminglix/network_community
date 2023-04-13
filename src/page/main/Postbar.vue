@@ -77,7 +77,7 @@ export default {
     },
     methods:{
         getCommunityInfo(){
-            // this.queryParams.communityId = this.$route.query.communityId
+            this.queryParams.communityId = this.$route.query.communityId
             CommunityInfo(this.queryParams).then((response)=>{
                 this.communityInfoObj = response
             })

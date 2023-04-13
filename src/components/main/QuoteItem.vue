@@ -19,26 +19,19 @@
                 <p class="Quote-item-info-report-content-describe">
                     <!-- <span>1121</span> -->
                 </p>
-                <p v-if="0" class="Quote-item-info-report-content-text">222222222222222222222222222222222222
-                    2222222222222222222222222222222222222222
-                    222222222222222222222222222222222222
-                    2222222222222222222222222222222222222222222222222222222222222222222222222222
-                    2222222222222222222222222222222222222222
-                    22222222222222222222222222222222222222222
-                </p>
-                <div v-else>
+                <div v-if="articleObj.activityContentVo == null">
                     <div class="title">
                         <span>
                             <router-link
-                        target="_blank"
-                        :to="{
-                          path:'/ArticleMain',
-                          query:{
-                            articleId:articleObj.id,
-                            authorId:articleObj.user.id
-                          }
-                        }"
-                        >{{ articleObj.title }}</router-link>
+                            target="_blank"
+                            :to="{
+                            path:'/ArticleMain',
+                            query:{
+                                articleId:articleObj.id,
+                                authorId:articleObj.user.id
+                            },
+                            }"
+                            >{{ articleObj.title }}</router-link>
                             <!-- <el-link :underline="false" href="http://localhost:8080/#/ArticleMain" target="_blank">{{ articleObj.article.title }}</el-link> -->
                         </span>
                     </div>
@@ -50,26 +43,30 @@
                         </span>
                     </div>
                 </div>
-                <span style="cursor: pointer;color:#00AEEC"></span>
+                <p v-else >
+                    <span :class="retract(articleObj.activityContentVo.id) > 0 ? 'Quote-item-info-report-content-text-show' : null" class="Quote-item-info-report-content-text">{{ articleObj.activityContentVo.content }}</span>
+                    <span style="cursor: pointer;color:#00AEEC" @click="isShow(articleObj.activityContentVo.id)">{{ retract(articleObj.activityContentVo.id) > 0 ? '收起' : '展开' }}</span>
+                </p>
+                
+                <!-- <span style="cursor: pointer;color:#00AEEC"></span> -->
             </div>
         </div>
-        <!-- <div v-if="srcList.length > 0" class="Quote-item-info-content-img"> -->
-        <div v-if="articleObj.thumbnail != null" class="Quote-item-info-content-img">
-            <span>
+        <div v-if="articleObj.thumbnail != null || articleObj.activityContentVo.contentImg != null" class="Quote-item-info-content-img">
+            <span v-if="articleObj.thumbnail != null">
                 <el-image 
                 style="width: 180px; height: 180px"
                 :src="articleObj.thumbnail" 
                 fit="cover">
                 </el-image>
             </span>
-            <!-- <span v-for="url in srcList">
+            <span v-else v-for="url in articleObj.activityContentVo.contentImg">
                 <el-image 
                 style="width: 180px; height: 180px"
                 :src="url" 
-                :preview-src-list="srcList"
+                :preview-src-list="articleObj.activityContentVo.contentImg"
                 fit="cover">
                 </el-image>
-            </span> -->
+            </span>
         </div>
     </div>
 </template>
@@ -80,6 +77,10 @@ export default {
         return{
             circleUrl:'',
             url: '',
+            showObj:{
+                showContentArr:[],
+                showCommentArr:[]
+            },
             srcList: [
             'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg',
             'https://fuss10.elemecdn.com/1/8e/aeffeb4de74e2fde4bd74fc7b4486jpeg.jpeg',
@@ -93,6 +94,25 @@ export default {
     ,props:{
         articleObj:Object,
     },
+    methods:{
+        isShow(id){
+            const temp = this.showObj.showContentArr.filter((n)=>{return n==id})
+            if( temp.length){
+                this.showObj.showContentArr = this.showObj.showContentArr.filter((n)=>{
+                    return n != id;
+                })
+                return;
+            }
+            this.showObj.showContentArr.push(id)
+        },
+        retract(id){
+            const temp = this.showObj.showContentArr.filter((n)=>{
+                return n==id;
+            })
+            if(temp.length) return temp.pop(0);
+            return 0;
+        }
+    },
     created(){
         // console.log("articleObj",articleObj)
     }
@@ -102,7 +122,7 @@ export default {
 <style scoped lang="less">
 .Quote-item-info{
     /* margin-left: 60px; */
-    width: 100%;
+    width: 95%;
     padding: 5px;
     border-radius: 5px;
     background-color: rgb(235, 235, 235);
@@ -180,5 +200,7 @@ export default {
         height: 200px;
     }
 }
-
+.Quote-item-info-report-content-text-show{
+    display: block;
+}
 </style>

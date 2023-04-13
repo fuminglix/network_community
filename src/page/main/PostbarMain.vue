@@ -32,7 +32,7 @@
                         <el-carousel :autoplay="false" height="190px" indicator-position="outside">
                             <el-carousel-item v-for="item in 3" :key="item">
                                 <div class="PostbarMain-mid-carousel-around">
-                                    <div v-for="citem,index in cList(item)" :key="citem.id" class="PostbarMain-mid-carousel-item">
+                                    <div v-for="citem,index in cList(item)" :key="citem.id" @click="toPostbar(citem.id)" class="PostbarMain-mid-carousel-item">
                                         <div class="PostbarMain-mid-carousel-img">
                                             <el-image 
                                             style="width: 50px; height: 50px;border-radius: 5px;"
@@ -198,6 +198,14 @@ export default {
             this.getMyCommunityList(parseInt(this.userCommunityInfo.userId));
             this.getRecommendCommunity();
         },
+        toPostbar(id){
+            this.$router.push({
+                name:'Postbar',
+                query:{
+                    communityId:parseInt(id)
+                }
+            })
+        }
     },
     watch: {
     // 如果路由有变化，会再次执行该方法
@@ -296,6 +304,7 @@ export default {
     display: flex;
     float: left;
     margin: 0 15px 8px 15px;
+    cursor: pointer;
 }
 .PostbarMain-mid-carousel-img{
 }

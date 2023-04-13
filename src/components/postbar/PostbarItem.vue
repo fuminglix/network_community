@@ -133,11 +133,26 @@ export default {
             })
             if(temp.length) return temp.pop(0);
             return 0;
-        }
+        },
+        routeChange(){
+            if(this.activityContents.length > 0){
+                this.activityList = this.activityContents
+            }
+        },
     },
     created(){
-        if(this.activityContents != null){
-            this.activityList = this.activityContents
+        this.routeChange()
+        // console.log("activityContents",this.activityContents)
+    },
+    watch: {
+        // 如果路由有变化，会再次执行该方法
+        '$route':'routeChange',
+        '$store.state.keywords':'routeChange',
+        activityContents:{
+            deep:true,
+            handler(newValue,oldValue){
+                this.activityList = newValue
+            }
         }
     }
 }

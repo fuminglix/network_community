@@ -3,32 +3,37 @@
         <div class="activityMain-left-around">
             <div class="activityMain-left">
                 <div class="author-info">
-                    <el-avatar :size="70" :src="circleUrl"></el-avatar>
+                    <!-- <el-avatar :size="70" :src="circleUrl"></el-avatar> -->
+                    <el-image 
+                    style="width: 70px; height: 70px;border-radius: 35px;"
+                    :src="userInfoObj.authorInfoVo.avatar" 
+                    fit="cover">
+                    </el-image>
                     <div class="author-introduce">
                         <div>
                             <el-link 
                             type="default" 
                             :underline="false" 
                             href="http://localhost:8080/#/ArticleMain" 
-                            target="_blank">浮名里</el-link>
+                            target="_blank">{{ userInfoObj.authorInfoVo.nickName }}</el-link>
                         </div>
                     </div>
                 </div>
                 <div class="author-regard-around">
                     <div class="author-regard">
-                        <span>99</span>
+                        <span>{{ userInfoObj.authorInfoVo.userTotal.regardCount }}</span>
                         <div>
                             <span>关注</span>
                         </div>
                     </div>
                     <div class="author-fans">
-                        <span>5</span>
+                        <span>{{ userInfoObj.authorInfoVo.userTotal.fansCount }}</span>
                         <div>
                             <span>粉丝</span>
                         </div>
                     </div>
                     <div class="author-Articles">
-                        <span>58</span>
+                        <span>{{ userInfoObj.authorInfoVo.userTotal.articleCount }}</span>
                         <div>
                             <span>动态</span>
                         </div>
@@ -45,23 +50,19 @@
                         :rows="2"
                         placeholder="和大家分享一些内容？"
                         :autosize="{ minRows: 2, maxRows: 7}"
-                        v-model="textarea"
+                        v-model="activityObj.content"
                         resize="none">
                         </el-input>
-                        <!-- <textarea 
-                        name="" 
-                        id="" 
-                        cols="90" 
-                        rows="7"
-                        placeholder="和大家分享一些内容？">
-
-                        </textarea> -->
                     </div>
                     <div v-show="isShow" class="activityMain-mid-edit-img">
                         <el-upload
-                        action="#"
-                        list-type="picture-card"
-                        :auto-upload="false">
+                        action="upload"
+                        :file-list="fileList"
+                        :http-request="handleUpload"
+                        :on-remove="fileRemove"
+                        :on-exceed="overflow"
+                        :limit=6
+                        list-type="picture-card">
                             <i slot="default" class="el-icon-plus"></i>
                             <div slot="file" slot-scope="{file}">
                             <img
@@ -107,7 +108,7 @@
                                 </el-col>
                             </el-col>
                             <el-col :span="3" :offset="0">
-                                <el-button type="primary">发布</el-button>
+                                <el-button @click="add()" type="primary">发布</el-button>
                             </el-col>
                         </el-row>
                     </div>
@@ -124,12 +125,17 @@
                             <el-carousel-item v-for="item in 4" :key="item">
                                 <div class="activityMain-mid-userlist-around">
                                     <div class="activityMain-mid-userlist">
-                                        <div v-for="item in 8" class="activityMain-mid-userlist-item">
+                                        <div v-for="citem,index in userList(item)" :key="citem.id" @click="showActivity(parseInt(citem.id))" class="activityMain-mid-userlist-item">
                                             <div class="activityMain-mid-userlist-img">
-                                                <el-avatar :size="40" :src="circleUrl"></el-avatar>
+                                                <!-- <el-avatar :size="40" :src="circleUrl"></el-avatar> -->
+                                                <el-image 
+                                                style="width: 50px; height: 50px;border-radius: 25px;"
+                                                :src="citem.avatar" 
+                                                fit="cover">
+                                                </el-image>
                                             </div>
                                             <div class="activityMain-mid-userlist-name">
-                                                <span>fumingli2222222222222222222222222</span>
+                                                <span>{{ citem.nickName }}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -140,7 +146,7 @@
                 </div>
                 <div class="activityMain-mid-article-content-around">
                     <div class="activityMain-mid-article-content">
-                        <div v-for="i in 4" class="activityMain-mid-content-item">
+                        <!-- <div v-for="i in 4" class="activityMain-mid-content-item">
                             <div class="activityMain-mid-content-item-img">
                                 <el-avatar :size="50" :src="squareUrl"></el-avatar>
                             </div>
@@ -156,9 +162,10 @@
                                         222222222222222222222
                                     </span>
                                 </div>
-                                <QuoteItem v-if="1"></QuoteItem>
+                                <QuoteItem v-if="0"></QuoteItem>
                             </div>
-                        </div>
+                        </div> -->
+                        <PostbarItem :activityContents="activityInfoList"></PostbarItem>
                     </div>
                 </div>
             </div>
@@ -190,11 +197,13 @@
 </template>
 
 <script>
-import QuoteItem from '@/components/main/QuoteItem.vue';
+import PostbarItem from '@/components/postbar/PostbarItem.vue';
+import {activityUserInfo,activityInfo,addActivityContent} from '@/api/activity/activity'
+import {uploadImg} from '@/api/upload'
 export default {
     name:'activityMain',
     components:{
-        QuoteItem
+        PostbarItem
     },
     data(){
         return{
@@ -205,10 +214,74 @@ export default {
             dialogImageUrl: '',
             dialogVisible: false,
             disabled: false,
-            isShow: false
+            isShow: false,
+            userInfoObj:{},
+            activityInfoList:[],
+            fileList:[],
+            activityObj:{
+                content:'',
+                imgList:[]
+            },
+            queryParam:{
+                pageNum: 1,
+                pageSize: 10,
+                userId:-1,
+            },
+            userId:0,
+            // regardUserId:-1,
         }
     },
     methods:{
+        add(){
+            console.log("activityObj",this.activityObj)
+            addActivityContent(this.activityObj).then((respose)=>{
+                this.$message.success("上传成功");
+                this.activityObj.content = ''
+                this.activityObj.imgList = []
+                this.fileList = []
+            })
+        },  
+        userList(index){ //处理关注用户信息
+            if(index == 1){
+                return this.userInfoObj.pageVo.rows.filter((c,index)=>{
+                    return index < 9;
+                })
+            }
+            else if(index == 2){
+                return this.userInfoObj.pageVo.rows.filter((c,index)=>{
+                    return index < 18 && index>8;
+                })
+            }
+            else{
+                return this.userInfoObj.pageVo.rows.filter((c,index)=>{
+                    return index > 17;
+                }) 
+            }
+        },
+        showActivity(id){
+            if(id != null) this.queryParam.userId = id;
+            activityInfo(this.queryParam).then((response)=>{
+                this.activityInfoList = response.rows
+                // console.log("activityInfoList",this.activityInfoList)
+            })
+        },
+        handleUpload(img) { //上传图片
+            uploadImg(img.file).then(response => {
+                this.activityObj.imgList.push({url:response});
+                this.fileList.push({ name: img.file.name, url: response })
+                console.log("img",this.articleObj.img)
+            })
+        },
+        fileRemove(){ //删除缩略图
+            this.fileList.pop()
+        },
+        overflow(){
+            const h = this.$createElement;
+            this.$notify.error({
+                title: '错误',
+                message: '只能上传六张缩略图!'
+            });
+        },
         handleRemove(file) {
             console.log(file);
         },
@@ -221,7 +294,29 @@ export default {
         },
         showImg(){
             this.isShow = !this.isShow
+        },
+        getActivityUserInfo(){
+            activityUserInfo(this.userId).then((response)=>{
+                this.userInfoObj = response
+                console.log("userInfoObj",this.userInfoObj)
+            })
+        },
+        routeChange(){
+            this.getActivityUserInfo();
+            this.showActivity();
+        },
+    },
+    watch: {
+    // 如果路由有变化，会再次执行该方法
+    '$route':'routeChange',
+    '$store.state.keywords':'routeChange'
+    },
+    created(){
+        if(this.$store.state.main.isLogin){
+            this.userId = this.$store.state.main.userInfo.id
+            console.log("this.userId",this.userId)
         }
+        this.routeChange();
     }
 }
 </script>
@@ -313,22 +408,26 @@ export default {
 .activityMain-mid-userlist-around{
     background-color: white;
     width: 80%;
-    height: 80%;
-    margin: 10px auto;
+    // height: 100%;
+    margin: 0 auto;
 }
 .activityMain-mid-userlist{
     display: flex;
-    justify-content: space-around;
-    margin-top: 10px;
+    // align-items: center;
+    padding-top: 15px;
+    height: 100%;
+    // justify-content: space-around;
+    // margin-top: 10px;
 }
 .activityMain-mid-userlist-item{
+    cursor: pointer;
     text-align: center;
     width: 12%;
 }
 .activityMain-mid-userlist-name{
     width: 90%;
     margin: 0 auto;
-    font-size: 12px;
+    font-size: 13px;
     word-break: break-all;
     word-wrap: break-word;
     overflow: hidden;
