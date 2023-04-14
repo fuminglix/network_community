@@ -25,13 +25,14 @@ export function recommendCommunity(query) {
 }
 
 //发布时获取我加入的社区列表详情
-export function myCommunityList(userId) {
+export function myCommunityList(query) {
     return request({
-        url: '/community/myCommunityList/' + userId,
+        url: '/community/myCommunityList',
         headers: {
           isToken: true
         },
-        method: 'get'
+        method: 'get',
+        params:query
     })
 }
 

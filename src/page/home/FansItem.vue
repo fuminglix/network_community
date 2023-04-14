@@ -1,37 +1,39 @@
 <template>
-  <div>
-        <div v-for="item in communityObj.rows" :key="item.id" class="regardCommunityItem-content">
-            <div class="regardCommunityItem-avatar">
-                <!-- <el-avatar :size="55" shape="square" :src="circleUrl"></el-avatar> -->
+    <div>
+        <div v-for="item in fansList" :key="item.id" class="regardItem-content">
+            <div class="regardItem-avatar">
+                <!-- <el-avatar :size="55" :src="circleUrl"></el-avatar> -->
                 <el-image
-                style="width: 55px; height: 55px;border-radius: 5px;"
+                style="width: 54px; height: 54px;border-radius: 27px;"
                 :src="item.avatar"
                 fit="cover"></el-image>
             </div>
-            <div class="regardCommunityItem-info">
-                <span>{{ item.communityName }}</span>
-                <div class="regardCommunityItem-name">
-                    <span>{{ item.description }}</span>
+            <div class="regardItem-info">
+                <span>{{ item.nickName }}</span>
+                <div class="regardItem-name">
+                    <span>{{ item.profile }}</span>
                 </div>
             </div>
-            <div @mouseover="isRegard(item)" @mouseout="isRegard(item)" @click="removeRegard(item)" class="regardCommunityItem-btn">
+            <div @mouseover="isRegard(item)" @mouseout="isRegard(item)" @click="removeRegard(item)" class="regardItem-btn">
                 <!-- <el-button @mouseover="isRegard(item)" @mouseleave="isRegard(item)" @click="removeRegard(item)" type="info"> -->
                 <span v-if="!flagArr[item]">已关注</span>
                 <span v-else>取消关注</span>
             </div>
         </div>
+        <el-empty v-if="fansList.length < 1" :image-size="200"></el-empty>
     </div>
 </template>
 
 <script>
 export default {
-    name:'RegardCommunityItem',
+    name:'FansItem',
     data(){
         return{
             circleUrl:'',
             flag:true,
             flagArr:[],
-            communityObj:{}
+            regardList:[],
+            fansList:[],
         }
     },
     methods:{
@@ -45,38 +47,42 @@ export default {
             console.log(id)
         }
     },
+    computed:{
+    },
+    watch:{
+    },
     created(){
-        console.log("query",this.$route.query)
-        console.log("infoObj",JSON.parse(this.$route.query.infoObj))
-        if(this.$route.query.infoObj != null){
-            this.communityObj = JSON.parse(this.$route.query.infoObj)
-        }
+            if(this.$route.query.infoObj != null && this.$route.query.infoObj.length > 0){
+                this.fansList = JSON.parse(this.$route.query.infoObj)
+            }
+            console.log("length",this.fansList.length)
+        // }
     }
 }
 </script>
 
 <style scoped lang="less">
-.regardCommunityItem-content{
+.regardItem-content{
     margin-top: 20px;
     display: flex;
     align-items: center;
     position: relative;
 }
-.regardCommunityItem-info{
+.regardItem-info{
     margin-left: 20px;
     span {
         font-size: 16px;
         font-weight: 600;
     }
 }
-.regardCommunityItem-name{
+.regardItem-name{
     span{
         font-size: 13px;
         font-weight: 500;
         color: gray;
     }
 }
-.regardCommunityItem-btn{
+.regardItem-btn{
     width: 96px;
     height: 33px;
     right: 10px;

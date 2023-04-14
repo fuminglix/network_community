@@ -176,11 +176,12 @@ export default {
                 console.log("userCommunityInfo",this.userCommunityInfo)
             }
         },
-        getMyCommunityList(userId){
-            console.log(userId)
-            myCommunityList(userId).then((response)=>{
+        getMyCommunityList(){
+            // console.log(userId)
+            // let temp = {userId:userId}
+            myCommunityList().then((response)=>{
                 console.log("myCommunityList",response)
-                this.myCommunityList = response
+                this.myCommunityList = response.rows
             })
         },
         getRecommendCommunity(){
@@ -195,7 +196,7 @@ export default {
             this.getUserInfo();
             // this.queryParams.categoryId = (that.$route.query.classId==undefined?0:parseInt(that.$route.query.classId));//获取传参的classId
             this.communityList();
-            this.getMyCommunityList(parseInt(this.userCommunityInfo.userId));
+            this.getMyCommunityList();
             this.getRecommendCommunity();
         },
         toPostbar(id){

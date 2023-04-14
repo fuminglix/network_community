@@ -6,7 +6,7 @@
                     <span>我的社区</span>
                 </div>
                 <div class="community-content">
-                    <PostbarItemVue></PostbarItemVue>
+                    <PostbarItemVue :activityContents="activityContents"></PostbarItemVue>
                 </div>
             </div>
         </template>
@@ -17,15 +17,20 @@
                         <span>经常浏览</span>
                     </div>
                     <div class="postbar-footsteps-content-around">
-                        <div v-for="item in 4" class="postbar-footsteps-content">
+                        <div v-for="item in myCommunityList" :key="item.id" class="postbar-footsteps-content">
                             <div class="postbar-footsteps-img">
-                                <el-avatar shape="square" :size="40" :src="squareUrl"></el-avatar>
+                                <!-- <el-avatar shape="square" :size="40" :src="squareUrl"></el-avatar> -->
+                                <el-image 
+                                style="width: 40px; height: 40px;border-radius: 5px;"
+                                :src="item.avatar" 
+                                fit="cover">
+                                </el-image>
                             </div>
                             <div class="postbar-footsteps-info">
-                                <span class="postbar-footsteps-info-barName">二次元社区</span>
+                                <span class="postbar-footsteps-info-barName">{{ item.communityName }}社区</span>
                                 <div class="postbar-footsteps-info-total">
-                                    <span>200w</span><br>
-                                    <span>3000w</span>
+                                    <span>{{ item.userNumber }}</span><br>
+                                    <span>{{ item.contentNumber }}</span>
                                 </div>
                             </div>
                         </div>
@@ -42,6 +47,8 @@
 <script>
 import PostbarItemVue from '@/components/postbar/PostbarItem.vue';
 import PersonalData from '@/components/home/PersonalData.vue';
+import {regardCommunity} from '@/api/home/home'
+import {myCommunityList} from '@/api/community'
 export default {
     name:'Community',
     components:{
@@ -50,8 +57,30 @@ export default {
     },
     data(){
         return{
-            squareUrl:''
+            squareUrl:'',
+            activityContents:[],
+            myCommunityList:[],
+            queryParams:{
+                pageNum:1,
+                pageSize:10,
+            }
         }
+    },
+    methods:{
+        getRegardCommunityInfo(){
+            regardCommunity(this.queryParams).then((response)=>{
+                this.activityContents = response.rows
+            })
+        },
+        getMyCommunityList(){
+            myCommunityList().then((response)=>{
+                this.myCommunityList = response.rows
+            })
+        }
+    },
+    created(){
+        this.getRegardCommunityInfo();
+        this.getMyCommunityList();
     }
 }
 </script>

@@ -3,7 +3,7 @@
         <Common>
             <template slot="content-left">
                 <!-- <SingleContent></SingleContent> -->
-                <SingleContent></SingleContent>
+                <SingleContent :articleList="articleList"></SingleContent>
             </template>
             <template slot="content-right">
                 <div class="content-around">
@@ -26,10 +26,32 @@
 
 <script>
 import PersonalData from '@/components/home/PersonalData.vue';
+import {articleList} from '@/api/home/home'
+import { mavonEditor } from 'mavon-editor'
 export default {
     name:'Article',
     components:{
         PersonalData
+    },
+    data(){
+        return{
+            articleList:[],
+        }
+    },
+    methods:{
+        getArticleList(){
+            articleList().then((response)=>{
+                this.articleList = response.rows
+                const markdownIt = mavonEditor.getMarkdownIt()
+                this.articleList = this.articleList.filter((article)=>{
+                    article.content = markdownIt.render(article.content)
+                    return true;
+                })
+            })
+        }
+    },
+    created(){
+        this.getArticleList()
     }
 
 }

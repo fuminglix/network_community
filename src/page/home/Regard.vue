@@ -9,7 +9,7 @@
                                 <span>我的关注</span>
                             </div>
                         </li>
-                        <li @click="toRegardPage('regardItem')">
+                        <li @click="toRegardPage('fansItem')">
                             <div>
                                 <span>我的粉丝</span>
                             </div>
@@ -36,6 +36,8 @@
 
 <script>
 import PersonalData from '@/components/home/PersonalData.vue'
+import {regardUserInfo} from '@/api/home/home'
+import {myCommunityList} from '@/api/community'
 export default {
     name:'Regard',
     components:{
@@ -43,15 +45,76 @@ export default {
     },
     data(){
         return{
-
+            regardObj:{},
+            regardCommunity:{},
+            queryParam:{
+                pageNum: 1,
+                pageSize: 20,
+            },
+            communityQueryParam:{
+                pageNum: 1,
+                pageSize: 20,
+                userId: -1,
+            },
         }
     },
     methods:{
         toRegardPage(page){
-            this.$router.push({
-                name:page
-            },()=>{})
+            if(page == 'regardItem'){
+                // infoObj = this.regardObj
+                this.$router.push({
+                    name:page,
+                    query:{
+                        'infoObj': JSON.stringify(this.regardObj.regardList)
+                    }
+                },()=>{})
+            }
+            if(page == 'fansItem'){
+                // infoObj = this.regardObj
+                this.$router.push({
+                    name:page,
+                    query:{
+                        'infoObj': JSON.stringify(this.regardObj.fansList)
+                    }
+                },()=>{})
+            }
+            if(page == 'regardCommunityItem'){
+                // infoObj = this.regardCommunity
+                this.$router.push({
+                    name:page,
+                    query:{
+                        'infoObj': JSON.stringify(this.regardCommunity)
+                    }
+                },()=>{})
+            }
+            // this.$router.push({
+            //         name:page,
+            //         query:infoObj
+            //     },()=>{})
+            // console.log("==>",infoObj)
+        },
+        getRegardUserInfo(){
+            regardUserInfo(this.queryParam).then((response)=>{
+                this.regardObj = response
+                console.log("regardObj",this.regardObj)
+                this.$router.push({
+                    name:'regardItem',
+                    query:{
+                        'infoObj': JSON.stringify(response.regardList)
+                    }
+                },()=>{})
+            })
+        },
+        getRegardCommunityList(){
+            this.communityQueryParam.userId = this.$store.state.main.userInfo.id
+            myCommunityList(this.communityQueryParam).then((response)=>{
+                this.regardCommunity = response
+            })
         }
+    },
+    created(){
+        this.getRegardUserInfo();
+        this.getRegardCommunityList();
     }
 }
 </script>

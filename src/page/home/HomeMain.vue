@@ -3,18 +3,25 @@
         <div class="homemain-content">
             <div class="homemain-header">
                 <div class="header-bck">
-
+                    <el-image
+                        style="width: 100%; height: 150px;"
+                        :src="userObj.backgroundImg"
+                        fit="cover"></el-image>
                 </div>
                 <div class="user-info-content">
                     <div class="user-avatar">
-                        <el-avatar :size="60" :src="circleUrl"></el-avatar>
+                        <!-- <el-avatar :size="60" :src="circleUrl"></el-avatar> -->
+                        <el-image
+                        style="width: 60px; height: 60px;border-radius: 30px;"
+                        :src="userObj.avatar"
+                        fit="scale-down"></el-image>
                     </div>
                     <div class="user-info">
                         <div class="user-name">
-                            <span>fumingli</span>
+                            <span>{{ userObj.nickName }}</span>
                         </div>
                         <div class="user-introduce">
-                            <span>简介</span>
+                            <span>{{ userObj.profile }}</span>
                         </div>
                     </div>
                 </div>
@@ -36,7 +43,7 @@
                                     <span>收藏</span>
                                 </div>
                             </li>
-                            <li @click="toHomeView('regardItem')">
+                            <li @click="toHomeView('regard')">
                                 <div>
                                     <span>关注</span>
                                 </div>
@@ -63,25 +70,25 @@
                             <li>
                                 <span>关注数</span>
                                 <div>
-                                    <span>100</span>
+                                    <span>{{ userObj.userTotal.regardCount }}</span>
                                 </div>
                             </li>
                             <li>
                                 <span>粉丝数</span>
                                 <div>
-                                    <span>3</span>
+                                    <span>{{ userObj.userTotal.fansCount }}</span>
                                 </div>
                             </li>
                             <li>
                                 <span>点赞数</span>
                                 <div>
-                                    <span>1000</span>
+                                    <span>{{ userObj.userTotal.loveCount }}</span>
                                 </div>
                             </li>
                             <li>
                                 <span>浏览量</span>
                                 <div>
-                                    <span>1000</span>
+                                    <span>{{ userObj.userTotal.viewCount }}</span>
                                 </div>
                             </li>
                         </ul>
@@ -96,12 +103,14 @@
 </template>
 
 <script>
+import {userInfo} from '@/api/home/home'
 export default {
     name:'HomeMain',
     components:{},
     data(){
         return{
-            circleUrl:''
+            circleUrl:'',
+            userObj:{},
         }
     },
     methods:{
@@ -109,7 +118,15 @@ export default {
             this.$router.push({
                 name:page
             },()=>{})
+        },
+        getUserInfo(){
+            userInfo().then((response)=>{
+                this.userObj = response
+            })
         }
+    },
+    created(){
+        this.getUserInfo();
     }
 }
 </script>
@@ -147,11 +164,12 @@ export default {
 .user-name{
     font-size: 18px;
     font-weight: 600;
+    color: white;
 }
 .user-introduce{
     font-size: 14px;
     margin-top: 10px;
-    color: gray;
+    color: rgb(209, 209, 209);
 }
 .item-list{
     width: 100%;

@@ -3,7 +3,7 @@
         <Common>
             <template slot="content-left">
                 <!-- <SingleContent></SingleContent> -->
-                <PostbarItem></PostbarItem>
+                <PostbarItem :activityContents="activityInfoList"></PostbarItem>
             </template>
             <template slot="content-right">
                 <div class="content-around">
@@ -27,11 +27,34 @@
 <script>
 import PersonalData from '@/components/home/PersonalData.vue';
 import PostbarItem from '@/components/postbar/PostbarItem.vue';
+import {activityInfo} from '@/api/activity/activity'
 export default {
     name:'Activity',
     components:{
         PersonalData,
         PostbarItem
+    },
+    data(){
+        return{
+            activityInfoList:[],
+            queryParam:{
+                pageNum: 1,
+                pageSize: 10,
+                userId:-1,
+            }
+        }
+    },
+    methods:{
+        showActivity(id){
+            if(id != null) this.queryParam.userId = id;
+            activityInfo(this.queryParam).then((response)=>{
+                this.activityInfoList = response.rows
+                // console.log("activityInfoList",this.activityInfoList)
+            })
+        },
+    },
+    created(){
+        this.showActivity(this.$store.state.main.userInfo.id);
     }
 
 }

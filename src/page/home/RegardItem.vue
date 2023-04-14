@@ -1,13 +1,17 @@
 <template>
     <div>
-        <div v-for="item in 2" class="regardItem-content">
+        <div v-for="item in regardList" :key="item.id" class="regardItem-content">
             <div class="regardItem-avatar">
-                <el-avatar :size="55" :src="circleUrl"></el-avatar>
+                <!-- <el-avatar :size="55" :src="circleUrl"></el-avatar> -->
+                <el-image
+                style="width: 54px; height: 54px;border-radius: 27px;"
+                :src="item.avatar"
+                fit="cover"></el-image>
             </div>
             <div class="regardItem-info">
-                <span>fumingli</span>
+                <span>{{ item.nickName }}</span>
                 <div class="regardItem-name">
-                    <span>简介</span>
+                    <span>{{ item.profile }}</span>
                 </div>
             </div>
             <div @mouseover="isRegard(item)" @mouseout="isRegard(item)" @click="removeRegard(item)" class="regardItem-btn">
@@ -16,6 +20,7 @@
                 <span v-else>取消关注</span>
             </div>
         </div>
+        <el-empty v-if="regardList.length < 1" :image-size="200"></el-empty>
     </div>
 </template>
 
@@ -26,7 +31,9 @@ export default {
         return{
             circleUrl:'',
             flag:true,
-            flagArr:[]
+            flagArr:[],
+            regardList:[],
+            fansList:[],
         }
     },
     methods:{
@@ -41,7 +48,41 @@ export default {
         }
     },
     computed:{
+        // infoObj(){
+        //     if(this.$route.query.infoObj != null)
+        //         return this.$route.query.infoObj;
+        // },
         
+    },
+    watch:{
+        // infoObj:{
+        //     deep:true,
+        //     handler(newValue,oldValue){
+        //         console.log("newValue",newValue)
+        //         if(newValue.regardList != null){
+        //         this.regardList = newValue.regardList
+        //         }
+        //         if(newValue.fansList != null){
+        //             this.fansList = newValue.fansList
+        //         }
+        //     }
+        // }
+    },
+    created(){
+        console.log("query",this.$route.query)
+        console.log("infoObj",JSON.parse(this.$route.query.infoObj))
+        if(this.$route.query.infoObj != null && this.$route.query.infoObj.length > 0){
+            this.regardList = JSON.parse(this.$route.query.infoObj)
+        }
+        // if(this.$route.query.regardList != null){
+            // let infoObj = this.$route.query.infoObj
+            // if(infoObj.regardList.length > 0){
+            //     this.regardList = infoObj.regardList
+            // }
+            // if(infoObj.fansList.length > 0){
+            //     this.fansList = infoObj.fansList
+            // }
+        // }
     }
 }
 </script>

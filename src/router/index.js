@@ -3,6 +3,7 @@ import Vue from "vue";
 Vue.use(VueRouter)
 
 import RegardItem from '@/page/home/RegardItem'
+import FansItem from '@/page/home/FansItem'
 import RegardCommunityItem from '@/page/home/RegardCommunityItem'
 import Account from '@/page/main/setting/Account'
 import Reply from '@/page/main/message/Reply'
@@ -71,6 +72,11 @@ export default new VueRouter({
                                     name:'regardItem',
                                     path:'regardItem',
                                     component:RegardItem
+                                },
+                                {
+                                    name:'fansItem',
+                                    path:'fansItem',
+                                    component:FansItem
                                 },
                                 {
                                     name:'regardCommunityItem',

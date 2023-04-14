@@ -330,7 +330,7 @@ export default {
                     that.setData(initData,response);
                 })
             }else{//其他评论
-                if(that.$route.name == 'Postbar' || that.$route.name == 'activityMain'){
+                if(that.$route.name == 'Postbar' || that.$route.name == 'activityMain' || that.$route.name == 'activity' || that.$route.name == 'community'){
                     that.sendCommentObj.type = 1;
                     that.queryParams.type = 1;
                     that.respondCommentObj.type = 1;

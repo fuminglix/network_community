@@ -83,7 +83,7 @@ export default {
         }
     },
     props:{
-        articleList:[]
+        articleList:Array
     },
     methods:{
         retract(id){
