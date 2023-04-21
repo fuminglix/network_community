@@ -215,7 +215,11 @@ export default {
             dialogVisible: false,
             disabled: false,
             isShow: false,
-            userInfoObj:{},
+            userInfoObj:{
+                authorInfoVo:{
+                    avatar:null
+                }
+            },
             activityInfoList:[],
             fileList:[],
             activityObj:{

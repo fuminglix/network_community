@@ -10,6 +10,28 @@
                         <span>我创建的收藏</span>
                         <div class="my-favorites-list-content">
                             <div class="my-favorites-list-item">
+                                <i class="el-icon-collection"></i><span class="">创建收藏夹</span>
+                                <div class="my-favorites-list-item-rightNum">3</div>
+                                <div class="my-favorites-list-item-righticon">
+                                    <el-popover
+                                        placement="top"
+                                        title=""
+                                        width="80"
+                                        trigger="hover"
+                                        content="">
+                                        <i class="el-icon-s-operation" slot="reference"></i>
+                                        <div class="update-btn">
+                                            <div>
+                                                <span>修改信息</span>
+                                            </div>
+                                            <div>
+                                                <span>删除</span>
+                                            </div>
+                                        </div>
+                                    </el-popover>
+                                </div>
+                            </div>
+                            <div class="my-favorites-list-item">
                                 <i class="el-icon-collection"></i><span class="">默认收藏夹</span>
                                 <div class="my-favorites-list-item-rightNum">3</div>
                                 <div class="my-favorites-list-item-righticon">
@@ -31,6 +53,32 @@
                                     </el-popover>
                                 </div>
                             </div>
+                            <!-- <el-menu
+                            default-active="1"
+                            class="el-menu-vertical-demo"
+                            @open="handleOpen"
+                            @close="handleClose">
+                                <el-menu-item index="1">
+                                    <i class="el-icon-setting"></i>
+                                    <span slot="title">导航四</span>
+                                        <el-popover
+                                            placement="top"
+                                            title=""
+                                            width="80"
+                                            trigger="hover"
+                                            content="">
+                                            <i class="el-icon-s-operation" slot="reference"></i>
+                                            <div class="update-btn">
+                                                <div>
+                                                    <span>修改信息</span>
+                                                </div>
+                                                <div>
+                                                    <span>删除</span>
+                                                </div>
+                                            </div>
+                                        </el-popover>
+                                </el-menu-item>
+                            </el-menu> -->
                         </div>
                     </div>
                 </div> 
@@ -45,6 +93,14 @@ export default {
     data(){
         return{
 
+        }
+    },
+    methods:{
+        handleOpen(key, keyPath) {
+            console.log(key, keyPath);
+        },
+        handleClose(key, keyPath) {
+            console.log(key, keyPath);
         }
     }
 }

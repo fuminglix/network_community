@@ -70,16 +70,17 @@ export function regardCommunity(query) {
         params: query
     })
   }
-//查询分类
-// export function category() {
-//   return request({
-//       url: '/article/category',
-//       headers: {
-//         isToken: false
-//       },
-//       method: 'get'
-//   })
-// }
+
+// 查询用户收藏信息
+export function category() {
+  return request({
+      url: '/article/category',
+      headers: {
+        isToken: false
+      },
+      method: 'get'
+  })
+}
 
 // export function updateViewCount(articleId) {
 //     return request({

@@ -16,13 +16,11 @@
             </div>
             <div class="postbar-left-content">
                 <div class="postbar-dispatch-text">
-                    <span v-if="item.dispatchContent != null">
-                        {{ item.dispatchContent }}
-                    </span>
+                    <span v-if="item.dispatchContent != null" v-html="replaceContent(item.dispatchContent)"></span>
                 </div>
                 <div class="postbar-report-content">
                     <div v-if="item.isRef === '0'">
-                        <p :class="retract(item.id) > 0 ? content : null" class="postbar-report-content-hidden" v-html="item.content">
+                        <p :class="retract(item.id) > 0 ? content : null" class="postbar-report-content-hidden" v-html="replaceContent(item.content)">
                             <!-- {{ item.content }} -->
                         </p>
                         <span style="cursor: pointer;color:#00AEEC" @click="isShow(item.id)">{{ retract(item.id) > 0 ? '收起' : '展开' }}</span>
@@ -86,15 +84,6 @@ export default {
                 showContentArr:[],
                 showCommentArr:[]
             },
-            // url: '',
-            // srcList: [
-            // 'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg',
-            // 'https://fuss10.elemecdn.com/1/8e/aeffeb4de74e2fde4bd74fc7b4486jpeg.jpeg',
-            // 'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg',
-            // 'https://fuss10.elemecdn.com/1/8e/aeffeb4de74e2fde4bd74fc7b4486jpeg.jpeg',
-            // 'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg',
-            // 'https://fuss10.elemecdn.com/1/8e/aeffeb4de74e2fde4bd74fc7b4486jpeg.jpeg'
-            // ]
         }
     }
     ,
@@ -138,6 +127,17 @@ export default {
             if(this.activityContents.length > 0){
                 this.activityList = this.activityContents
             }
+        },
+        replaceContent(txt) {
+            txt = txt.replace(new RegExp(' ', 'gm'), '&nbsp;') // gm 全局替换
+            const arr = []
+            txt.split('\n').forEach(item => {
+                arr.push(`<p>${item.trim()}</p>`)
+            })
+            txt = arr.join('')
+            // this.form.content = txt
+            return txt;
+            // console.log("result",txt)
         },
     },
     created(){

@@ -38,7 +38,7 @@
                                         {{item.nickName}}
                                     </div>
                                     <section>
-                                        <p>{{item.content}}</p>
+                                        <p class="common-content" v-html="item.content"></p>
                                         <!-- <p v-html="analyzeEmoji(item.content)">{{analyzeEmoji(item.content)}}</p> -->
                                         <div class="i-commentInfo">
                                             <div class="i-time">
@@ -589,6 +589,11 @@ export default {
 .i-userInfo{
     width: 92%;
     margin-left: 20px;
+}
+.common-content{
+    width: 100%;
+    word-break: break-all;
+    word-wrap: break-word;
 }
 .edit-btn{
     width: 15%;

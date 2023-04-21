@@ -110,7 +110,14 @@ export default {
     data(){
         return{
             circleUrl:'',
-            userObj:{},
+            userObj:{
+                userTotal:{
+                    regardCount:null,
+                    fansCount:null,
+                    loveCount:null,
+                    viewCount:null,
+                }
+            },
         }
     },
     methods:{

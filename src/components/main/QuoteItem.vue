@@ -44,28 +44,32 @@
                     </div>
                 </div>
                 <p v-else >
-                    <span :class="retract(articleObj.activityContentVo.id) > 0 ? 'Quote-item-info-report-content-text-show' : null" class="Quote-item-info-report-content-text">{{ articleObj.activityContentVo.content }}</span>
+                    <span :class="retract(articleObj.activityContentVo.id) > 0 ? 'Quote-item-info-report-content-text-show' : null" class="Quote-item-info-report-content-text" v-html="replaceContent(articleObj.activityContentVo.content)"></span>
                     <span style="cursor: pointer;color:#00AEEC" @click="isShow(articleObj.activityContentVo.id)">{{ retract(articleObj.activityContentVo.id) > 0 ? '收起' : '展开' }}</span>
                 </p>
                 
                 <!-- <span style="cursor: pointer;color:#00AEEC"></span> -->
             </div>
         </div>
-        <div v-if="articleObj.thumbnail != null || articleObj.activityContentVo.contentImg != null" class="Quote-item-info-content-img">
-            <span v-if="articleObj.thumbnail != null">
+        <div v-if="articleObj.thumbnail != null" class="Quote-item-info-content-img">
+            <span>
                 <el-image 
                 style="width: 180px; height: 180px"
                 :src="articleObj.thumbnail" 
                 fit="cover">
                 </el-image>
             </span>
-            <span v-else v-for="url in articleObj.activityContentVo.contentImg">
-                <el-image 
-                style="width: 180px; height: 180px"
-                :src="url" 
-                :preview-src-list="articleObj.activityContentVo.contentImg"
-                fit="cover">
-                </el-image>
+        </div>
+        <div v-if="articleObj.activityContentVo != null" class="Quote-item-info-content-img">
+            <span v-if="articleObj.activityContentV.contentImg != null">
+                <span v-for="url in articleObj.activityContentVo.contentImg">
+                    <el-image 
+                    style="width: 180px; height: 180px"
+                    :src="url" 
+                    :preview-src-list="articleObj.activityContentVo.contentImg"
+                    fit="cover">
+                    </el-image>
+                </span>
             </span>
         </div>
     </div>
@@ -111,7 +115,18 @@ export default {
             })
             if(temp.length) return temp.pop(0);
             return 0;
-        }
+        },
+        replaceContent(txt) {
+            txt = txt.replace(new RegExp(' ', 'gm'), '&nbsp;') // gm 全局替换
+            const arr = []
+            txt.split('\n').forEach(item => {
+                arr.push(`<p>${item.trim()}</p>`)
+            })
+            txt = arr.join('')
+            // this.form.content = txt
+            return txt;
+            // console.log("result",txt)
+        },
     },
     created(){
         // console.log("articleObj",articleObj)
