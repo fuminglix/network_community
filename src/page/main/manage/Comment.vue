@@ -62,7 +62,7 @@
     <el-main>
         <div class="CommentManage-content-footer">
             <div class="CommentManage-content-msg-around">
-                <div v-for="item in 5" class="reply-content-item">
+                <div v-for="item in 1" class="reply-content-item">
                     <div class="comment-checkbox">
                         <el-checkbox v-model="checked"></el-checkbox>
                     </div>
@@ -74,7 +74,7 @@
                             <span>fuminglix</span>
                         </div>
                         <div class="reply-content-userInfo-info">
-                            <span>22222222
+                            <span>测试
                             </span>
                         </div>
                         <div class="reply-content-userInfo-time">
@@ -90,7 +90,7 @@
                         :src="url"
                         :fit="fit"></el-image>
                         <span>
-                            1232222222222222222222222222222222222222222222
+                            测试
                         </span>
                     </div>
                 </div>

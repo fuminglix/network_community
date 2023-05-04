@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div v-for="item in articleList" :key="item.id" class="content">
+        <div v-for="item in answerList" :key="item.id" class="content">
             <div class="content-left">
                 <div class="title">
                     <span>
@@ -13,7 +13,7 @@
                             authorId:item.createBy
                           }
                         }"
-                        >{{ item.title }}</router-link>
+                        >{{ item.questionContent }}</router-link>
                         <!-- <el-link :underline="false" href="" @click="" target="_blank"></el-link> -->
                     </span>
                 </div>
@@ -26,8 +26,7 @@
                         fit="cover"></el-image>
                     </div>
                     <span>
-                        <p class="summary-text">
-                          {{ item.summary }}
+                        <p class="summary-text" v-html="item.content">
                         </p>
                         <span @click="retract(parseInt(item.id))" class="preview-btn">展开</span>
                     </span>
@@ -50,10 +49,6 @@
                             <span>100</span> 条评论
                         </div>
                         <div class="share">
-                            <img src="@/assets/collect2.png" alt="">
-                            <span>收藏</span>
-                        </div>
-                        <div class="Collection">
                             <img src="@/assets/dispatch3.png" alt="">
                             <span>分享</span>  
                         </div>
@@ -75,14 +70,14 @@
 
 <script>
 export default {
-    name:'SingleContent',
+    name:'AnswerItem',
     data(){
         return{
             showArr:[],
         }
     },
     props:{
-        articleList:Array
+        answerList:Array
     },
     methods:{
         retract(id){

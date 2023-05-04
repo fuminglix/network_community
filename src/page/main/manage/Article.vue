@@ -167,6 +167,7 @@ export default {
       articleList:[],
       typeList:[
         'success',
+        'info',
         'warning',
         'danger'
       ],

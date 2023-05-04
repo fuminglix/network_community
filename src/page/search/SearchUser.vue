@@ -2,7 +2,12 @@
     <div>
         <div v-for="item in userList" :key="item.id" class="searchUser-content">
             <div class="searchUser-avatar">
-                <el-avatar :size="55" :src="item.avatar"></el-avatar>
+                <el-image 
+                style="width: 56px; height: 56px;border-radius: 28px;"
+                :src="item.avatar" 
+                fit="cover">
+                </el-image>
+                <!-- <el-avatar :size="55" :src="item.avatar"></el-avatar> -->
             </div>
             <div class="searchUser-info">
                 <span>{{ item.userName }}</span>

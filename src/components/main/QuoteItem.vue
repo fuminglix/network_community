@@ -2,7 +2,12 @@
     <div class="Quote-item-info">
         <div class="Quote-item-info-title">
             <div class="Quote-item-info-title-avatar">
-                <el-avatar :size="38" :src="articleObj.user.avatar"></el-avatar>
+                <el-image 
+                style="width: 38px; height: 38px;border-radius: 19px;"
+                :src="articleObj.user.avatar" 
+                fit="cover">
+                </el-image>
+                <!-- <el-avatar :size="38" :src="articleObj.user.avatar"></el-avatar> -->
             </div>
             <div class="Quote-item-info-author">
                 <div class="Quote-item-info-author-name">

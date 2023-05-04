@@ -9,9 +9,9 @@
             text-color="#020202"
             active-text-color="#1296db">
         <el-menu-item index="/buildMain/publishMenu/publishContent">发布文章</el-menu-item>
-        <el-menu-item index="#">待定</el-menu-item>
-        <el-menu-item index="#2">待定</el-menu-item>
-        <el-menu-item index="#3">待定</el-menu-item>
+        <el-menu-item index="#"></el-menu-item>
+        <el-menu-item index="#2"></el-menu-item>
+        <el-menu-item index="#3"></el-menu-item>
         </el-menu>
         <el-container class="buildMain-right-container"> 
             <router-view></router-view>

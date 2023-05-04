@@ -10,7 +10,12 @@
         </div>
         <div class="edit-comment">
             <div class="edit-avatar">
-                <el-avatar :size="48" :src="userAvatar"></el-avatar>
+                <!-- <el-avatar :size="48" :src="userAvatar"></el-avatar> -->
+                <el-image 
+                style="width: 48px; height: 48px;border-radius: 24px;"
+                :src="userAvatar" 
+                fit="cover">
+                </el-image>
             </div>
             <div class="edit-input">
                 <el-input
@@ -32,7 +37,12 @@
                     <li class="tmsg-c-item" v-for="(item,index) in commentList" :key="item.id">
                         <article class="">
                             <header class="i-header">
-                                <el-avatar :size="48" :src="item.avatar"></el-avatar>
+                                <!-- <el-avatar :size="48" :src="item.avatar"></el-avatar> -->
+                                <el-image 
+                                style="width: 48px; height: 48px;border-radius: 24px;"
+                                :src="item.avatar" 
+                                fit="cover">
+                                </el-image>
                                 <div class="i-userInfo">
                                     <div class="i-name common-color">
                                         {{item.nickName}}
@@ -46,6 +56,22 @@
                                             </div>
                                             <div class="tmsg-replay" @click="showComment(item.id,index,item.id,false)">
                                                 回复
+                                            </div>
+                                            <div class="i-report">
+                                                <el-popover
+                                                    :open-delay=50
+                                                    :close-delay=100
+                                                    placement="bottom"
+                                                    width="30"
+                                                    trigger="hover">
+                                                    <el-row :gutter="20">
+                                                        <el-col :span="24" :offset="6">
+                                                            <el-button>举报</el-button>
+                                                        </el-col>
+                                                    </el-row>
+                                                    <span slot="reference" class="el-icon-circle-plus-outline"></span>
+                                                </el-popover>
+                                                
                                             </div>
                                         </div>
                                     </section>
@@ -75,7 +101,12 @@
                             <li class="tmsg-c-item" v-for="citem,cindex in item.children" :key="citem.id">
                                 <article class="">
                                     <header class="i-header">
-                                            <el-avatar :size="30" :src="citem.avatar"></el-avatar>
+                                            <!-- <el-avatar :size="30" :src="citem.avatar"></el-avatar> -->
+                                            <el-image 
+                                            style="width: 30px; height: 30px;border-radius: 15px;"
+                                            :src="citem.avatar" 
+                                            fit="cover">
+                                            </el-image>
                                             <div class="i-userInfo">
                                                 <div class="i-name common-color">
                                                     <span class="i-name-span">{{citem.nickName}}</span>
@@ -92,6 +123,21 @@
                                                         </div>
                                                         <div v-show="haslogin" class="tmsg-replay" @click="showComment(citem.id,cindex,index,true)">
                                                             回复
+                                                        </div>
+                                                        <div class="i-report">
+                                                            <el-popover
+                                                                :open-delay=50
+                                                                :close-delay=100
+                                                                placement="bottom"
+                                                                width="30"
+                                                                trigger="hover">
+                                                                <el-row :gutter="20">
+                                                                    <el-col :span="24" :offset="6">
+                                                                        <el-button>举报</el-button>
+                                                                    </el-col>
+                                                                </el-row>
+                                                                <span slot="reference" class="el-icon-circle-plus-outline"></span>
+                                                            </el-popover>
                                                         </div>
                                                     </div>
                                                 </section>
@@ -548,16 +594,31 @@ export default {
     color:#aaa;
     font-size: 12px;
     margin-right: 10px;
+    width: 25%;
 }
 .tmsg-c-item article section p{
     font-weight: 500;
     margin-top: 10px;
 }
 .tmsg-c-item article section .tmsg-replay{
+    width: 5%;
     margin:10px 0;
     font-size: 12px;
     color:#64609E;
     cursor: pointer;
+}
+.i-report{
+    width: 70%;
+    position: relative;
+    span{
+        position: absolute;
+        right: 0;
+        font-size: 20px;
+        color: rgb(163, 163, 163);
+    }
+    .btn{
+        text-align: center;
+    }
 }
 .i-name{
     font-size: 15px;
@@ -607,6 +668,7 @@ export default {
     padding-left: 20px;
 }
 .i-commentInfo{
+    width: 100%;
     display: flex;
     align-items: center;
 }

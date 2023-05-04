@@ -246,6 +246,23 @@ export default {
     },
     methods:{
         handleSubmit(isSubmit){
+            let {title,summary,content,categoryId} = this.articleObj
+            if(title.trim() == ''){
+                this.$message.error('标题不能为空！')
+                return;
+            }
+            if(summary.trim() == ''){
+                this.$message.error('摘要不能为空！')
+                return;
+            }
+            if(content.trim() == ''){
+                this.$message.error('内容不能为空！')
+                return;
+            }
+            if(categoryId.trim() == ''){
+                this.$message.error('分类不能为空！')
+                return;
+            }
             this.articleObj.status = '2'
             if(!isSubmit){
                 this.articleObj.status = '1'

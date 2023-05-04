@@ -187,6 +187,33 @@ export default new VueRouter({
                             component:()=>import('@/page/search/SearchUser.vue')
                         },
                     ]
+                },
+                {
+                    name:'studentMain',
+                    path:'studentMain',
+                    components:{indexView:() => import('@/page/discover/studentModule/StudentMain.vue')},
+                    children:[
+                        {
+                            name:'studentIndex',
+                            path:'studentIndex',
+                            component:()=>import('@/page/discover/studentModule/StudentIndex.vue')
+                        },
+                        {
+                            name:'questionList',
+                            path:'questionList',
+                            component:()=>import('@/page/discover/studentModule/QuestionList.vue')
+                        }
+                    ]
+                },
+                {
+                    name:'write',
+                    path:'write',
+                    components:{indexView:() => import('@/page/discover/studentModule/Write.vue')},
+                },
+                {
+                    name:'answer',
+                    path:'answer',
+                    components:{indexView:() => import('@/page/discover/studentModule/Answer.vue')},
                 }
             ]
         },

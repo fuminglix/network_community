@@ -19,7 +19,9 @@
         </div>
     </div>
     <div class="to-student-info">
-        <span>查看全部内容 ></span>
+        <!-- <el-link href="#" :underline="false" target="_blank">查看全部内容 ></el-link> -->
+        <router-link to="/studentMain/studentIndex">查看全部内容</router-link>
+        <!-- <span>查看全部内容 ></span> -->
     </div>
   </div>
 </template>

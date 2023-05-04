@@ -56,12 +56,18 @@
                 <el-button type="primary" @click="toOtherPages('login')">马上去登录</el-button>
               </el-main>
           <div slot="reference" @click="toOtherPages('avatar')" class="user-icon">
-            <el-avatar 
+            <!-- <el-avatar 
             :size="40" 
             :src="squareUrl"
             fit="contain"
             v-if="isLogin">
-            </el-avatar>
+            </el-avatar> -->
+            <el-image 
+            style="width: 40px; height: 40px;border-radius: 20px;"
+            :src="squareUrl" 
+            fit="cover"
+            v-if="isLogin">
+            </el-image>
             <el-avatar v-else> 登录 </el-avatar>
           </div>
           </el-popover>

@@ -238,12 +238,16 @@ export default {
     methods:{
         add(){
             console.log("activityObj",this.activityObj)
-            addActivityContent(this.activityObj).then((respose)=>{
+            if(this.activityObj.content.trim() != ''){
+                addActivityContent(this.activityObj).then((respose)=>{
                 this.$message.success("上传成功");
                 this.activityObj.content = ''
                 this.activityObj.imgList = []
                 this.fileList = []
-            })
+                })
+            }else{
+                this.$message.error("上传内容不能为空！");
+            }
         },  
         userList(index){ //处理关注用户信息
             if(index == 1){
