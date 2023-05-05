@@ -1,18 +1,8 @@
 <template>
     <div class="answer-content">
         <div class="question">
-            <h1>问题</h1>
-            <p>详细描述2222222222222222222
-                222222222222222222222222222
-                22222222222222222
-                细描述2222222222222222222
-                222222222222222222222222222
-                22222222222222222细描述2222222222222222222
-                222222222222222222222222222
-                22222222222222222细描述2222222222222222222
-                222222222222222222222222222
-                22222222222222222
-            </p>
+            <h1>{{ answerObj.questionTitle }}</h1>
+            <p>{{ answerObj.questionContent }}</p>
         </div>
         <div class="answer">
             <Common>
@@ -21,64 +11,68 @@
                         <div class="articleMain-content-left">
                             <div class="title">
                                 <span>
-                                    <el-link type="default" :underline="false" href="http://localhost:8080/#/ArticleMain" target="_blank">{{ articleObj.title }}</el-link>
+                                    <!-- <el-link type="default" :underline="false" href="http://localhost:8080/#/ArticleMain" target="_blank">{{ articleObj.title }}</el-link> -->
                                 </span>
                             </div>
                             <div class="article">
                                 <span>
-                                    <p class="article-text article-content markdown-body" v-html="articleObj.content"></p>
+                                    <p class="article-text article-content markdown-body" v-html="answerObj.content"></p>
                                 </span>
                             </div>
-                            <Comment :articleId="articleObj.id"></Comment>
+                            <Comment :articleId="answerObj.id"></Comment>
                         </div>
                     </div>
                 </template>
                 <template slot="content-right">
                     <div class="author-around">
                         <div class="author-info">
-                            <el-avatar :size="70" :src="authorInfo.avatar"></el-avatar>
+                            <!-- <el-avatar :size="70" :src="answerObj.user.avatar"></el-avatar> -->
+                            <el-image
+                            style="width: 70px; height: 70px;border-radius: 35px;"
+                            :src="answerObj.user.avatar"
+                            fit="cover"></el-image>
                             <div class="author-introduce">
                                 <div>
                                     <el-link 
                                     type="default" 
                                     :underline="false" 
                                     href="http://localhost:8080/#/ArticleMain" 
-                                    target="_blank">{{ authorInfo.nickName }}</el-link>
+                                    target="_blank">{{ answerObj.user.nickName }}</el-link>
                                 </div>
                                 <div class="author-profile-around">
-                                    <span class="author-profile">{{ authorInfo.profile }}</span>
+                                    <span class="author-profile">{{ answerObj.user.profile }}</span>
                                 </div>
                             </div>
                         </div>
                         <div class="author-regard-around">
                             <div class="author-regard">
-                                <span>{{ authorInfo.userTotal.regardCount }}</span>
+                                <span>{{ answerObj.user.userTotal.regardCount }}</span>
                                 <div>
                                     <span>关注</span>
                                 </div>
                             </div>
                             <div class="author-fans">
-                                <span>{{ authorInfo.userTotal.fansCount }}</span>
+                                <span>{{ answerObj.user.userTotal.fansCount }}</span>
                                 <div>
                                     <span>粉丝</span>
                                 </div>
                             </div>
                             <div class="author-Articles">
-                                <span>{{ authorInfo.userTotal.articleCount }}</span>
+                                <span>{{ answerObj.user.userTotal.articleCount }}</span>
                                 <div>
                                     <span>文章</span>
                                 </div>
                             </div>
                         </div>
-                        <div class="other-article">
+                        <!-- <div class="other-article">
                             <span>其他文章</span>
                             <SideItem></SideItem>
-                        </div>
+                        </div> -->
                     </div>
-                    <div class="recommend-article-around">
+                    <!-- <div class="recommend-article-around">
                         <span>相似文章</span>
                         <SideItem></SideItem>
-                    </div>
+                    </div> -->
                 </template>
             </Common>
         </div>
@@ -86,13 +80,17 @@
 </template>
 
 <script>
+import {question,answerDetails} from '@/api/discover/student'
 import { mavonEditor } from 'mavon-editor'
 export default {
     name:'Answer',
     data(){
         return{
             textarea1:'',
-            articleObj:{},
+            answerId:null,
+            questionId:null,
+            questionObj:null,
+            answerObj:{},
             authorInfo:{
                 userTotal:{
                     regardCount:0,
@@ -115,7 +113,26 @@ export default {
             // getAuthorInfo(parseInt(this.$route.query.authorId)).then((response)=>{
             //     this.authorInfo = response
             // })
+        },
+        getQuestion(id){
+            question(id).then((response)=>{
+                this.questionObj = response
+            })
+        },
+        getAnswer(){
+            answerDetails(this.answerId).then((response)=>{
+                const markdownIt = mavonEditor.getMarkdownIt()
+                response.content = markdownIt.render(response.content)
+                this.answerObj = response
+            })
         }
+    },
+    created(){
+        this.questionId = this.$route.query.questionId;
+        this.answerId = this.$route.query.answerId
+        this.getQuestion(this.questionId)
+        this.getAnswer()
+        console.log("query",this.$route.query)
     }
 }
 </script>

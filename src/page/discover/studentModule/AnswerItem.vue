@@ -7,13 +7,13 @@
                         <router-link
                         target="_blank"
                         :to="{
-                          path:'/ArticleMain',
+                          path:'/answer',
                           query:{
-                            articleId:item.id,
-                            authorId:item.createBy
+                            answerId: item.id,
+                            questionId: item.questionId
                           }
                         }"
-                        >{{ item.questionContent }}</router-link>
+                        >{{ item.questionTitle }}</router-link>
                         <!-- <el-link :underline="false" href="" @click="" target="_blank"></el-link> -->
                     </span>
                 </div>
@@ -46,11 +46,11 @@
                         </div>
                         <div class="comment">
                             <img src="@/assets/comment3.png" alt="">
-                            <span>100</span> 条评论
+                            <span>{{ item.commentCount }}</span> 条评论
                         </div>
                         <div class="share">
                             <img src="@/assets/dispatch3.png" alt="">
-                            <span>分享</span>  
+                            <span>{{ item.relayCount }}</span> 分享
                         </div>
                         <div class="report">
                             <img src="@/assets/report2.png" alt="">
@@ -59,7 +59,7 @@
                     </div>
                     <div class="interaction-mid">
                         <div class="views">
-                            <span>100</span>  次浏览 · <span>1小时前</span>
+                            <span>1小时前</span>
                         </div>
                     </div>
                 </div>

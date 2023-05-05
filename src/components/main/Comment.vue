@@ -375,15 +375,20 @@ export default {
                     console.log("response",response)
                     that.setData(initData,response);
                 })
-            }else{//其他评论
-                if(that.$route.name == 'Postbar' || that.$route.name == 'activityMain' || that.$route.name == 'activity' || that.$route.name == 'community'){
-                    that.sendCommentObj.type = 1;
-                    that.queryParams.type = 1;
-                    that.respondCommentObj.type = 1;
-                    getArticleComment(that.queryParams).then((response)=>{
-                        that.setData(initData,response);
-                    })
-                }
+            }else if(that.$route.name == 'Postbar' || that.$route.name == 'activityMain' || that.$route.name == 'activity' || that.$route.name == 'community'){
+                that.sendCommentObj.type = 1;
+                that.queryParams.type = 1;
+                that.respondCommentObj.type = 1;
+                getArticleComment(that.queryParams).then((response)=>{
+                    that.setData(initData,response);
+                })  
+            }else if(that.$route.name == 'answer' || that.$route.name == 'studentIndex'){
+                that.sendCommentObj.type = 2;
+                that.queryParams.type = 2;
+                that.respondCommentObj.type = 2;
+                getArticleComment(that.queryParams).then((response)=>{
+                    that.setData(initData,response);
+                })  
             }
         },
         addMoreFun(){//查看更多

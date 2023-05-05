@@ -1,18 +1,8 @@
 <template>
   <div class="write-content">
     <div class="question-describe">
-        <h1>问题</h1>
-        <p>详细描述2222222222222222222
-            222222222222222222222222222
-            22222222222222222
-            细描述2222222222222222222
-            222222222222222222222222222
-            22222222222222222细描述2222222222222222222
-            222222222222222222222222222
-            22222222222222222细描述2222222222222222222
-            222222222222222222222222222
-            22222222222222222
-        </p>
+        <h1>{{ questionObj.title }}</h1>
+        <p>{{ questionObj.content }}</p>
     </div>
     <div class="write">
         <mavon-editor 
@@ -26,7 +16,7 @@
         <div class="buildMain-content-footer-type">
             <span>匿名发布</span>
             <el-switch
-                v-model="writeObj.isComment"
+                v-model="writeObj.anonymous"
                 active-color="#2389e3"
                 inactive-color="#d9d9d9"
                 :active-value="1"
@@ -52,13 +42,20 @@
 </template>
 
 <script>
+import {question,answer} from '@/api/discover/student'
 export default {
     name:'Write',
     data(){
         return{
+            questionId:null,
+            isEdit:true,
+            questionObj:{},
             writeObj:{
+                questionId:null,
+                questionContent:null,
                 content:null,
                 isComment:null,
+                anonymous:null,
             },
         }
     },
@@ -72,7 +69,24 @@ export default {
                 this.$message.error(error.msg)
             })
         },
+        getQuestion(id){
+            question(id).then((response)=>{
+                this.questionObj = response
+            })
+        },
         handleSubmit(isSubmit){
+            if(this.writeObj.content.trim() == ''){
+                this.$message.error("内容不能为空！")
+                return;
+            }
+            this.writeObj.questionId = this.questionId
+            this.writeObj.questionContent = this.questionObj.title
+            answer(this.writeObj).then((response)=>{
+                this.$message.success("发布成功！")
+                this.$router.push({
+                    name:'questionList'
+                })
+            })
             // let {title,summary,content,categoryId} = this.articleObj
             // if(title.trim() == ''){
             //     this.$message.error('标题不能为空！')
@@ -109,6 +123,12 @@ export default {
             //     })
             // })
         },
+    },
+    created(){
+        this.questionId = this.$route.query.questionId
+        this.getQuestion(this.questionId)
+        // this.questionId = this.$route.query.questionId
+        console.log("query=>",this.$route.query)
     }
 }
 </script>

@@ -1,8 +1,8 @@
 <template>
     <div class="studentMain-content">
         <el-tabs v-model="activeName" @tab-click="handleClick" class="tab-bar">
-            <el-tab-pane label="高中" name="first"></el-tab-pane>
-            <el-tab-pane label="大学" name="second"></el-tab-pane>
+            <el-tab-pane @click="getAnswerList(1)" label="高中" name="first"></el-tab-pane>
+            <el-tab-pane @click="getAnswerList(0)" label="大学" name="second"></el-tab-pane>
         </el-tabs>
         <AnswerItem :answerList="answerList"></AnswerItem>
     </div>
@@ -24,14 +24,16 @@ export default {
             queryParams:{
                 pageNum: 1,
                 pageSize: 10,
+                type:null,
             }
         }
     },
     methods:{
-        handleClick(tab, event) {
-            console.log(tab, event);
+        handleClick() {
+            console.log("@@");
         },
-        getAnswerList(){
+        getAnswerList(type){
+            this.queryParams.type = type
             answerList(this.queryParams).then((response)=>{
                 const markdownIt = mavonEditor.getMarkdownIt()
                 this.answerList = response.rows.filter((answer)=>{
@@ -43,7 +45,7 @@ export default {
         }
     },
     created(){
-        this.getAnswerList();
+        this.getAnswerList(0);
     }
 }
 </script>

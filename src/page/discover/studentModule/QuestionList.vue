@@ -1,55 +1,78 @@
 <template>
-  <div class="QuestionList-content">
-        <div class="question">
-            <div class="question-content">
-                <div class="author">
-                    <el-image 
-                    style="width: 26px; height: 26px;border-radius: 13px;"
-                    :src="squareUrl" 
-                    fit="cover">
-                    </el-image>
-                    <span>fumingli 的提问</span>
+    <div class="question-container">
+        <div v-for="item in questionList" :key="item.id" class="questionList-content">
+            <div class="question">
+                <div class="question-content">
+                    <div class="author">
+                        <el-image 
+                        style="width: 26px; height: 26px;border-radius: 13px;"
+                        :src="item.user.avatar" 
+                        fit="cover">
+                        </el-image>
+                        <span>{{ item.user.nickName }} 的提问</span>
+                    </div>
+                    <div class="content-title">
+                        <p @click="answer('answer',item.id)">{{ item.title }}</p>
+                    </div>
+                    <div class="other">
+                        <span>其他信息</span>
+                    </div>
                 </div>
-                <div class="content">
-                    <p>问题222222222222222222222222222222222222222222222222222222222222222222222222222
-                        2222222222222222222222222222222222222222222222222222222222222222222222222222222
-                    </p>
+                <div class="edit">
+                    <el-button type="primary" @click="answer('write',item.id)">回答</el-button>
                 </div>
-                <div class="other">
-                    <span>其他信息</span>
-                </div>
-            </div>
-            <div class="edit">
-                <el-button type="primary" @click="answer">回答</el-button>
             </div>
         </div>
-  </div>
+    </div>
 </template>
 
 <script>
+import {questionList} from '@/api/discover/student'
 export default {
     name:'QuestionList',
     data(){
         return{
             squareUrl:'',
+            queryParam:{
+                pageNum: 1,
+                pageSize: 10,
+            },
+            questionList:[]
         }
     },
     methods:{
-        answer(){
+        answer(page,id){
+            console.log("id",id)
             this.$router.push({
-                // name:'write'
-                name:'answer'
+                name:page,
+                query:{
+                    questionId: id,
+                }
+                // name:'answer'
             },()=>{})
+        },
+        getQuestionList(){
+            questionList(this.queryParam).then((response)=>{
+                this.questionList = response.rows
+            })
         }
+    },
+    created(){
+        this.getQuestionList()
     }
 }
 </script>
 
 <style scoped lang="less">
-.QuestionList-content{
+.question-container{
+    width: 100%;
+    border-radius: 5px;
+}
+.questionList-content{
     width: 100%;
     background-color: white;
     border-radius: 5px;
+    border-bottom: 1px solid rgb(218, 218, 218);
 }
 .question{
     // width: 100%;
@@ -73,7 +96,7 @@ export default {
         font-size: 14px;
     }
 }
-.content{
+.content-title{
     margin: 10px 0;
     p{
         width: 95%;
@@ -90,6 +113,7 @@ export default {
 }
 .other{
     span{
+        font-size: 14px;
         color: gray;
     }
 }
