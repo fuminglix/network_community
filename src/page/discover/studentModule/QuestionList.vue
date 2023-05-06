@@ -1,5 +1,9 @@
 <template>
     <div class="question-container">
+        <el-tabs v-model="queryParam.type" @tab-click="handleClick" class="tab-bar">
+            <el-tab-pane label="中学" name="1"></el-tab-pane>
+            <el-tab-pane label="大学" name="0"></el-tab-pane>
+        </el-tabs>
         <div v-for="item in questionList" :key="item.id" class="questionList-content">
             <div class="question">
                 <div class="question-content">
@@ -36,11 +40,15 @@ export default {
             queryParam:{
                 pageNum: 1,
                 pageSize: 10,
+                type:0,
             },
             questionList:[]
         }
     },
     methods:{
+        handleClick() {
+            this.getQuestionList()
+        },
         answer(page,id){
             console.log("id",id)
             this.$router.push({
@@ -67,10 +75,14 @@ export default {
 .question-container{
     width: 100%;
     border-radius: 5px;
+    background-color: white;
+    .tab-bar{
+        margin: 0 10px 0 10px;
+    }
 }
 .questionList-content{
     width: 100%;
-    background-color: white;
+    // background-color: white;
     border-radius: 5px;
     border-bottom: 1px solid rgb(218, 218, 218);
 }
@@ -116,5 +128,9 @@ export default {
         font-size: 14px;
         color: gray;
     }
+}
+::v-deep .el-tabs__item{
+    font-size: 16px;
+    font-weight: 600;
 }
 </style>

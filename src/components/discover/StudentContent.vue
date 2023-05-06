@@ -1,14 +1,24 @@
 <template>
   <div>
     <div class="student-info-content">
-        <div v-for="item in 3" class="student-info-content-item">
+        <div v-for="(item,index) in questionList" :key="item.id" class="student-info-content-item">
             <div class="student-info-content-item-img">
-                <span>1</span>
+                <span>{{ index+1 }}</span>
             </div>
             <div>
                 <div class="student-info-content-item-title">
                 <span>
-                    <a href="">话题2222222222222222222222222</a>
+                    <!-- <a href="">话题2222222222222222222222222</a> -->
+                    <router-link
+                    target="_blank"
+                    :to="{
+                        path:'/answer',
+                        query:{
+                        answerId: null,
+                        questionId: item.id
+                        }
+                    }"
+                    >{{ item.title }}</router-link>
                 </span>
                 </div>
                 <div class="student-info-content-item-num">
@@ -27,8 +37,34 @@
 </template>
 
 <script>
+import {questionList} from '@/api/discover/student'
 export default {
-
+    name:'StudentContent',
+    props:{
+        type:Number,
+    },
+    data(){
+        return{
+            questionList:[],
+            queryParams:{
+                pageNum: 1,
+                pageSize: 3,
+                type:0,
+                sort:'hot',
+            }
+        }
+    },
+    methods:{
+        getQuestionList(){
+            this.queryParams.type = this.type
+            questionList(this.queryParams).then((response)=>{
+                this.questionList = response.rows
+            })
+        }
+    },
+    created(){
+        this.getQuestionList()
+    }
 }
 </script>
 

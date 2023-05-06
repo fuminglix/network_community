@@ -24,6 +24,18 @@ export function answerList(query) {
     })
 }
 
+// 通过问题id查询回答列表
+export function answerListById(query) {
+  return request({
+      url: '/discover/answer/answerListById',
+      method: 'get',
+      headers: {
+        isToken: false
+      },
+      params: query
+  })
+}
+
 // 查询回答详情
 export function answerDetails(id) {
   return request({

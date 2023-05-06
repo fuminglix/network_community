@@ -10,13 +10,13 @@
                         <div class="student-info-title">
                             <span>中学</span>
                         </div>
-                        <StudentContentVue></StudentContentVue>
+                        <StudentContentVue :type="1"></StudentContentVue>
                     </div>
                     <div class="discoverMain-student-info-right">
                         <div class="student-info-title">
                             <span>大学</span>
                         </div>
-                        <StudentContentVue></StudentContentVue>
+                        <StudentContentVue :type="0"></StudentContentVue>
                     </div>
                 </div>
             </div>

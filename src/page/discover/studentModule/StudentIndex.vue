@@ -1,8 +1,8 @@
 <template>
     <div class="studentMain-content">
-        <el-tabs v-model="activeName" @tab-click="handleClick" class="tab-bar">
-            <el-tab-pane @click="getAnswerList(1)" label="高中" name="first"></el-tab-pane>
-            <el-tab-pane @click="getAnswerList(0)" label="大学" name="second"></el-tab-pane>
+        <el-tabs v-model="queryParams.type" @tab-click="handleClick" class="tab-bar">
+            <el-tab-pane label="中学" name="1"></el-tab-pane>
+            <el-tab-pane label="大学" name="0"></el-tab-pane>
         </el-tabs>
         <AnswerItem :answerList="answerList"></AnswerItem>
     </div>
@@ -20,20 +20,18 @@ export default {
     data(){
         return{
             answerList:null,
-            activeName: 'second',
             queryParams:{
                 pageNum: 1,
                 pageSize: 10,
-                type:null,
+                type:0,
             }
         }
     },
     methods:{
         handleClick() {
-            console.log("@@");
+            this.getAnswerList()
         },
-        getAnswerList(type){
-            this.queryParams.type = type
+        getAnswerList(){
             answerList(this.queryParams).then((response)=>{
                 const markdownIt = mavonEditor.getMarkdownIt()
                 this.answerList = response.rows.filter((answer)=>{
@@ -50,13 +48,17 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style scoped lang="less">
 .studentMain-content{
     width: 100%;
     background-color: white;
     border-radius: 5px;
     .tab-bar{
-        margin: 0 10px;
+        margin: 0 10px 0 10px;
     }
+}
+::v-deep .el-tabs__item{
+    font-size: 16px;
+    font-weight: 600;
 }
 </style>

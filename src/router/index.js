@@ -191,7 +191,7 @@ export default new VueRouter({
                 {
                     name:'studentMain',
                     path:'studentMain',
-                    components:{indexView:() => import('@/page/discover/studentModule/StudentMain.vue')},
+                    components:{indexView:() => import('@/page/discover/StudentMain.vue')},
                     children:[
                         {
                             name:'studentIndex',

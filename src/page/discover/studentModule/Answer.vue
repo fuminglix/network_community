@@ -1,13 +1,13 @@
 <template>
     <div class="answer-content">
         <div class="question">
-            <h1>{{ answerObj.questionTitle }}</h1>
-            <p>{{ answerObj.questionContent }}</p>
+            <h1>{{ questionObj.title }}</h1>
+            <p>{{ questionObj.content }}</p>
         </div>
         <div class="answer">
             <Common>
                 <template slot="content-left">
-                    <div class="articleMain-content">
+                    <div v-if="answerId != null" class="articleMain-content">
                         <div class="articleMain-content-left">
                             <div class="title">
                                 <span>
@@ -22,9 +22,69 @@
                             <Comment :articleId="answerObj.id"></Comment>
                         </div>
                     </div>
+                    <div v-else>
+                        <div v-for="item in answerList" :key="item.id" class="content">
+                            <div class="content-left">
+                                <div class="answer-author">
+                                    <el-image 
+                                    style="width: 26px; height: 26px;border-radius: 13px;"
+                                    :src="item.user.avatar" 
+                                    fit="cover">
+                                    </el-image>
+                                    <span>{{ item.user.nickName }} 的回答</span>
+                                </div>
+                                <div v-if="isShow(parseInt(item.id)) == item.id ? false : true" @click="getAnswer(item.id)" class="summary">
+                                    <div v-if="item.thumbnail == null ? 0 : 1" class="summary-around">
+                                        <!-- <img :src=item.thumbnail alt=""> -->
+                                        <el-image
+                                        style="width: 190px; height: 105px"
+                                        :src="item.thumbnail"
+                                        fit="cover"></el-image>
+                                    </div>
+                                    <span>
+                                        <p class="summary-text" v-html="item.content">
+                                        </p>
+                                        <span @click="retract(parseInt(item.id))" class="preview-btn">展开</span>
+                                    </span>
+                                </div>
+                                <div v-else class="summary">
+                                    <span>
+                                        <p class="summary-text-preview article-content markdown-body" v-html="item.content">
+                                        </p>
+                                        <span @click="retract(parseInt(item.id))" class="preview-btn">收起</span>
+                                    </span>
+                                </div>
+                                <div class="interaction">
+                                    <div class="interaction-left">
+                                        <div class="thumbs-up">
+                                        <img src="@/assets/thumbs-up3.png" alt="">
+                                        <span>{{ item.loveCount }}</span> 点赞
+                                        </div>
+                                        <div class="comment">
+                                            <img src="@/assets/comment3.png" alt="">
+                                            <span>{{ item.commentCount }}</span> 条评论
+                                        </div>
+                                        <div class="share">
+                                            <img src="@/assets/dispatch3.png" alt="">
+                                            <span>{{ item.relayCount }}</span> 分享
+                                        </div>
+                                        <div class="report">
+                                            <img src="@/assets/report2.png" alt="">
+                                            <span>举报</span>
+                                        </div>
+                                    </div>
+                                    <div class="interaction-mid">
+                                        <div class="views">
+                                            <span>1小时前</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </template>
                 <template slot="content-right">
-                    <div class="author-around">
+                    <div v-if="answerId != null" class="author-around">
                         <div class="author-info">
                             <!-- <el-avatar :size="70" :src="answerObj.user.avatar"></el-avatar> -->
                             <el-image
@@ -69,6 +129,7 @@
                             <SideItem></SideItem>
                         </div> -->
                     </div>
+                    <SideItem v-else></SideItem>
                     <!-- <div class="recommend-article-around">
                         <span>相似文章</span>
                         <SideItem></SideItem>
@@ -76,16 +137,21 @@
                 </template>
             </Common>
         </div>
+        
     </div>
 </template>
 
 <script>
-import {question,answerDetails} from '@/api/discover/student'
+import {question,answerDetails,answerListById} from '@/api/discover/student'
 import { mavonEditor } from 'mavon-editor'
+import SideItem from '@/components/discover/SideItem.vue';
 export default {
     name:'Answer',
+    components:{SideItem},
     data(){
         return{
+            showArr:[],
+            answerList:[],
             textarea1:'',
             answerId:null,
             questionId:null,
@@ -97,7 +163,12 @@ export default {
                     fansCount:0,
                     articleCount:0,
                 }
-            }
+            },
+            queryParam:{
+                pageNum: 1,
+                pageSize: 10,
+                questionId:null,
+            },
         }
     },
     methods:{
@@ -119,13 +190,45 @@ export default {
                 this.questionObj = response
             })
         },
-        getAnswer(){
-            answerDetails(this.answerId).then((response)=>{
-                const markdownIt = mavonEditor.getMarkdownIt()
-                response.content = markdownIt.render(response.content)
-                this.answerObj = response
-            })
-        }
+        getAnswer(answerId){
+            this.answerId = answerId
+            const markdownIt = mavonEditor.getMarkdownIt()
+            if(this.answerId != null){
+                answerDetails(this.answerId).then((response)=>{
+                    response.content = markdownIt.render(response.content)
+                    this.answerObj = response
+                })
+            }else{
+                this.queryParam.questionId = this.questionId
+                answerListById(this.queryParam).then((response)=>{
+                    this.answerList = response.rows
+                    this.answerList = answerList.filter((answer)=>{
+                        answer.content = markdownIt.render(answer.content)
+                        return true;
+                    })
+                })
+            }
+        },
+        toOtherPage(page){
+            this.$router.push({
+                name:page
+            },()=>{})
+        },
+        retract(id){
+            this.articleDetail
+            if(this.showArr.filter((n)=>{return n==id}) > 0){
+                this.showArr = this.showArr.filter((n)=>{
+                    return n != id;
+                })
+                return;
+            }
+            this.showArr.push(id);
+        },
+        isShow(id){
+            const temp = this.showArr.filter((n)=>{return n==id});
+            if(temp.length) return id;
+            return 0;
+        },
     },
     created(){
         this.questionId = this.$route.query.questionId;
@@ -214,6 +317,14 @@ export default {
 .article-around{
     float: left;
     margin-right: 10px;
+}
+.answer-author{
+    display: flex;
+    align-items: center;
+    span{
+        margin: 0 10px;
+        font-size: 14px;
+    }
 }
 .author-around{
     margin-left: 10px;

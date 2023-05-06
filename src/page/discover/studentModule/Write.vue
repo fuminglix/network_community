@@ -52,7 +52,7 @@ export default {
             questionObj:{},
             writeObj:{
                 questionId:null,
-                questionContent:null,
+                questionTitle:null,
                 content:null,
                 isComment:null,
                 anonymous:null,
@@ -80,7 +80,7 @@ export default {
                 return;
             }
             this.writeObj.questionId = this.questionId
-            this.writeObj.questionContent = this.questionObj.title
+            this.writeObj.questionTitle = this.questionObj.title
             answer(this.writeObj).then((response)=>{
                 this.$message.success("发布成功！")
                 this.$router.push({
