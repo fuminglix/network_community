@@ -64,5 +64,16 @@ export function updateViewCount(articleId) {
         },
         method: 'put'
     })
-    
+}
+
+// 添加举报
+export function addReport(data) {
+  return request({
+    url: '/admin/report',
+    method: 'post',
+    headers: {
+      isToken: true
+    },
+    data: data
+  })
 }

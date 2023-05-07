@@ -1,4 +1,5 @@
 const { defineConfig } = require('@vue/cli-service')
+const name = '网络社区系统'
 const port = process.env.port || process.env.npm_config_port || 86 // 端口
 module.exports = defineConfig({
   transpileDependencies: true,
@@ -20,5 +21,13 @@ module.exports = defineConfig({
             }
         }
     },
-  }
+  },
+  configureWebpack: {
+    name: name,
+    // resolve: {
+    //   alias: {
+    //     '@': resolve('src')
+    //   }
+    // }
+  },
 })

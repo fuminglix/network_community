@@ -1,113 +1,149 @@
 <template>
     <div>
-        <div v-for="item in articleList" :key="item.id" class="content">
-            <div class="content-left">
-                <div class="title">
-                    <span>
-                        <router-link
-                        target="_blank"
-                        :to="{
-                          path:'/ArticleMain',
-                          query:{
-                            articleId:item.id,
-                            authorId:item.createBy
-                          }
-                        }"
-                        >{{ item.title }}</router-link>
-                        <!-- <el-link :underline="false" href="" @click="" target="_blank"></el-link> -->
-                    </span>
-                </div>
-                <div v-if="isShow(parseInt(item.id)) == item.id ? false : true" class="summary">
-                    <div v-if="item.thumbnail == null ? 0 : 1" class="summary-around">
-                        <!-- <img :src=item.thumbnail alt=""> -->
-                        <el-image
-                        style="width: 190px; height: 105px"
-                        :src="item.thumbnail"
-                        fit="cover"></el-image>
-                    </div>
-                    <span>
-                        <p class="summary-text">
-                          {{ item.summary }}
-                        </p>
-                        <span @click="retract(parseInt(item.id))" class="preview-btn">展开</span>
-                    </span>
-                </div>
-                <div v-else class="summary">
-                    <span>
-                        <p class="summary-text-preview article-content markdown-body" v-html="item.content">
-                        </p>
-                        <span @click="retract(parseInt(item.id))" class="preview-btn">收起</span>
-                    </span>
-                </div>
-                <div class="interaction">
-                    <div class="interaction-left">
-                        <div class="thumbs-up">
-                        <img src="@/assets/thumbs-up3.png" alt="">
-                        <span>{{ item.loveCount }}</span> 点赞
-                        </div>
-                        <div class="comment">
-                            <img src="@/assets/comment3.png" alt="">
-                            <span>100</span> 条评论
-                        </div>
-                        <div class="share">
-                            <img src="@/assets/collect2.png" alt="">
-                            <span>收藏</span>
-                        </div>
-                        <div class="Collection">
-                            <img src="@/assets/dispatch3.png" alt="">
-                            <span>分享</span>  
-                        </div>
-                        <div class="report">
-                            <img src="@/assets/report2.png" alt="">
-                            <span>举报</span>
-                        </div>
-                    </div>
-                    <div class="interaction-mid">
-                        <div class="views">
-                            <span>100</span>  次浏览 · <span>1小时前</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+      <div v-for="item in articleList" :key="item.id" class="content">
+          <div class="content-left">
+              <div class="title">
+                  <span>
+                      <router-link
+                      target="_blank"
+                      :to="{
+                        path:'/ArticleMain',
+                        query:{
+                          articleId:item.id,
+                          authorId:item.createBy
+                        }
+                      }"
+                      >{{ item.title }}</router-link>
+                      <!-- <el-link :underline="false" href="" @click="" target="_blank"></el-link> -->
+                  </span>
+              </div>
+              <div v-if="isShow(parseInt(item.id)) == item.id ? false : true" class="summary">
+                  <div v-if="item.thumbnail == null ? 0 : 1" class="summary-around">
+                      <!-- <img :src=item.thumbnail alt=""> -->
+                      <el-image
+                      style="width: 190px; height: 105px"
+                      :src="item.thumbnail"
+                      fit="cover"></el-image>
+                  </div>
+                  <span>
+                      <p class="summary-text">
+                        {{ item.summary }}
+                      </p>
+                      <span @click="retract(parseInt(item.id))" class="preview-btn">展开</span>
+                  </span>
+              </div>
+              <div v-else class="summary">
+                  <span>
+                      <p class="summary-text-preview article-content markdown-body" v-html="item.content">
+                      </p>
+                      <span @click="retract(parseInt(item.id))" class="preview-btn">收起</span>
+                  </span>
+              </div>
+              <div class="interaction">
+                  <div class="interaction-left">
+                      <div class="thumbs-up">
+                      <img src="@/assets/thumbs-up3.png" alt="">
+                      <span>{{ item.loveCount }}</span> 点赞
+                      </div>
+                      <div class="comment" @click="toInteraction(item.id)">
+                          <img src="@/assets/comment3.png" alt="">
+                          <span>{{ item.commentCount }}</span> 条评论
+                      </div>
+                      <div class="share">
+                          <img src="@/assets/collect2.png" alt="">
+                          <span>收藏</span>
+                      </div>
+                      <div class="Collection">
+                          <img src="@/assets/dispatch3.png" alt="">
+                          <span>分享</span>  
+                      </div>
+                      <div class="report" @click="report(item.id)">
+                          <img src="@/assets/report2.png" alt="">
+                          <span>举报</span>
+                      </div>
+                  </div>
+                  <div class="interaction-mid">
+                      <div class="views">
+                          <span>{{ item.viewCount }}</span>  次浏览 · <span>1小时前</span>
+                      </div>
+                  </div>
+              </div>
+              <Comment v-if="isShowComment(item.id)" :articleId="item.id"></Comment>
+          </div>
+      </div>
+      <ReportItem v-if="reportFlag" :show="reportFlag" :contentId="articleId" :type="0"></ReportItem>
     </div>
 </template>
 
 <script>
+import ReportItem from '@/components/report/reportItem.vue'
 export default {
     name:'SingleContent',
     data(){
         return{
             showArr:[],
+            showCommentArr:[],
+            reportFlag:false,
+            articleId:null,
         }
     },
+    components:{ReportItem},
     props:{
         articleList:Array
     },
     methods:{
-        retract(id){
-            this.articleDetail
-            if(this.showArr.filter((n)=>{return n==id}) > 0){
-                this.showArr = this.showArr.filter((n)=>{
-                    return n != id;
-                })
-                return;
-            }
-            this.showArr.push(id);
-        },
-        isShow(id){
-            const temp = this.showArr.filter((n)=>{return n==id});
-            if(temp.length) return id;
-            return 0;
-        },
-        
+      retract(id){
+          this.articleDetail
+          if(this.showArr.filter((n)=>{return n==id}) > 0){
+              this.showArr = this.showArr.filter((n)=>{
+                  return n != id;
+              })
+              return;
+          }
+          this.showArr.push(id);
+      },
+      toInteraction(id){
+          const temp = this.showCommentArr.filter((n)=>{
+              return n==id;
+          })
+          if(temp.length){
+              this.showCommentArr = this.showCommentArr.filter((n)=>{return n != id});
+          }
+          else{
+              this.showCommentArr.push(id)
+          }
+      },
+      isShow(id){
+          const temp = this.showArr.filter((n)=>{return n==id});
+          if(temp.length) return id;
+          return 0;
+      },
+      isShowComment(id){
+          const temp = this.showCommentArr.filter((n)=>{
+              return n==id;
+          })
+          if(temp.length) return temp.pop(0);
+          return 0;
+      },
+      report(id){
+          if(!this.$store.state.main.isLogin){
+              this.$message.error('请先登录！');
+              return;
+          }
+          this.articleId = parseInt(id)
+          this.reportFlag = !this.reportFlag
+          console.log("@@@",this.reportFlag)
+      }
     },
     computed:{
     },
     created() { //生命周期函数
     },
     mounted(){
-        
+        this.$bus.$on("report",this.report)
+    },
+    beforeDestroy(){
+      this.$bus.$off("report");
     }
 }
 </script>

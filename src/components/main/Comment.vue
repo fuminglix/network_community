@@ -1,5 +1,5 @@
 <template>
-    <div class="comment">
+    <div class="comment-container">
         <div class="comment-order">
             <div class="order-by-hot">
                 <span>按热度排序</span>
@@ -367,7 +367,7 @@ export default {
             // }
 
             //公用设置数据方法
-            if(that.$route.name=='ArticleMain'){//文章列表的评论
+            if(that.$route.name == 'ArticleMain' || that.$route.name=='index'){//文章列表的评论
                 that.sendCommentObj.type = 0;
                 that.queryParams.type = 0;
                 that.respondCommentObj.type = 0;
@@ -460,6 +460,7 @@ export default {
         that.sendCommentObj.articleId = parseInt(that.articleId)
         that.respondCommentObj.articleId = parseInt(that.articleId)
         console.log("articleId",that.articleId)
+        console.log("name",that.$route.name)
         that.routeChange();
     },
     mounted(){//页面加载完成后
@@ -502,8 +503,8 @@ export default {
 </script>
 
 <style scoped lang="less">
-.comment{
-    margin-top: 30px;
+.comment-container{
+    margin-top: 10px;
 }
 .comment-order{
     display: flex;
