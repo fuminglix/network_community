@@ -373,7 +373,7 @@ export default {
             if(newValue){
                 myCommunityList(this.userInfo.id).then((response)=>{
                     console.log(response)
-                    this.communityOptions = response
+                    this.communityOptions = response.rows
                 })
             }
         },

@@ -367,7 +367,7 @@ export default {
             // }
 
             //公用设置数据方法
-            if(that.$route.name == 'ArticleMain' || that.$route.name=='index'){//文章列表的评论
+            if(that.$route.name == 'ArticleMain' || that.$route.name=='index' || that.$route.name=='article'){//文章列表的评论
                 that.sendCommentObj.type = 0;
                 that.queryParams.type = 0;
                 that.respondCommentObj.type = 0;
